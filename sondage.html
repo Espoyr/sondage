@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Questionnaire citoyen — ASBL Espoyr</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{min-height:100vh;background:#F0EDE6;font-family:'DM Sans',sans-serif;color:#2D4A3E}
+.fade-in{animation:fadeIn .3s ease forwards}
+.fade-out{animation:fadeOut .25s ease forwards}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeOut{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-8px)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.header{background:linear-gradient(135deg,#2A614E,#1B4332);padding:24px 20px 18px;color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,.15)}
+.header-inner{max-width:640px;margin:0 auto}
+.header h1{font-family:'Fraunces',serif;font-size:19px;font-weight:700}
+.header .sub{font-size:12px;opacity:.7;margin-top:3px}
+.progress-bar{margin-top:12px}
+.progress-labels{display:flex;justify-content:space-between;font-size:11px;opacity:.65;margin-bottom:4px}
+.progress-track{height:4px;background:rgba(255,255,255,.2);border-radius:2px}
+.progress-fill{height:100%;background:#A7D7C5;border-radius:2px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+
+.content{max-width:640px;margin:0 auto;padding:24px 16px 80px}
+.card{background:#fff;border-radius:16px;padding:32px 24px;box-shadow:0 1px 8px rgba(0,0,0,.06);margin-bottom:20px}
+.card h2{font-family:'Fraunces',serif;font-size:20px;color:#1B4332;margin-bottom:4px}
+.card .subtitle{color:#8B9D93;font-size:13px;margin-top:4px}
+
+.btn{padding:14px 24px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;flex:1;transition:all .2s;border:none}
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(42,97,78,.25)}
+.btn-primary{background:#2A614E;color:#fff}
+.btn-secondary{background:#fff;color:#2A614E;border:2px solid #2A614E}
+.btn-submit{background:linear-gradient(135deg,#2A614E,#1B4332);color:#fff}
+.btn-row{display:flex;gap:12px}
+
+.section-header{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.speak-btn{width:38px;height:38px;border-radius:50%;border:2px solid #2A614E;background:#F0FAF4;color:#2A614E;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
+.speak-btn:hover{background:#2A614E;color:#fff}
+.speak-btn.speaking{background:#E74C3C;border-color:#E74C3C;color:#fff;animation:pulse 1.5s infinite}
+
+.field-label{font-size:14px;font-weight:600;color:#2D4A3E;display:block;margin-bottom:8px}
+.chip-row{display:flex;gap:8px;flex-wrap:wrap}
+.chip{padding:8px 18px;border-radius:8px;border:2px solid #DDD8CE;background:#fff;color:#555;font-weight:400;cursor:pointer;font-size:14px;font-family:'DM Sans',sans-serif;transition:all .15s}
+.chip.active{border-color:#2A614E;background:#F0FAF4;color:#2A614E;font-weight:600}
+.chip-sm{font-size:13px;padding:8px 14px}
+.text-input{width:100%;padding:10px 14px;border-radius:8px;border:2px solid #DDD8CE;font-size:14px;font-family:'DM Sans',sans-serif;background:#FAFAF8}
+.text-input:focus{outline:none;border-color:#2A614E;box-shadow:0 0 0 3px rgba(42,97,78,.1)}
+
+.likert-item{padding:14px 12px;border-radius:10px;margin-bottom:6px;transition:background .15s}
+.likert-item:nth-child(odd){background:#FAFAF8}
+.likert-item:hover{background:#F7F5F0}
+.likert-text{font-size:14px;color:#2D4A3E;margin-bottom:10px;line-height:1.5;font-weight:500}
+.likert-scale{display:flex;justify-content:space-between;align-items:center;gap:4px}
+.scale-label{font-size:10px;color:#AAA;flex-shrink:0;width:48px}
+.scale-label-r{text-align:right}
+.dots{display:flex;gap:8px;flex:1;justify-content:center}
+.dot{width:36px;height:36px;border-radius:50%;border:2px solid #CCC8BE;background:#fff;color:#888;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;transition:all .2s}
+.dot:hover{transform:scale(1.15);box-shadow:0 0 0 4px rgba(42,97,78,.12)}
+.dot.active{border-color:#2A614E;background:#2A614E;color:#fff}
+
+.check-item{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;margin-bottom:6px;border:2px solid transparent;background:#FAFAF8;cursor:pointer;transition:all .15s}
+.check-item:hover{background:#F7F5F0}
+.check-item.active{border-color:#2A614E;background:#F0FAF4}
+.checkbox{width:22px;height:22px;border-radius:5px;border:2px solid #CCC;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+.check-item.active .checkbox{border-color:#2A614E;background:#2A614E}
+
+.voice-wrap{position:relative}
+.voice-area{width:100%;padding:12px 50px 12px 14px;border-radius:10px;border:2px solid #DDD8CE;font-size:14px;font-family:'DM Sans',sans-serif;background:#FAFAF8;resize:vertical;line-height:1.5;min-height:100px}
+.voice-area:focus{outline:none;border-color:#2A614E;box-shadow:0 0 0 3px rgba(42,97,78,.1)}
+.voice-area.listening{border-color:#E74C3C;background:#FEF9F9}
+.mic-btn{position:absolute;top:10px;right:10px;width:36px;height:36px;border-radius:50%;border:none;cursor:pointer;background:#2A614E;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.mic-btn.listening{background:#E74C3C;animation:pulse 1.5s infinite;box-shadow:0 0 0 4px rgba(231,76,60,.25)}
+.listen-indicator{display:flex;align-items:center;gap:6px;margin-top:6px}
+.listen-dot{width:8px;height:8px;border-radius:50%;background:#E74C3C;animation:pulse 1s infinite}
+
+.info-box{background:#F0FAF4;border-radius:10px;padding:14px 18px;margin-top:24px;border-left:4px solid #2A614E}
+.info-box .title{font-size:13px;font-weight:600;color:#2A614E;margin-bottom:4px}
+.info-box .desc{font-size:13px;color:#3D5A4C;line-height:1.6}
+
+.error-box{margin-top:12px;padding:12px 16px;background:#FEF2F2;border:1px solid #FECACA;border-radius:10px;color:#991B1B;font-size:13px}
+.confirm-center{text-align:center;padding:48px 28px}
+.confirm-center .emoji{font-size:56px;margin-bottom:16px}
+.confirm-center h2{font-family:'Fraunces',serif;font-size:26px;color:#1B4332;margin-bottom:12px}
+.confirm-center p{color:#6B7C72;font-size:14px;line-height:1.6;max-width:400px;margin:0 auto}
+.confirm-badge{margin-top:28px;padding:12px 18px;background:#F0FAF4;border-radius:10px;display:inline-block;font-size:13px;color:#2A614E}
+.mb{margin-bottom:20px}
+.mt{margin-top:20px}
+.hidden{display:none}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <h1>Questionnaire citoyen</h1>
+    <div class="sub">ASBL Espoyr — Sprimont</div>
+    <div class="progress-bar hidden" id="progressBar">
+      <div class="progress-labels"><span id="pageLabel"></span><span id="pctLabel"></span></div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+  <div id="app" class="fade-in"></div>
+</div>
+
+<script>
+// ─── CONFIG ───
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyEk376L6wvSnIhnPYOvAv95XpZV30ENBpfckIKHu7tpZJmYCvpHXJZMh6fOL29gU7-/exec";
+
+const SECTIONS = [
+  {id:"profil",title:"Quelques informations",subtitle:"Facultatif — permet de mieux comprendre les résultats",type:"profil"},
+  {id:"b1",title:"1. Vie quotidienne et pouvoir d'achat",type:"likert",items:[
+    "Je parviens à couvrir mes dépenses courantes sans difficulté",
+    "L'évolution du coût de la vie me préoccupe concrètement",
+    "Mon pouvoir d'achat alimentaire a diminué ces deux dernières années",
+    "Je me sens en sécurité financièrement pour les 12 prochains mois"]},
+  {id:"b2",title:"2. Travail et avenir professionnel",type:"likert",items:[
+    "Je considère mon emploi ou mon activité comme stable",
+    "Le marché du travail local offre suffisamment d'opportunités",
+    "Les nouvelles technologies menacent certains métiers autour de moi",
+    "Je pense que les jeunes de ma région trouvent du travail facilement"]},
+  {id:"b3",title:"3. Avenir des enfants et des jeunes",type:"likert",items:[
+    "Les enfants de ma région reçoivent une éducation de qualité",
+    "Les jeunes auront plus de difficultés que ma génération à s'installer",
+    "L'accès au logement est devenu un obstacle réel pour les jeunes ici",
+    "Je suis confiant dans les perspectives d'avenir de la prochaine génération"]},
+  {id:"b4",title:"4. Retraite et protection sociale",type:"likert",items:[
+    "Je fais confiance au système de pension pour assurer ma retraite",
+    "Le montant futur des pensions m'inquiète",
+    "Les personnes âgées de mon entourage sont correctement protégées",
+    "Je doute de la viabilité à long terme de notre sécurité sociale"]},
+  {id:"b5",title:"5. Ressources et autonomie locale",type:"likert",items:[
+    "L'accès à l'énergie me semble garanti pour les années à venir",
+    "La disparition d'agriculteurs locaux me préoccupe",
+    "Notre région est trop dépendante de ressources extérieures",
+    "Les infrastructures locales répondent à mes besoins"]},
+  {id:"b6",title:"6. Environnement et cadre de vie",type:"likert",items:[
+    "La qualité de vie dans ma commune est satisfaisante",
+    "L'environnement naturel autour de chez moi se dégrade",
+    "La qualité de l'eau ou de l'air dans ma région m'inquiète",
+    "Je constate une perte de biodiversité dans mon environnement proche"]},
+  {id:"b7",title:"7. Solidarité et lien social",type:"likert",items:[
+    "Je me sens en sécurité dans ma commune",
+    "La solidarité entre habitants fonctionne bien là où je vis",
+    "Le lien social dans mon quartier ou mon village s'affaiblit",
+    "L'accompagnement des personnes vulnérables est suffisant"]},
+  {id:"b8",title:"8. Vision générale",type:"likert",items:[
+    "Globalement, je suis optimiste pour l'avenir de notre société",
+    "Je fais confiance aux institutions pour faire face aux défis actuels",
+    "Notre société a historiquement su s'adapter aux crises",
+    "Je ressens le besoin d'agir mais je ne sais pas par où commencer"]},
+  {id:"engagement",title:"Et après ? Votre envie d'agir",type:"engagement"},
+  {id:"ouvertes",title:"Vos réflexions",subtitle:"Exprimez-vous librement",type:"ouvertes"}
+];
+
+const ENG_OPTIONS = [
+  "Je préfère observer sans m'impliquer pour le moment",
+  "Je serais curieux·se de découvrir des initiatives locales",
+  "Je participe déjà à des actions collectives dans ma région",
+  "Je souhaiterais m'engager davantage si on me montrait comment"
+];
+
+// ─── STATE ───
+let page = -1;
+let answers = {};
+let profil = {age:"",situation:"",commune:""};
+let engagement = [];
+let openQ = {preoccupation:"",initiative:""};
+let sending = false;
+let currentRecognition = null;
+let speaking = false;
+
+const app = document.getElementById("app");
+
+// ─── TTS ───
+let frVoices = [];
+let selectedVoiceIndex = 0;
+
+function loadVoices() {
+  const all = window.speechSynthesis.getVoices();
+  frVoices = all.filter(v => v.lang.startsWith("fr"));
+  // If no French voices, try broader match
+  if (frVoices.length === 0) frVoices = all.filter(v => v.lang.includes("fr"));
+  // Prefer a natural/premium voice by default
+  const natural = frVoices.findIndex(v => v.name.toLowerCase().includes("natural") || v.name.toLowerCase().includes("premium") || v.name.toLowerCase().includes("enhanced"));
+  if (natural >= 0) selectedVoiceIndex = natural;
+}
+
+if (window.speechSynthesis) {
+  loadVoices();
+  window.speechSynthesis.onvoiceschanged = loadVoices;
+}
+
+function speak(text) {
+  if (speaking) { window.speechSynthesis.cancel(); speaking = false; renderPage(); return; }
+  if (!window.speechSynthesis) return;
+  loadVoices(); // refresh
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "fr-FR"; u.rate = 0.9;
+  if (frVoices.length > 0) u.voice = frVoices[selectedVoiceIndex] || frVoices[0];
+  u.onend = () => { speaking = false; renderPage(); };
+  speaking = true;
+  window.speechSynthesis.speak(u);
+  renderPage();
+}
+
+function speakSection(section) {
+  let text = section.title + ". ";
+  if (section.type === "likert") {
+    section.items.forEach((it, i) => { text += (i+1) + ". " + it + ". "; });
+  } else if (section.type === "engagement") {
+    text += "Plusieurs réponses possibles. ";
+    ENG_OPTIONS.forEach((o,i) => { text += (i+1) + ". " + o + ". "; });
+  } else if (section.type === "ouvertes") {
+    text += "Première question : Quelle est votre préoccupation principale pour les 5 prochaines années ? Deuxième question : Y a-t-il une initiative locale que vous aimeriez voir naître ?";
+  } else if (section.type === "profil") {
+    text += "Indiquez votre tranche d'âge, votre situation et votre commune.";
+  }
+  speak(text);
+}
+
+// ─── STT ───
+function startListening(fieldKey) {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) return;
+  if (currentRecognition) { currentRecognition.stop(); currentRecognition = null; renderPage(); return; }
+  const r = new SR();
+  r.lang = "fr-FR"; r.continuous = true; r.interimResults = true;
+  currentRecognition = r;
+  let finalT = openQ[fieldKey] ? openQ[fieldKey] + " " : "";
+  r.onresult = (e) => {
+    let interim = "";
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      if (e.results[i].isFinal) finalT += e.results[i][0].transcript + " ";
+      else interim += e.results[i][0].transcript;
+    }
+    openQ[fieldKey] = finalT + interim;
+    renderPage();
+  };
+  r.onerror = () => { currentRecognition = null; renderPage(); };
+  r.onend = () => { currentRecognition = null; renderPage(); };
+  r.start();
+  renderPage();
+}
+
+// ─── NAVIGATION ───
+function navigate(dir) {
+  window.speechSynthesis && window.speechSynthesis.cancel();
+  speaking = false;
+  app.className = "fade-out";
+  setTimeout(() => { page += dir; app.className = "fade-in"; renderPage(); window.scrollTo({top:0,behavior:"smooth"}); }, 250);
+}
+
+// ─── SUBMIT ───
+async function submitForm() {
+  sending = true; renderPage();
+  try {
+    await fetch(SCRIPT_URL, {
+      method: "POST", mode: "no-cors",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({profil, answers, engagement, openQ})
+    });
+    app.className = "fade-out";
+    setTimeout(() => { page = 99; sending = false; app.className = "fade-in"; renderPage(); }, 250);
+  } catch(e) {
+    sending = false;
+    document.getElementById("errorBox").classList.remove("hidden");
+    renderPage();
+  }
+}
+
+// ─── RENDER ───
+function renderPage() {
+  const totalPages = SECTIONS.length;
+  const pb = document.getElementById("progressBar");
+  const pf = document.getElementById("progressFill");
+  const pl = document.getElementById("pageLabel");
+  const pp = document.getElementById("pctLabel");
+
+  if (page >= 0 && page < totalPages) {
+    pb.classList.remove("hidden");
+    const pct = Math.round(((page+1)/totalPages)*100);
+    pl.textContent = (page+1) + " / " + totalPages;
+    pp.textContent = pct + "%";
+    pf.style.width = pct + "%";
+  } else {
+    pb.classList.add("hidden");
+  }
+
+  // INTRO
+  if (page === -1) {
+    app.innerHTML = `
+      <div class="card" style="padding:40px 28px">
+        <h1 style="font-family:'Fraunces',serif;font-size:28px;color:#1B4332;line-height:1.2;margin-bottom:8px">
+          Comment percevez-vous votre avenir et celui de votre région ?
+        </h1>
+        <p style="color:#6B7C72;font-size:14px;line-height:1.6;margin-top:16px">
+          Ce questionnaire anonyme explore vos perceptions sur la vie quotidienne, l'emploi, l'environnement, la solidarité et les perspectives d'avenir dans notre région.
+        </p>
+        <div class="info-box">
+          <div class="title">Mode d'emploi</div>
+          <div class="desc">Pour chaque affirmation, indiquez votre degré d'accord de 1 à 5. Pas de bonne ou mauvaise réponse. Durée : ~5 minutes.</div>
+        </div>
+      </div>
+      <button class="btn btn-primary" style="width:100%" onclick="navigate(1)">Commencer</button>`;
+    return;
+  }
+
+  // CONFIRMATION
+  if (page === 99) {
+    const count = Object.keys(answers).length;
+    const total = SECTIONS.filter(s=>s.type==="likert").reduce((a,s)=>a+s.items.length,0);
+    app.innerHTML = `
+      <div class="card confirm-center">
+        <div class="emoji">🌿</div>
+        <h2>Merci pour votre participation !</h2>
+        <p>Vos réponses contribueront à une réflexion collective sur l'avenir de notre région.</p>
+        <div class="confirm-badge">${count} réponses sur ${total} questions</div>
+        <div class="mt">
+          <button class="btn btn-primary" onclick="resetAll()">Nouveau questionnaire</button>
+        </div>
+      </div>`;
+    return;
+  }
+
+  const sec = SECTIONS[page];
+  let html = `<div class="card">`;
+
+  // Section header with speak button + voice selector
+  html += `<div class="section-header">
+    <div style="flex:1">
+      <h2>${sec.title}</h2>
+      ${sec.subtitle ? '<p class="subtitle">'+sec.subtitle+'</p>' : ''}
+    </div>
+    <div style="display:flex;align-items:center;gap:6px">
+      ${frVoices.length > 1 ? `<select id="voiceSelect" onchange="selectedVoiceIndex=parseInt(this.value);renderPage()" style="font-size:11px;padding:4px 6px;border-radius:6px;border:1px solid #CCC;background:#fff;color:#2A614E;font-family:'DM Sans',sans-serif;max-width:120px;cursor:pointer">
+        ${frVoices.map((v,i) => {
+          let label = v.name.replace(/Microsoft |Google |Apple /g,'').replace(/ Online| Natural| \(.*\)/g,'');
+          if (label.length > 18) label = label.substring(0,18)+'…';
+          return '<option value="'+i+'" '+(i===selectedVoiceIndex?'selected':'')+'>'+label+'</option>';
+        }).join('')}
+      </select>` : ''}
+      <button class="speak-btn ${speaking?'speaking':''}" onclick="speakSection(SECTIONS[${page}])" title="${speaking?'Arrêter la lecture':'Lire les questions à voix haute'}">
+        ${speaking
+          ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>'
+          : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>'
+        }
+      </button>
+    </div>
+  </div>`;
+
+  // PROFIL
+  if (sec.type === "profil") {
+    html += `<div class="mt">
+      <div class="mb"><label class="field-label">Tranche d'âge</label><div class="chip-row">
+        ${["18-30","31-45","46-60","61+"].map(a=>`<button class="chip ${profil.age===a?'active':''}" onclick="profil.age='${a}';renderPage()">${a}</button>`).join("")}
+      </div></div>
+      <div class="mb"><label class="field-label">Situation</label><div class="chip-row">
+        ${["Salarié·e","Indépendant·e","Sans emploi","Retraité·e","Étudiant·e","Autre"].map(s=>`<button class="chip chip-sm ${profil.situation===s?'active':''}" onclick="profil.situation='${s}';renderPage()">${s}</button>`).join("")}
+      </div></div>
+      <div><label class="field-label">Commune</label>
+        <input type="text" class="text-input" value="${profil.commune}" oninput="profil.commune=this.value" placeholder="ex : Sprimont, Aywaille, Esneux...">
+      </div>
+    </div>`;
+  }
+
+  // LIKERT
+  if (sec.type === "likert") {
+    html += '<div class="mt">';
+    sec.items.forEach((item, idx) => {
+      const key = sec.id+"_"+idx;
+      const sel = answers[key] || 0;
+      html += `<div class="likert-item">
+        <div class="likert-text">${item}</div>
+        <div class="likert-scale">
+          <span class="scale-label">Pas du tout</span>
+          <div class="dots">
+            ${[1,2,3,4,5].map(v=>`<button class="dot ${sel===v?'active':''}" onclick="answers['${key}']=${v};renderPage()">${v}</button>`).join("")}
+          </div>
+          <span class="scale-label scale-label-r">Tout à fait</span>
+        </div>
+      </div>`;
+    });
+    html += '</div>';
+  }
+
+  // ENGAGEMENT
+  if (sec.type === "engagement") {
+    html += `<div class="mt"><p style="font-size:14px;color:#6B7C72;margin-bottom:16px;line-height:1.5">Face aux enjeux identifiés, comment vous situez-vous ? (plusieurs réponses possibles)</p>`;
+    ENG_OPTIONS.forEach((opt,i) => {
+      const active = engagement.includes(opt);
+      html += `<div class="check-item ${active?'active':''}" onclick="toggleEng(${i})">
+        <div class="checkbox">${active?'<svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1 5L4.5 8.5L12 1" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>':''}</div>
+        <span style="font-size:14px">${opt}</span>
+      </div>`;
+    });
+    html += '</div>';
+  }
+
+  // OPEN QUESTIONS
+  if (sec.type === "ouvertes") {
+    const hasSR = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+    const isListeningP = currentRecognition && currentRecognition._field === "preoccupation";
+    const isListeningI = currentRecognition && currentRecognition._field === "initiative";
+
+    html += `<div class="mt">
+      <div class="mb">
+        <label class="field-label">Quelle est votre préoccupation principale pour les 5 prochaines années ?</label>
+        <div class="voice-wrap">
+          <textarea class="voice-area ${isListeningP?'listening':''}" id="ta_preoccupation" oninput="openQ.preoccupation=this.value" placeholder="Exprimez-vous librement ou cliquez sur le micro...">${openQ.preoccupation}</textarea>
+          ${hasSR ? `<button class="mic-btn ${isListeningP?'listening':''}" onclick="startListeningField('preoccupation')" title="${isListeningP?'Arrêter':'Dicter'}">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="1" width="6" height="12" rx="3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+          </button>` : '<div style="font-size:12px;color:#999;margin-top:4px;font-style:italic">Dictée vocale : utilisez Chrome</div>'}
+        </div>
+        ${isListeningP ? '<div class="listen-indicator"><div class="listen-dot"></div><span style="font-size:12px;color:#E74C3C;font-weight:500">Écoute en cours... Parlez puis cliquez pour arrêter</span></div>' : ''}
+      </div>
+      <div>
+        <label class="field-label">Y a-t-il une initiative locale que vous aimeriez voir naître ou se développer ?</label>
+        <div class="voice-wrap">
+          <textarea class="voice-area ${isListeningI?'listening':''}" id="ta_initiative" oninput="openQ.initiative=this.value" placeholder="Une idée, un projet, un besoin... ou cliquez sur le micro...">${openQ.initiative}</textarea>
+          ${hasSR ? `<button class="mic-btn ${isListeningI?'listening':''}" onclick="startListeningField('initiative')" title="${isListeningI?'Arrêter':'Dicter'}">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="1" width="6" height="12" rx="3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+          </button>` : ''}
+        </div>
+        ${isListeningI ? '<div class="listen-indicator"><div class="listen-dot"></div><span style="font-size:12px;color:#E74C3C;font-weight:500">Écoute en cours...</span></div>' : ''}
+      </div>
+    </div>`;
+  }
+
+  html += `</div>`;
+
+  // NAV BUTTONS
+  html += `<div class="btn-row">
+    <button class="btn btn-secondary" onclick="navigate(-1)">← Retour</button>`;
+  if (page < SECTIONS.length - 1) {
+    html += `<button class="btn btn-primary" onclick="navigate(1)">Suivant →</button>`;
+  } else {
+    if (sending) {
+      html += `<button class="btn btn-primary" style="background:#6B9C8A;cursor:wait" disabled>Envoi en cours...</button>`;
+    } else {
+      html += `<button class="btn btn-submit" onclick="submitForm()">Envoyer ✓</button>`;
+    }
+  }
+  html += `</div>`;
+  html += `<div class="error-box hidden" id="errorBox">Erreur d'envoi. Vérifiez votre connexion et réessayez.</div>`;
+
+  app.innerHTML = html;
+}
+
+// ─── HELPERS ───
+function toggleEng(i) {
+  const opt = ENG_OPTIONS[i];
+  if (engagement.includes(opt)) engagement = engagement.filter(o=>o!==opt);
+  else engagement.push(opt);
+  renderPage();
+}
+
+function startListeningField(fieldKey) {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) return;
+  if (currentRecognition) { currentRecognition.stop(); currentRecognition = null; renderPage(); return; }
+  const r = new SR();
+  r.lang = "fr-FR"; r.continuous = true; r.interimResults = true;
+  r._field = fieldKey;
+  currentRecognition = r;
+  let finalT = openQ[fieldKey] ? openQ[fieldKey] + " " : "";
+  r.onresult = (e) => {
+    let interim = "";
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      if (e.results[i].isFinal) finalT += e.results[i][0].transcript + " ";
+      else interim += e.results[i][0].transcript;
+    }
+    openQ[fieldKey] = finalT + interim;
+    renderPage();
+  };
+  r.onerror = () => { currentRecognition = null; renderPage(); };
+  r.onend = () => { currentRecognition = null; renderPage(); };
+  r.start();
+  renderPage();
+}
+
+function resetAll() {
+  page = -1; answers = {}; profil = {age:"",situation:"",commune:""};
+  engagement = []; openQ = {preoccupation:"",initiative:""};
+  sending = false; renderPage();
+}
+
+// ─── INIT ───
+renderPage();
+</script>
+</body>
+</html>
