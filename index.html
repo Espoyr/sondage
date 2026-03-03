@@ -358,23 +358,59 @@ function dicterChamp(fieldKey) {
   var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SR) return;
   taire(); // couper la lecture pour éviter l'écho
-  if (currentRecognition) { currentRecognition.stop(); currentRecognition = null; updateUI(); return; }
+
+  // Si déjà en écoute, on arrête
+  if (currentRecognition) {
+    var old = currentRecognition;
+    currentRecognition = null; // mettre à null AVANT stop pour éviter le relancement
+    old.stop();
+    updateUI();
+    return;
+  }
+
   var r = new SR();
-  r.lang = "fr-FR"; r.continuous = true; r.interimResults = true;
+  r.lang = "fr-FR";
+  r.continuous = false;    // UNE phrase à la fois
+  r.interimResults = false; // PAS de résultats partiels = pas de doublons
   r._field = fieldKey;
   currentRecognition = r;
-  var finalT = openQ[fieldKey] ? openQ[fieldKey] + " " : "";
+
   r.onresult = function(e) {
-    var interim = "";
-    for (var i = e.resultIndex; i < e.results.length; i++) {
-      if (e.results[i].isFinal) finalT += e.results[i][0].transcript + " ";
-      else interim += e.results[i][0].transcript;
+    // Prendre uniquement le résultat final
+    var transcript = e.results[0][0].transcript;
+    // Ajouter à la suite du texte existant
+    var existing = openQ[fieldKey] ? openQ[fieldKey].trim() : "";
+    if (existing.length > 0) {
+      openQ[fieldKey] = existing + " " + transcript;
+    } else {
+      openQ[fieldKey] = transcript;
     }
-    openQ[fieldKey] = (finalT + interim).trim();
+    updateUI();
+    // Relancer automatiquement pour la phrase suivante
+    if (currentRecognition) {
+      setTimeout(function(){
+        try { r.start(); } catch(e) { currentRecognition = null; updateUI(); }
+      }, 200);
+    }
+  };
+
+  r.onerror = function(ev) {
+    // "no-speech" = silence, on relance
+    if (ev.error === "no-speech" && currentRecognition) {
+      try { r.start(); } catch(e) { currentRecognition = null; updateUI(); }
+      return;
+    }
+    currentRecognition = null;
     updateUI();
   };
-  r.onerror = function() { currentRecognition = null; updateUI(); };
-  r.onend = function() { currentRecognition = null; updateUI(); };
+
+  r.onend = function() {
+    // Si l'utilisateur n'a pas cliqué pour arrêter, on relance
+    if (currentRecognition === r) {
+      try { r.start(); } catch(e) { currentRecognition = null; updateUI(); }
+    }
+  };
+
   r.start();
   updateUI();
 }
