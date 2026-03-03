@@ -182,8 +182,33 @@ var MODE_EMPLOI = "Mode d'emploi. Pour chaque affirmation, indiquez votre degré
 var page = -1, answers = {}, profil = {age:"",situation:"",codepostal:""};
 var engagement = [], openQ = {preoccupation:"",initiative:""};
 var sending = false, currentRecognition = null, speaking = false;
-var voiceMode = false, currentItemIdx = 0;
+var voiceMode = true, currentItemIdx = 0;
 var app = document.getElementById("app");
+
+// Questions adaptées selon le profil
+function getItemText(secId, idx) {
+  var sec = null;
+  for (var i=0;i<SECTIONS.length;i++) { if(SECTIONS[i].id===secId){sec=SECTIONS[i];break;} }
+  if (!sec || sec.type !== "likert") return "";
+  var txt = sec.items[idx];
+  var sit = profil.situation;
+
+  // b2_0 : stabilité emploi → adapté selon situation
+  if (secId === "b2" && idx === 0) {
+    if (sit === "Retraité·e") return "Ma pension me permet de vivre correctement";
+    if (sit === "Sans emploi") return "Je suis confiant·e de retrouver un emploi";
+    if (sit === "Étudiant·e") return "Je suis confiant·e de trouver un emploi après mes études";
+  }
+  // b4_0 : confiance pension → adapté pour retraités
+  if (secId === "b4" && idx === 0) {
+    if (sit === "Retraité·e") return "Le montant de ma pension me semble correct";
+  }
+  // b4_1 : montant futur → adapté pour retraités
+  if (secId === "b4" && idx === 1) {
+    if (sit === "Retraité·e") return "L'évolution du montant des pensions m'inquiète";
+  }
+  return txt;
+}
 
 // ═══════════════════════════════════════
 //  TTS — TEXT TO SPEECH
@@ -249,7 +274,7 @@ function lireProposition(idx) {
   setTimeout(function(){
     var el = document.getElementById("item_" + idx);
     if (el) el.scrollIntoView({behavior:"smooth", block:"center"});
-    dire(sec.items[idx]);
+    dire(getItemText(sec.id, idx));
   }, 150);
 }
 
@@ -267,7 +292,7 @@ function commencerSection() {
     for(var i=0;i<ENG_OPTIONS.length;i++) t += (i+1) + ". " + ENG_OPTIONS[i] + ". ";
     dire(t);
   } else if (sec.type === "ouvertes") {
-    dire(sec.title + ". Première question : Quelle est votre préoccupation principale pour les 5 prochaines années ? Deuxième question : Y a-t-il une initiative locale que vous aimeriez voir naître ?");
+    dire(sec.title + ". Première question : Quelle est votre préoccupation principale pour les 10 à 20 prochaines années ? Deuxième question : Y a-t-il une initiative locale que vous aimeriez voir naître ?");
   } else if (sec.type === "profil") {
     dire(sec.title + ". Indiquez votre tranche d'âge, votre situation et votre code postal.");
   }
@@ -446,10 +471,10 @@ function updateUI() {
         '<div class="info-box"><div class="title">Mode d\'emploi</div>' +
         '<div class="desc">Pour chaque affirmation, indiquez votre degré d\'accord de 1 (Non) à 5 (Oui). <strong>Vous n\'êtes pas obligé de répondre à chaque question</strong> — utilisez la flèche ↓ pour passer. Durée : ~5 min.</div></div>' +
         '<div style="margin-top:16px;text-align:center">' +
-          '<div class="voice-badge ' + (voiceMode?'on':'off') + '" onclick="toggleVoiceMode()">' +
-            '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg> ' +
-            (voiceMode ? 'Lecture vocale activée ✓' : 'Activer la lecture vocale') +
-          '</div>' +
+          '<button class="btn ' + (voiceMode?'btn-mute-on':'btn-mute-off') + '" onclick="toggleVoiceMode()" style="width:100%;padding:14px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;border:none;display:flex;align-items:center;justify-content:center;gap:8px;' + (voiceMode?'background:#2A614E;color:#fff':'background:#E8E4DC;color:#666') + '">' +
+            '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>' + (voiceMode?'<path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>':'<line x1="23" y1="1" x2="1" y2="23"/>') + '</svg> ' +
+            (voiceMode ? '🔊 Son activé — cliquez pour couper' : '🔇 Son coupé — cliquez pour remettre') +
+          '</button>' +
         '</div>' +
       '</div>' +
       '<button class="btn btn-primary" style="width:100%" onclick="commencer()">Commencer</button>';
@@ -512,7 +537,7 @@ function updateUI() {
       var cur = idx === currentItemIdx;
       var last = idx === sec.items.length - 1;
       html += '<div class="likert-item ' + (cur?'current':'') + '" id="item_' + idx + '">';
-      html += '<div class="likert-top"><div class="likert-text">' + sec.items[idx] + '</div>';
+      html += '<div class="likert-top"><div class="likert-text">' + getItemText(sec.id, idx) + '</div>';
       if (!last) html += '<button class="skip-btn" onclick="passer(' + idx + ')" title="Passer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>';
       html += '</div>';
       html += '<div class="likert-scale"><span class="scale-label">Non</span><div class="dots">';
@@ -542,7 +567,7 @@ function updateUI() {
     var isLP = currentRecognition && currentRecognition._field === "preoccupation";
     var isLI = currentRecognition && currentRecognition._field === "initiative";
     html += '<div class="mt">';
-    html += '<div class="mb"><label class="field-label">Quelle est votre préoccupation principale pour les 5 prochaines années ? <span class="optional">(facultatif)</span></label>';
+    html += '<div class="mb"><label class="field-label">Quelle est votre préoccupation principale pour les 10 à 20 prochaines années ? <span class="optional">(facultatif)</span></label>';
     html += '<div class="voice-wrap"><textarea class="voice-area ' + (isLP?'listening':'') + '" oninput="openQ.preoccupation=this.value" placeholder="Écrivez ou cliquez sur le micro...">' + openQ.preoccupation + '</textarea>';
     if (hasSR) html += '<button class="mic-btn ' + (isLP?'listening':'') + '" onclick="dicterChamp(\'preoccupation\')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="1" width="6" height="12" rx="3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></button>';
     html += '</div>';
@@ -559,12 +584,12 @@ function updateUI() {
 
   html += '</div>';
 
-  // Voice badge
+  // Mute button
   html += '<div style="text-align:center;margin-bottom:10px">';
-  html += '<div class="voice-badge ' + (voiceMode?'on':'off') + '" onclick="toggleVoiceMode()">';
-  html += '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg> ';
-  html += voiceMode ? 'Lecture vocale ON' : 'Lecture vocale OFF';
-  html += '</div></div>';
+  html += '<button onclick="toggleVoiceMode()" style="width:100%;padding:10px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;border:none;display:flex;align-items:center;justify-content:center;gap:6px;' + (voiceMode?'background:#2A614E;color:#fff':'background:#E8E4DC;color:#666') + '">';
+  html += '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>' + (voiceMode?'<path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>':'<line x1="23" y1="1" x2="1" y2="23"/>') + '</svg> ';
+  html += voiceMode ? '🔊 Couper le son' : '🔇 Remettre le son';
+  html += '</button></div>';
 
   // Nav
   html += '<div class="btn-row">';
@@ -595,7 +620,7 @@ function resetAll() {
   if (currentRecognition) { currentRecognition.stop(); currentRecognition = null; }
   page = -1; answers = {}; profil = {age:"",situation:"",codepostal:""};
   engagement = []; openQ = {preoccupation:"",initiative:""};
-  sending = false; voiceMode = false; currentItemIdx = 0;
+  sending = false; voiceMode = true; currentItemIdx = 0;
   updateUI();
 }
 
