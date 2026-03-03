@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Questionnaire citoyen — ASBL Espoyr</title>
+<title>Questionnaire citoyen - ASBL Espoyr</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -13,7 +13,6 @@ body{min-height:100vh;background:#F0EDE6;font-family:'DM Sans',sans-serif;color:
 @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeOut{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-8px)}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-
 .header{background:linear-gradient(135deg,#2A614E,#1B4332);padding:20px 16px 14px;color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,.15)}
 .header-inner{max-width:460px;margin:0 auto}
 .header h1{font-family:'Fraunces',serif;font-size:17px;font-weight:700}
@@ -22,25 +21,21 @@ body{min-height:100vh;background:#F0EDE6;font-family:'DM Sans',sans-serif;color:
 .progress-labels{display:flex;justify-content:space-between;font-size:10px;opacity:.65;margin-bottom:3px}
 .progress-track{height:4px;background:rgba(255,255,255,.2);border-radius:2px}
 .progress-fill{height:100%;background:#A7D7C5;border-radius:2px;transition:width .5s cubic-bezier(.4,0,.2,1)}
-
 .content{max-width:460px;margin:0 auto;padding:20px 12px 70px}
 .card{background:#fff;border-radius:14px;padding:24px 20px;box-shadow:0 1px 8px rgba(0,0,0,.06);margin-bottom:16px}
 .card h2{font-family:'Fraunces',serif;font-size:18px;color:#1B4332;margin-bottom:4px}
 .card .subtitle{color:#8B9D93;font-size:12px;margin-top:4px}
-
 .btn{padding:12px 20px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;flex:1;transition:all .2s;border:none}
 .btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(42,97,78,.25)}
 .btn-primary{background:#2A614E;color:#fff}
 .btn-secondary{background:#fff;color:#2A614E;border:2px solid #2A614E}
 .btn-submit{background:linear-gradient(135deg,#2A614E,#1B4332);color:#fff}
 .btn-row{display:flex;gap:10px}
-
 .section-header{display:flex;align-items:center;gap:8px;margin-bottom:14px}
 .speak-btn{width:34px;height:34px;border-radius:50%;border:2px solid #2A614E;background:#F0FAF4;color:#2A614E;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
 .speak-btn:hover{background:#2A614E;color:#fff}
 .speak-btn.active{background:#2A614E;color:#fff}
 .speak-btn.speaking{background:#E74C3C;border-color:#E74C3C;color:#fff;animation:pulse 1.5s infinite}
-
 .field-label{font-size:13px;font-weight:600;color:#2D4A3E;display:block;margin-bottom:6px}
 .chip-row{display:flex;gap:6px;flex-wrap:wrap}
 .chip{padding:7px 14px;border-radius:8px;border:2px solid #DDD8CE;background:#fff;color:#555;font-weight:400;cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;transition:all .15s}
@@ -48,7 +43,6 @@ body{min-height:100vh;background:#F0EDE6;font-family:'DM Sans',sans-serif;color:
 .chip-sm{font-size:12px;padding:6px 12px}
 .text-input{width:100%;padding:8px 12px;border-radius:8px;border:2px solid #DDD8CE;font-size:13px;font-family:'DM Sans',sans-serif;background:#FAFAF8}
 .text-input:focus{outline:none;border-color:#2A614E;box-shadow:0 0 0 3px rgba(42,97,78,.1)}
-
 .likert-item{padding:12px 10px;border-radius:10px;margin-bottom:5px;transition:all .3s ease;scroll-margin-top:120px}
 .likert-item:nth-child(odd){background:#FAFAF8}
 .likert-item:hover{background:#F7F5F0}
@@ -64,36 +58,22 @@ body{min-height:100vh;background:#F0EDE6;font-family:'DM Sans',sans-serif;color:
 .dot{width:34px;height:34px;border-radius:50%;border:2px solid #CCC8BE;background:#fff;color:#888;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;transition:all .2s}
 .dot:hover{transform:scale(1.15);box-shadow:0 0 0 4px rgba(42,97,78,.12)}
 .dot.active{border-color:#2A614E;background:#2A614E;color:#fff}
-
 .check-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;margin-bottom:5px;border:2px solid transparent;background:#FAFAF8;cursor:pointer;transition:all .15s}
 .check-item:hover{background:#F7F5F0}
 .check-item.active{border-color:#2A614E;background:#F0FAF4}
+.check-item.disabled{opacity:0.4;cursor:default}
 .checkbox{width:20px;height:20px;border-radius:5px;border:2px solid #CCC;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
 .check-item.active .checkbox{border-color:#2A614E;background:#2A614E}
-
-.voice-wrap{position:relative}
-.voice-area{width:100%;padding:10px 46px 10px 12px;border-radius:10px;border:2px solid #DDD8CE;font-size:13px;font-family:'DM Sans',sans-serif;background:#FAFAF8;resize:vertical;line-height:1.5;min-height:90px}
-.voice-area:focus{outline:none;border-color:#2A614E;box-shadow:0 0 0 3px rgba(42,97,78,.1)}
-.voice-area.listening{border-color:#E74C3C;background:#FEF9F9}
-.mic-btn{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;border:none;cursor:pointer;background:#2A614E;display:flex;align-items:center;justify-content:center;transition:all .2s}
-.mic-btn.listening{background:#E74C3C;animation:pulse 1.5s infinite;box-shadow:0 0 0 4px rgba(231,76,60,.25)}
-.listen-indicator{display:flex;align-items:center;gap:5px;margin-top:5px}
-.listen-dot{width:7px;height:7px;border-radius:50%;background:#E74C3C;animation:pulse 1s infinite}
-
 .info-box{background:#F0FAF4;border-radius:10px;padding:12px 16px;margin-top:20px;border-left:4px solid #2A614E}
 .info-box .title{font-size:12px;font-weight:600;color:#2A614E;margin-bottom:3px}
 .info-box .desc{font-size:12px;color:#3D5A4C;line-height:1.6}
-
-.voice-badge{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:500;margin-top:10px;cursor:pointer;transition:all .2s}
-.voice-badge.on{background:#2A614E;color:#fff}
-.voice-badge.off{background:#E8E4DC;color:#888}
-
 .error-box{margin-top:10px;padding:10px 14px;background:#FEF2F2;border:1px solid #FECACA;border-radius:10px;color:#991B1B;font-size:12px}
 .confirm-center{text-align:center;padding:40px 24px}
 .confirm-center .emoji{font-size:48px;margin-bottom:14px}
 .confirm-center h2{font-family:'Fraunces',serif;font-size:22px;color:#1B4332;margin-bottom:10px}
 .confirm-center p{color:#6B7C72;font-size:13px;line-height:1.6;max-width:360px;margin:0 auto}
 .confirm-badge{margin-top:24px;padding:10px 16px;background:#F0FAF4;border-radius:10px;display:inline-block;font-size:12px;color:#2A614E}
+.counter{font-size:11px;color:#2A614E;font-weight:600;margin-top:4px}
 .mb{margin-bottom:16px}
 .mt{margin-top:16px}
 .hidden{display:none}
@@ -101,565 +81,257 @@ body{min-height:100vh;background:#F0EDE6;font-family:'DM Sans',sans-serif;color:
 </style>
 </head>
 <body>
-
-<div class="header">
-  <div class="header-inner">
-    <h1>Questionnaire citoyen</h1>
-    <div class="sub">ASBL Espoyr — Sprimont</div>
-    <div class="progress-bar hidden" id="progressBar">
-      <div class="progress-labels"><span id="pageLabel"></span><span id="pctLabel"></span></div>
-      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-    </div>
-  </div>
-</div>
-
-<div class="content">
-  <div id="app" class="fade-in"></div>
-</div>
-
-<!-- iframe caché pour l'envoi -->
+<div class="header"><div class="header-inner">
+<h1>Questionnaire citoyen</h1>
+<div class="sub">ASBL Espoyr - Sprimont</div>
+<div class="progress-bar hidden" id="progressBar">
+<div class="progress-labels"><span id="pageLabel"></span><span id="pctLabel"></span></div>
+<div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div></div></div>
+<div class="content"><div id="app" class="fade-in"></div></div>
 <iframe name="hiddenFrame" style="display:none"></iframe>
-
 <script>
-var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyEk376L6wvSnIhnPYOvAv95XpZV30ENBpfckIKHu7tpZJmYCvpHXJZMh6fOL29gU7-/exec";
+var SCRIPT_URL="https://script.google.com/macros/s/AKfycbyEk376L6wvSnIhnPYOvAv95XpZV30ENBpfckIKHu7tpZJmYCvpHXJZMh6fOL29gU7-/exec";
 
-var SECTIONS = [
-  {id:"profil",title:"Quelques informations",subtitle:"Facultatif",type:"profil"},
-  {id:"b1",title:"1. Vie quotidienne et pouvoir d'achat",type:"likert",items:[
-    "Je parviens à couvrir mes dépenses courantes sans difficulté",
-    "L'évolution du coût de la vie me préoccupe concrètement",
-    "Mon pouvoir d'achat alimentaire a diminué ces deux dernières années",
-    "Je me sens en sécurité financièrement pour les 12 prochains mois"]},
-  {id:"b2",title:"2. Travail et avenir professionnel",type:"likert",items:[
-    "Je considère mon emploi ou mon activité comme stable",
-    "Le marché du travail local offre suffisamment d'opportunités",
-    "Les nouvelles technologies menacent certains métiers autour de moi",
-    "Je pense que les jeunes de ma région trouvent du travail facilement"]},
-  {id:"b3",title:"3. Avenir des enfants et des jeunes",type:"likert",items:[
-    "Les enfants de ma région reçoivent une éducation de qualité",
-    "Les jeunes auront plus de difficultés que ma génération à s'installer",
-    "L'accès au logement est devenu un obstacle réel pour les jeunes ici",
-    "Je suis confiant dans les perspectives d'avenir de la prochaine génération"]},
-  {id:"b4",title:"4. Retraite et protection sociale",type:"likert",items:[
-    "Je fais confiance au système de pension pour assurer ma retraite",
-    "Le montant futur des pensions m'inquiète",
-    "Les personnes âgées de mon entourage sont correctement protégées",
-    "Je doute de la viabilité à long terme de notre sécurité sociale"]},
-  {id:"b5",title:"5. Ressources et autonomie locale",type:"likert",items:[
-    "L'accès à l'énergie me semble garanti pour les années à venir",
-    "La disparition d'agriculteurs locaux me préoccupe",
-    "Notre région est trop dépendante de ressources extérieures",
-    "Les infrastructures locales répondent à mes besoins"]},
-  {id:"b6",title:"6. Environnement et cadre de vie",type:"likert",items:[
-    "La qualité de vie dans ma commune est satisfaisante",
-    "L'environnement naturel autour de chez moi se dégrade",
-    "La qualité de l'eau ou de l'air dans ma région m'inquiète",
-    "Je constate une perte de biodiversité dans mon environnement proche"]},
-  {id:"b7",title:"7. Solidarité et lien social",type:"likert",items:[
-    "Je me sens en sécurité dans ma commune",
-    "La solidarité entre habitants fonctionne bien là où je vis",
-    "Le lien social dans mon quartier ou mon village s'affaiblit",
-    "L'accompagnement des personnes vulnérables est suffisant"]},
-  {id:"b8",title:"8. Vision générale",type:"likert",items:[
-    "Globalement, je suis optimiste pour l'avenir de notre société",
-    "Je fais confiance aux institutions pour faire face aux défis actuels",
-    "Notre société a historiquement su s'adapter aux crises",
-    "Je ressens le besoin d'agir mais je ne sais pas par où commencer"]},
-  {id:"engagement",title:"Et après ? Votre envie d'agir",type:"engagement"},
-  {id:"ouvertes",title:"Vos réflexions",subtitle:"Exprimez-vous librement",type:"ouvertes"}
+var SECTIONS=[
+{id:"profil",title:"Quelques informations",subtitle:"Facultatif",type:"profil"},
+{id:"b1",title:"1. Vie quotidienne",type:"likert",items:[
+"Je parviens a couvrir mes depenses courantes sans difficulte",
+"Le cout du logement et de l energie pese de plus en plus sur mon budget",
+"L alimentation que je consomme actuellement est favorable a ma sante",
+"J ai facilement acces aux services dont j ai besoin au quotidien"
+]},
+{id:"b2",title:"2. Travail et avenir professionnel",type:"likert",items:[
+"Je considere mon emploi ou mon activite comme stable",
+"Le marche du travail local offre suffisamment d opportunites",
+"Les nouvelles technologies menacent certains metiers autour de moi",
+"Je pense que les jeunes de ma region trouvent du travail facilement"
+]},
+{id:"b3",title:"3. Avenir des enfants et des jeunes",type:"likert",items:[
+"Les enfants de ma region recoivent une education de qualite",
+"Les jeunes auront plus de difficultes que ma generation a s installer",
+"L acces au logement est devenu un obstacle reel pour les jeunes ici",
+"Je suis confiant dans les perspectives d avenir de la prochaine generation"
+]},
+{id:"b4",title:"4. Retraite et protection sociale",type:"likert",items:[
+"Je fais confiance au systeme de pension pour assurer ma retraite",
+"La crise du COVID-19 m a donne envie d agir davantage au niveau local ou collectif",
+"Les personnes agees de mon entourage sont correctement protegees",
+"Je doute de la viabilite a long terme de notre securite sociale"
+]},
+{id:"b5",title:"5. Ressources et autonomie locale",type:"likert",items:[
+"L acces a l energie me semble garanti pour les annees a venir",
+"La disparition d agriculteurs locaux me preoccupe",
+"Notre region est trop dependante de ressources exterieures",
+"Les infrastructures locales repondent a mes besoins"
+]},
+{id:"b6",title:"6. Environnement et cadre de vie",type:"likert",items:[
+"La qualite de vie dans ma commune est satisfaisante",
+"L environnement naturel autour de chez moi se degrade",
+"La qualite de l eau ou de l air dans ma region m inquiete",
+"Je constate une perte de biodiversite dans mon environnement proche"
+]},
+{id:"b7",title:"7. Solidarite et lien social",type:"likert",items:[
+"Je me sens en securite dans ma commune",
+"La solidarite entre habitants fonctionne bien la ou je vis",
+"Le lien social dans mon quartier ou mon village s affaiblit",
+"L accompagnement des personnes vulnerables est suffisant"
+]},
+{id:"b8",title:"8. Vision generale",type:"likert",items:[
+"Globalement, je suis optimiste pour l avenir de notre societe",
+"Je fais confiance aux institutions pour faire face aux defis actuels",
+"Notre societe a historiquement su s adapter aux crises",
+"Je ressens le besoin d agir mais je ne sais pas par ou commencer"
+]},
+{id:"engagement",title:"Et apres ? Votre envie d agir",type:"engagement"},
+{id:"ouvertes",title:"Vos reflexions",type:"ouvertes"}
 ];
 
-var ENG_OPTIONS = [
-  "Je préfère observer sans m'impliquer pour le moment",
-  "Je serais curieux·se de découvrir des initiatives locales",
-  "Je participe déjà à des actions collectives dans ma région",
-  "Je souhaiterais m'engager davantage si on me montrait comment"
+var ENG_OPTIONS=[
+"Je prefere observer sans m impliquer pour le moment",
+"Je serais curieux de decouvrir des initiatives locales",
+"Je participe deja a des actions collectives dans ma region",
+"Je souhaiterais m engager davantage si on me montrait comment"
 ];
 
-var MODE_EMPLOI = "Mode d'emploi. Pour chaque affirmation, indiquez votre degré d'accord de 1 à 5, où 1 signifie non et 5 signifie oui. Vous n'êtes pas obligé de répondre. Utilisez la flèche pour passer.";
+var PREOCCUP_OPTIONS=["Pouvoir d achat","Emploi","Retraite / pensions","Logement","Sante / acces aux soins","Energie / climat","Alimentation locale","Education des jeunes","Securite","Isolement / lien social"];
+var INITIATIVE_OPTIONS=["Marche de producteurs locaux","Cooperative d energie","Monnaie locale / entraide","Tiers-lieu / coworking","Potagers collectifs","Transport partage","Aide aux aines","Activites pour les jeunes"];
 
-// ─── STATE ───
-var page = -1, answers = {}, profil = {age:"",situation:"",codepostal:""};
-var engagement = [], openQ = {preoccupation:"",initiative:""};
-var sending = false, currentRecognition = null, speaking = false;
-var voiceMode = true, currentItemIdx = 0;
-var app = document.getElementById("app");
+var MODE_EMPLOI="Mode d emploi. Pour chaque affirmation, indiquez votre degre d accord de 1 a 5, ou 1 signifie non et 5 signifie oui. Vous n etes pas oblige de repondre. Utilisez la fleche pour passer.";
 
-// Questions adaptées selon le profil
-function getItemText(secId, idx) {
-  var sec = null;
-  for (var i=0;i<SECTIONS.length;i++) { if(SECTIONS[i].id===secId){sec=SECTIONS[i];break;} }
-  if (!sec || sec.type !== "likert") return "";
-  var txt = sec.items[idx];
-  var sit = profil.situation;
+var page=-1,answers={},profil={age:"",situation:"",codepostal:""};
+var engagement=[],openPreoccup=[],openInitiative=[],autrePreoccup="",autreInitiative="";
+var sending=false,speaking=false,voiceMode=true,currentItemIdx=0;
+var app=document.getElementById("app");
 
-  // b2_0 : stabilité emploi → adapté selon situation
-  if (secId === "b2" && idx === 0) {
-    if (sit === "Retraité·e") return "Ma pension me permet de vivre correctement";
-    if (sit === "Sans emploi") return "Je suis confiant·e de retrouver un emploi";
-    if (sit === "Étudiant·e") return "Je suis confiant·e de trouver un emploi après mes études";
-  }
-  // b4_0 : confiance pension → adapté pour retraités
-  if (secId === "b4" && idx === 0) {
-    if (sit === "Retraité·e") return "Le montant de ma pension me semble correct";
-  }
-  // b4_1 : montant futur → adapté pour retraités
-  if (secId === "b4" && idx === 1) {
-    if (sit === "Retraité·e") return "L'évolution du montant des pensions m'inquiète";
-  }
-  return txt;
+function getItemText(secId,idx){
+var sec=null;for(var i=0;i<SECTIONS.length;i++){if(SECTIONS[i].id===secId){sec=SECTIONS[i];break;}}
+if(!sec||sec.type!=="likert")return "";
+var txt=sec.items[idx],sit=profil.situation;
+if(secId==="b2"&&idx===0){
+if(sit==="Retraite")return "Ma pension me permet de vivre correctement";
+if(sit==="Sans emploi")return "Je suis confiant de retrouver un emploi";
+if(sit==="Etudiant")return "Je suis confiant de trouver un emploi apres mes etudes";
+}
+if(secId==="b4"&&idx===0&&sit==="Retraite")return "Le montant de ma pension me semble correct";
+return txt;
 }
 
-// ═══════════════════════════════════════
-//  TTS — TEXT TO SPEECH
-// ═══════════════════════════════════════
-var frVoices = [], selectedVoiceIndex = 0, voicesLoaded = false;
+var frVoices=[],selectedVoiceIndex=0,voicesLoaded=false;
+function loadVoices(){
+if(!window.speechSynthesis)return;var all=window.speechSynthesis.getVoices();if(!all.length)return;
+frVoices=all.filter(function(v){return v.lang.startsWith("fr");});
+if(!frVoices.length)frVoices=all.filter(function(v){return v.lang.indexOf("fr")>=0;});
+if(!frVoices.length)return;voicesLoaded=true;
+var fem=["denise","amelie","audrey","virginie","marie","clara","celine","lea","julie","alice","caroline","sara"];
+var mal=["henri","thomas","nicolas","paul","pierre","jacques"];
+var f=-1;
+for(var i=0;i<frVoices.length;i++){var n=frVoices[i].name.toLowerCase();for(var j=0;j<fem.length;j++){if(n.indexOf(fem[j])>=0){f=i;break;}}if(f>=0)break;}
+if(f<0){for(var i=0;i<frVoices.length;i++){var n=frVoices[i].name.toLowerCase();var m=false;for(var j=0;j<mal.length;j++){if(n.indexOf(mal[j])>=0){m=true;break;}}if(!m){f=i;break;}}}
+selectedVoiceIndex=f>=0?f:0;
+}
+if(window.speechSynthesis){loadVoices();window.speechSynthesis.onvoiceschanged=function(){loadVoices();};setTimeout(loadVoices,500);}
 
-function loadVoices() {
-  if (!window.speechSynthesis) return;
-  var all = window.speechSynthesis.getVoices();
-  if (all.length === 0) return;
-  frVoices = all.filter(function(v){return v.lang.startsWith("fr");});
-  if (!frVoices.length) frVoices = all.filter(function(v){return v.lang.indexOf("fr")>=0;});
-  if (!frVoices.length) return;
-  voicesLoaded = true;
-  // Prefer female
-  var fem = ["denise","amelie","audrey","virginie","marie","clara","celine","lea","julie","alice","caroline","sara"];
-  var mal = ["henri","thomas","nicolas","paul","pierre","jacques"];
-  var f = -1;
-  for (var i=0;i<frVoices.length;i++){var n=frVoices[i].name.toLowerCase();for(var j=0;j<fem.length;j++){if(n.indexOf(fem[j])>=0){f=i;break;}}if(f>=0)break;}
-  if (f<0){for(var i=0;i<frVoices.length;i++){var n=frVoices[i].name.toLowerCase();var isMale=false;for(var j=0;j<mal.length;j++){if(n.indexOf(mal[j])>=0){isMale=true;break;}}if(!isMale){f=i;break;}}}
-  selectedVoiceIndex = f>=0?f:0;
+function dire(texte,quandFini){
+if(!window.speechSynthesis){if(quandFini)quandFini();return;}
+window.speechSynthesis.cancel();if(!voicesLoaded)loadVoices();
+var u=new SpeechSynthesisUtterance(texte);u.lang="fr-FR";u.rate=0.85;
+if(frVoices.length>0)u.voice=frVoices[selectedVoiceIndex]||frVoices[0];
+u.onend=function(){speaking=false;updateUI();if(quandFini)quandFini();};
+u.onerror=function(){speaking=false;updateUI();if(quandFini)quandFini();};
+speaking=true;window.speechSynthesis.speak(u);updateUI();
+}
+function taire(){if(window.speechSynthesis)window.speechSynthesis.cancel();speaking=false;}
+
+function lireProposition(idx){
+var sec=SECTIONS[page];if(!sec||sec.type!=="likert"||idx>=sec.items.length)return;
+currentItemIdx=idx;updateUI();
+setTimeout(function(){var el=document.getElementById("item_"+idx);if(el)el.scrollIntoView({behavior:"smooth",block:"center"});dire(getItemText(sec.id,idx));},150);
+}
+function commencerSection(){
+var sec=SECTIONS[page];if(!sec)return;
+if(sec.type==="likert"){currentItemIdx=0;dire(sec.title,function(){setTimeout(function(){lireProposition(0);},300);});}
+else if(sec.type==="engagement"){var t=sec.title+". Plusieurs reponses possibles. ";for(var i=0;i<ENG_OPTIONS.length;i++)t+=(i+1)+". "+ENG_OPTIONS[i]+". ";dire(t);}
+else if(sec.type==="ouvertes"){dire(sec.title+". Cochez jusqu a 3 preoccupations pour les 10 a 20 prochaines annees, puis jusqu a 3 initiatives locales souhaitees.");}
+else if(sec.type==="profil"){dire(sec.title+". Indiquez votre tranche d age, votre situation et votre code postal.");}
+}
+function toggleVoiceMode(){voiceMode=!voiceMode;if(voiceMode&&page>=0&&page<SECTIONS.length)commencerSection();else taire();updateUI();}
+
+function repondre(secId,idx,val){
+taire();answers[secId+"_"+idx]=val;var sec=SECTIONS[page],next=idx+1;
+if(sec&&sec.type==="likert"&&next<sec.items.length){currentItemIdx=next;updateUI();
+if(voiceMode)setTimeout(function(){lireProposition(next);},300);
+else setTimeout(function(){var el=document.getElementById("item_"+next);if(el)el.scrollIntoView({behavior:"smooth",block:"center"});},100);
+}else{currentItemIdx=idx;updateUI();}
+}
+function passer(idx){
+taire();var sec=SECTIONS[page],next=idx+1;
+if(sec&&sec.type==="likert"&&next<sec.items.length){currentItemIdx=next;updateUI();
+if(voiceMode)setTimeout(function(){lireProposition(next);},300);
+else setTimeout(function(){var el=document.getElementById("item_"+next);if(el)el.scrollIntoView({behavior:"smooth",block:"center"});},100);
+}
 }
 
-if (window.speechSynthesis) {
-  loadVoices();
-  if (window.speechSynthesis.onvoiceschanged !== undefined) {
-    window.speechSynthesis.onvoiceschanged = function(){ loadVoices(); };
-  }
-  // Chrome needs a second attempt
-  setTimeout(loadVoices, 500);
+function toggleEng(i){var o=ENG_OPTIONS[i];var x=engagement.indexOf(o);if(x>=0)engagement.splice(x,1);else engagement.push(o);updateUI();}
+function togglePreoccup(i){var o=PREOCCUP_OPTIONS[i];var x=openPreoccup.indexOf(o);if(x>=0)openPreoccup.splice(x,1);else if(openPreoccup.length<3)openPreoccup.push(o);updateUI();}
+function toggleInitiative(i){var o=INITIATIVE_OPTIONS[i];var x=openInitiative.indexOf(o);if(x>=0)openInitiative.splice(x,1);else if(openInitiative.length<3)openInitiative.push(o);updateUI();}
+
+function allerA(dir){taire();app.className="fade-out";setTimeout(function(){page+=dir;currentItemIdx=0;app.className="fade-in";updateUI();window.scrollTo({top:0,behavior:"smooth"});if(voiceMode&&page>=0&&page<SECTIONS.length)setTimeout(commencerSection,500);},250);}
+function commencer(){if(voiceMode)dire(MODE_EMPLOI,function(){allerA(1);});else allerA(1);}
+
+function envoyer(){
+taire();sending=true;updateUI();
+var pList=openPreoccup.slice();if(autrePreoccup.trim())pList.push(autrePreoccup.trim());
+var iList=openInitiative.slice();if(autreInitiative.trim())iList.push(autreInitiative.trim());
+var payload=JSON.stringify({profil:profil,answers:answers,engagement:engagement,openQ:{preoccupation:pList.join("; "),initiative:iList.join("; ")}});
+var form=document.createElement("form");form.method="POST";form.action=SCRIPT_URL;form.target="hiddenFrame";
+var input=document.createElement("input");input.type="hidden";input.name="data";input.value=payload;
+form.appendChild(input);document.body.appendChild(form);form.submit();
+setTimeout(function(){document.body.removeChild(form);app.className="fade-out";setTimeout(function(){page=99;sending=false;app.className="fade-in";updateUI();},250);},3000);
 }
 
-function dire(texte, quandFini) {
-  if (!window.speechSynthesis) { if(quandFini)quandFini(); return; }
-  window.speechSynthesis.cancel();
-  if (!voicesLoaded) loadVoices();
+function chk(act){return act?'<svg width="12" height="9" viewBox="0 0 13 10" fill="none"><path d="M1 5L4.5 8.5L12 1" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>':'';}
 
-  var u = new SpeechSynthesisUtterance(texte);
-  u.lang = "fr-FR";
-  u.rate = 0.85;
-  if (frVoices.length > 0) {
-    u.voice = frVoices[selectedVoiceIndex] || frVoices[0];
-  }
-  u.onend = function() { speaking = false; updateUI(); if (quandFini) quandFini(); };
-  u.onerror = function() { speaking = false; updateUI(); if (quandFini) quandFini(); };
-  speaking = true;
-  window.speechSynthesis.speak(u);
-  updateUI();
+function muteBtn(full){
+var w=full?'width:100%;padding:14px':'width:100%;padding:10px';
+var fs=full?'font-size:14px':'font-size:13px';
+var sw=full?'18':'16';
+var label=voiceMode?(full?'Son active - cliquez pour couper':'Couper le son'):(full?'Son coupe - cliquez pour remettre':'Remettre le son');
+var emoji=voiceMode?'&#128266; ':'&#128263; ';
+return '<button onclick="toggleVoiceMode()" style="'+w+';border-radius:10px;'+fs+';font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;border:none;display:flex;align-items:center;justify-content:center;gap:8px;'+(voiceMode?'background:#2A614E;color:#fff':'background:#E8E4DC;color:#666')+'"><svg width="'+sw+'" height="'+sw+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>'+(voiceMode?'<path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>':'<line x1="23" y1="1" x2="1" y2="23"/>')+'</svg> '+emoji+label+'</button>';
 }
 
-function taire() {
-  if (window.speechSynthesis) window.speechSynthesis.cancel();
-  speaking = false;
+function updateUI(){
+var totalPages=SECTIONS.length;
+var pb=document.getElementById("progressBar"),pf=document.getElementById("progressFill"),pl=document.getElementById("pageLabel"),pp=document.getElementById("pctLabel");
+if(page>=0&&page<totalPages){pb.classList.remove("hidden");var pct=Math.round(((page+1)/totalPages)*100);pl.textContent=(page+1)+" / "+totalPages;pp.textContent=pct+"%";pf.style.width=pct+"%";}else pb.classList.add("hidden");
+
+if(page===-1){
+app.innerHTML='<div class="card" style="padding:32px 22px"><h1 style="font-family:Fraunces,serif;font-size:24px;color:#1B4332;line-height:1.2;margin-bottom:8px">Comment percevez-vous votre avenir et celui de votre region ?</h1><p style="color:#6B7C72;font-size:13px;line-height:1.6;margin-top:14px">Ce questionnaire anonyme explore vos perceptions sur la vie quotidienne, l emploi, l environnement, la solidarite et les perspectives d avenir.</p><div class="info-box"><div class="title">Mode d emploi</div><div class="desc">Pour chaque affirmation, indiquez votre degre d accord de 1 (Non) a 5 (Oui). <strong>Vous n etes pas oblige de repondre a chaque question</strong> - utilisez la fleche pour passer. Duree : ~5 min.</div></div><div style="margin-top:16px;text-align:center">'+muteBtn(true)+'</div></div><button class="btn btn-primary" style="width:100%" onclick="commencer()">Commencer</button>';
+return;
+}
+if(page===99){taire();var count=Object.keys(answers).length;var total=0;for(var i=0;i<SECTIONS.length;i++)if(SECTIONS[i].type==="likert")total+=SECTIONS[i].items.length;
+app.innerHTML='<div class="card confirm-center"><div class="emoji">&#127807;</div><h2>Merci pour votre participation !</h2><p>Vos reponses contribueront a une reflexion collective sur l avenir de notre region.</p><div class="confirm-badge">'+count+' reponses sur '+total+' questions</div><div class="mt"><button class="btn btn-primary" onclick="resetAll()">Nouveau questionnaire</button></div></div>';return;
 }
 
-// Lire UNE proposition (par index)
-function lireProposition(idx) {
-  var sec = SECTIONS[page];
-  if (!sec || sec.type !== "likert" || idx >= sec.items.length) return;
-  currentItemIdx = idx;
-  updateUI();
-  // Petit délai pour que le DOM se mette à jour
-  setTimeout(function(){
-    var el = document.getElementById("item_" + idx);
-    if (el) el.scrollIntoView({behavior:"smooth", block:"center"});
-    dire(getItemText(sec.id, idx));
-  }, 150);
+var sec=SECTIONS[page],html='<div class="card">';
+var ico=speaking?'<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>':'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>';
+html+='<div class="section-header"><div style="flex:1"><h2>'+sec.title+'</h2>';
+if(sec.subtitle)html+='<p class="subtitle">'+sec.subtitle+'</p>';
+html+='</div><button class="speak-btn '+(speaking?'speaking':voiceMode?'active':'')+'" onclick="'+(speaking?'taire();updateUI()':'commencerSection()')+'" title="'+(speaking?'Arreter':'Lire')+'">'+ico+'</button></div>';
+
+if(sec.type==="profil"){
+html+='<div class="mt"><div class="mb"><label class="field-label">Tranche d age <span class="optional">(facultatif)</span></label><div class="chip-row">';
+var ages=["18-30","31-45","46-60","61+"];for(var i=0;i<ages.length;i++)html+='<button class="chip '+(profil.age===ages[i]?'active':'')+'" onclick="profil.age=\''+ages[i]+'\';updateUI()">'+ages[i]+'</button>';
+html+='</div></div><div class="mb"><label class="field-label">Situation <span class="optional">(facultatif)</span></label><div class="chip-row">';
+var sits=["Salarie","Independant","Sans emploi","Retraite","Etudiant","Autre"];for(var i=0;i<sits.length;i++)html+='<button class="chip chip-sm '+(profil.situation===sits[i]?'active':'')+'" onclick="profil.situation=\''+sits[i]+'\';updateUI()">'+sits[i]+'</button>';
+html+='</div></div><div><label class="field-label">Code postal <span class="optional">(facultatif)</span></label><input type="text" class="text-input" value="'+profil.codepostal+'" oninput="profil.codepostal=this.value" placeholder="ex : 4140" maxlength="5" style="max-width:140px"></div></div>';
 }
 
-// Commencer une section (titre puis première proposition)
-function commencerSection() {
-  var sec = SECTIONS[page];
-  if (!sec) return;
-  if (sec.type === "likert") {
-    currentItemIdx = 0;
-    dire(sec.title, function(){
-      setTimeout(function(){ lireProposition(0); }, 300);
-    });
-  } else if (sec.type === "engagement") {
-    var t = sec.title + ". Plusieurs réponses possibles. ";
-    for(var i=0;i<ENG_OPTIONS.length;i++) t += (i+1) + ". " + ENG_OPTIONS[i] + ". ";
-    dire(t);
-  } else if (sec.type === "ouvertes") {
-    dire(sec.title + ". Première question : Quelle est votre préoccupation principale pour les 10 à 20 prochaines années ? Deuxième question : Y a-t-il une initiative locale que vous aimeriez voir naître ?");
-  } else if (sec.type === "profil") {
-    dire(sec.title + ". Indiquez votre tranche d'âge, votre situation et votre code postal.");
-  }
+if(sec.type==="likert"){
+html+='<div class="mt">';
+for(var idx=0;idx<sec.items.length;idx++){
+var key=sec.id+"_"+idx,sel=answers[key]||0,cur=idx===currentItemIdx,last=idx===sec.items.length-1;
+html+='<div class="likert-item '+(cur?'current':'')+'" id="item_'+idx+'"><div class="likert-top"><div class="likert-text">'+getItemText(sec.id,idx)+'</div>';
+if(!last)html+='<button class="skip-btn" onclick="passer('+idx+')" title="Passer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>';
+html+='</div><div class="likert-scale"><span class="scale-label">Non</span><div class="dots">';
+for(var v=1;v<=5;v++)html+='<button class="dot '+(sel===v?'active':'')+'" onclick="repondre(\''+sec.id+'\','+idx+','+v+')">'+v+'</button>';
+html+='</div><span class="scale-label scale-label-r">Oui</span></div></div>';
+}
+html+='</div>';
 }
 
-function toggleVoiceMode() {
-  voiceMode = !voiceMode;
-  if (voiceMode && page >= 0 && page < SECTIONS.length) {
-    commencerSection();
-  } else {
-    taire();
-  }
-  updateUI();
+if(sec.type==="engagement"){
+html+='<div class="mt"><p style="font-size:13px;color:#6B7C72;margin-bottom:14px;line-height:1.5">Face aux enjeux identifies, comment vous situez-vous ? <span class="optional">(plusieurs reponses possibles)</span></p>';
+for(var i=0;i<ENG_OPTIONS.length;i++){var act=engagement.indexOf(ENG_OPTIONS[i])>=0;html+='<div class="check-item '+(act?'active':'')+'" onclick="toggleEng('+i+')"><div class="checkbox">'+chk(act)+'</div><span style="font-size:13px">'+ENG_OPTIONS[i]+'</span></div>';}
+html+='</div>';
 }
 
-// ═══════════════════════════════════════
-//  RÉPONDRE + PASSER
-// ═══════════════════════════════════════
-function repondre(secId, idx, val) {
-  taire();
-  answers[secId + "_" + idx] = val;
-  var sec = SECTIONS[page];
-  var next = idx + 1;
-  if (sec && sec.type === "likert" && next < sec.items.length) {
-    currentItemIdx = next;
-    updateUI();
-    if (voiceMode) {
-      setTimeout(function(){ lireProposition(next); }, 300);
-    } else {
-      setTimeout(function(){
-        var el = document.getElementById("item_" + next);
-        if (el) el.scrollIntoView({behavior:"smooth", block:"center"});
-      }, 100);
-    }
-  } else {
-    currentItemIdx = idx;
-    updateUI();
-  }
+if(sec.type==="ouvertes"){
+var cP=openPreoccup.length,cI=openInitiative.length;
+html+='<div class="mt"><div class="mb"><label class="field-label">Vos preoccupations principales pour les 10 a 20 prochaines annees <span class="optional">(cochez jusqu a 3)</span></label>';
+if(cP>0)html+='<div class="counter">'+cP+'/3 selectionnee'+(cP>1?'s':'')+'</div>';
+for(var i=0;i<PREOCCUP_OPTIONS.length;i++){var act=openPreoccup.indexOf(PREOCCUP_OPTIONS[i])>=0;var dis=!act&&cP>=3;
+html+='<div class="check-item '+(act?'active':'')+(dis?' disabled':'')+'" onclick="'+(dis?'':'togglePreoccup('+i+')')+'"><div class="checkbox">'+chk(act)+'</div><span style="font-size:13px">'+PREOCCUP_OPTIONS[i]+'</span></div>';}
+html+='<div style="margin-top:8px"><input type="text" class="text-input" value="'+autrePreoccup+'" oninput="autrePreoccup=this.value" placeholder="Autre..." style="max-width:260px"></div></div>';
+
+html+='<div><label class="field-label">Initiatives locales que vous aimeriez voir naitre <span class="optional">(cochez jusqu a 3)</span></label>';
+if(cI>0)html+='<div class="counter">'+cI+'/3 selectionnee'+(cI>1?'s':'')+'</div>';
+for(var i=0;i<INITIATIVE_OPTIONS.length;i++){var act=openInitiative.indexOf(INITIATIVE_OPTIONS[i])>=0;var dis=!act&&cI>=3;
+html+='<div class="check-item '+(act?'active':'')+(dis?' disabled':'')+'" onclick="'+(dis?'':'toggleInitiative('+i+')')+'"><div class="checkbox">'+chk(act)+'</div><span style="font-size:13px">'+INITIATIVE_OPTIONS[i]+'</span></div>';}
+html+='<div style="margin-top:8px"><input type="text" class="text-input" value="'+autreInitiative+'" oninput="autreInitiative=this.value" placeholder="Autre..." style="max-width:260px"></div></div></div>';
 }
 
-function passer(idx) {
-  taire();
-  var sec = SECTIONS[page];
-  var next = idx + 1;
-  if (sec && sec.type === "likert" && next < sec.items.length) {
-    currentItemIdx = next;
-    updateUI();
-    if (voiceMode) {
-      setTimeout(function(){ lireProposition(next); }, 300);
-    } else {
-      setTimeout(function(){
-        var el = document.getElementById("item_" + next);
-        if (el) el.scrollIntoView({behavior:"smooth", block:"center"});
-      }, 100);
-    }
-  }
+html+='</div>';
+html+='<div style="text-align:center;margin-bottom:10px">'+muteBtn(false)+'</div>';
+html+='<div class="btn-row"><button class="btn btn-secondary" onclick="allerA(-1)">Retour</button>';
+if(page<SECTIONS.length-1)html+='<button class="btn btn-primary" onclick="allerA(1)">Suivant</button>';
+else html+=sending?'<button class="btn btn-primary" style="background:#6B9C8A;cursor:wait" disabled>Envoi...</button>':'<button class="btn btn-submit" onclick="envoyer()">Envoyer</button>';
+html+='</div><div class="error-box hidden" id="errorBox">Erreur d envoi.</div>';
+app.innerHTML=html;
 }
 
-// ═══════════════════════════════════════
-//  STT — DICTÉE VOCALE
-// ═══════════════════════════════════════
-function dicterChamp(fieldKey) {
-  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) return;
-  taire(); // couper la lecture pour éviter l'écho
-
-  // Si déjà en écoute, on arrête
-  if (currentRecognition) {
-    var old = currentRecognition;
-    currentRecognition = null; // mettre à null AVANT stop pour éviter le relancement
-    old.stop();
-    updateUI();
-    return;
-  }
-
-  var r = new SR();
-  r.lang = "fr-FR";
-  r.continuous = false;    // UNE phrase à la fois
-  r.interimResults = false; // PAS de résultats partiels = pas de doublons
-  r._field = fieldKey;
-  currentRecognition = r;
-
-  r.onresult = function(e) {
-    // Prendre uniquement le résultat final
-    var transcript = e.results[0][0].transcript;
-    // Ajouter à la suite du texte existant
-    var existing = openQ[fieldKey] ? openQ[fieldKey].trim() : "";
-    if (existing.length > 0) {
-      openQ[fieldKey] = existing + " " + transcript;
-    } else {
-      openQ[fieldKey] = transcript;
-    }
-    updateUI();
-    // Relancer automatiquement pour la phrase suivante
-    if (currentRecognition) {
-      setTimeout(function(){
-        try { r.start(); } catch(e) { currentRecognition = null; updateUI(); }
-      }, 200);
-    }
-  };
-
-  r.onerror = function(ev) {
-    // "no-speech" = silence, on relance
-    if (ev.error === "no-speech" && currentRecognition) {
-      try { r.start(); } catch(e) { currentRecognition = null; updateUI(); }
-      return;
-    }
-    currentRecognition = null;
-    updateUI();
-  };
-
-  r.onend = function() {
-    // Si l'utilisateur n'a pas cliqué pour arrêter, on relance
-    if (currentRecognition === r) {
-      try { r.start(); } catch(e) { currentRecognition = null; updateUI(); }
-    }
-  };
-
-  r.start();
-  updateUI();
-}
-
-// ═══════════════════════════════════════
-//  NAVIGATION
-// ═══════════════════════════════════════
-function allerA(dir) {
-  taire();
-  if (currentRecognition) { currentRecognition.stop(); currentRecognition = null; }
-  app.className = "fade-out";
-  setTimeout(function(){
-    page += dir;
-    currentItemIdx = 0;
-    app.className = "fade-in";
-    updateUI();
-    window.scrollTo({top:0, behavior:"smooth"});
-    if (voiceMode && page >= 0 && page < SECTIONS.length) {
-      setTimeout(commencerSection, 500);
-    }
-  }, 250);
-}
-
-function commencer() {
-  if (voiceMode) {
-    dire(MODE_EMPLOI, function(){ allerA(1); });
-  } else {
-    allerA(1);
-  }
-}
-
-// ═══════════════════════════════════════
-//  ENVOI — form POST dans iframe caché
-// ═══════════════════════════════════════
-function envoyer() {
-  taire();
-  sending = true;
-  updateUI();
-
-  var payload = JSON.stringify({profil:profil, answers:answers, engagement:engagement, openQ:openQ});
-
-  // Créer un formulaire temporaire
-  var form = document.createElement("form");
-  form.method = "POST";
-  form.action = SCRIPT_URL;
-  form.target = "hiddenFrame";
-  var input = document.createElement("input");
-  input.type = "hidden";
-  input.name = "data";
-  input.value = payload;
-  form.appendChild(input);
-  document.body.appendChild(form);
-  form.submit();
-
-  // Après 3 secondes, afficher confirmation
-  setTimeout(function(){
-    document.body.removeChild(form);
-    app.className = "fade-out";
-    setTimeout(function(){
-      page = 99;
-      sending = false;
-      app.className = "fade-in";
-      updateUI();
-    }, 250);
-  }, 3000);
-}
-
-// ═══════════════════════════════════════
-//  AFFICHAGE
-// ═══════════════════════════════════════
-function updateUI() {
-  var totalPages = SECTIONS.length;
-  var pb = document.getElementById("progressBar");
-  var pf = document.getElementById("progressFill");
-  var pl = document.getElementById("pageLabel");
-  var pp = document.getElementById("pctLabel");
-
-  if (page >= 0 && page < totalPages) {
-    pb.classList.remove("hidden");
-    var pct = Math.round(((page+1)/totalPages)*100);
-    pl.textContent = (page+1) + " / " + totalPages;
-    pp.textContent = pct + "%";
-    pf.style.width = pct + "%";
-  } else {
-    pb.classList.add("hidden");
-  }
-
-  // ── INTRO ──
-  if (page === -1) {
-    app.innerHTML =
-      '<div class="card" style="padding:32px 22px">' +
-        '<h1 style="font-family:Fraunces,serif;font-size:24px;color:#1B4332;line-height:1.2;margin-bottom:8px">Comment percevez-vous votre avenir et celui de votre région ?</h1>' +
-        '<p style="color:#6B7C72;font-size:13px;line-height:1.6;margin-top:14px">Ce questionnaire anonyme explore vos perceptions sur la vie quotidienne, l\'emploi, l\'environnement, la solidarité et les perspectives d\'avenir.</p>' +
-        '<div class="info-box"><div class="title">Mode d\'emploi</div>' +
-        '<div class="desc">Pour chaque affirmation, indiquez votre degré d\'accord de 1 (Non) à 5 (Oui). <strong>Vous n\'êtes pas obligé de répondre à chaque question</strong> — utilisez la flèche ↓ pour passer. Durée : ~5 min.</div></div>' +
-        '<div style="margin-top:16px;text-align:center">' +
-          '<button class="btn ' + (voiceMode?'btn-mute-on':'btn-mute-off') + '" onclick="toggleVoiceMode()" style="width:100%;padding:14px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;border:none;display:flex;align-items:center;justify-content:center;gap:8px;' + (voiceMode?'background:#2A614E;color:#fff':'background:#E8E4DC;color:#666') + '">' +
-            '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>' + (voiceMode?'<path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>':'<line x1="23" y1="1" x2="1" y2="23"/>') + '</svg> ' +
-            (voiceMode ? '🔊 Son activé — cliquez pour couper' : '🔇 Son coupé — cliquez pour remettre') +
-          '</button>' +
-        '</div>' +
-      '</div>' +
-      '<button class="btn btn-primary" style="width:100%" onclick="commencer()">Commencer</button>';
-    return;
-  }
-
-  // ── CONFIRMATION ──
-  if (page === 99) {
-    taire();
-    var count = Object.keys(answers).length;
-    var total = 0;
-    for (var i=0;i<SECTIONS.length;i++) if(SECTIONS[i].type==="likert") total += SECTIONS[i].items.length;
-    app.innerHTML =
-      '<div class="card confirm-center">' +
-        '<div class="emoji">🌿</div>' +
-        '<h2>Merci pour votre participation !</h2>' +
-        '<p>Vos réponses contribueront à une réflexion collective sur l\'avenir de notre région.</p>' +
-        '<div class="confirm-badge">' + count + ' réponses sur ' + total + ' questions</div>' +
-        '<div class="mt"><button class="btn btn-primary" onclick="resetAll()">Nouveau questionnaire</button></div>' +
-      '</div>';
-    return;
-  }
-
-  var sec = SECTIONS[page];
-  var html = '<div class="card">';
-
-  // Header
-  var ico = speaking
-    ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>'
-    : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>';
-
-  html += '<div class="section-header"><div style="flex:1"><h2>' + sec.title + '</h2>';
-  if (sec.subtitle) html += '<p class="subtitle">' + sec.subtitle + '</p>';
-  html += '</div>';
-  html += '<button class="speak-btn ' + (speaking?'speaking':voiceMode?'active':'') + '" onclick="' + (speaking?'taire();updateUI()':'commencerSection()') + '" title="' + (speaking?'Arrêter':'Lire') + '">' + ico + '</button>';
-  html += '</div>';
-
-  // ── PROFIL ──
-  if (sec.type === "profil") {
-    html += '<div class="mt">';
-    html += '<div class="mb"><label class="field-label">Tranche d\'âge <span class="optional">(facultatif)</span></label><div class="chip-row">';
-    var ages = ["18-30","31-45","46-60","61+"];
-    for(var i=0;i<ages.length;i++) html += '<button class="chip ' + (profil.age===ages[i]?'active':'') + '" onclick="profil.age=\'' + ages[i] + '\';updateUI()">' + ages[i] + '</button>';
-    html += '</div></div>';
-    html += '<div class="mb"><label class="field-label">Situation <span class="optional">(facultatif)</span></label><div class="chip-row">';
-    var sits = ["Salarié·e","Indépendant·e","Sans emploi","Retraité·e","Étudiant·e","Autre"];
-    for(var i=0;i<sits.length;i++) html += '<button class="chip chip-sm ' + (profil.situation===sits[i]?'active':'') + '" onclick="profil.situation=\'' + sits[i] + '\';updateUI()">' + sits[i] + '</button>';
-    html += '</div></div>';
-    html += '<div><label class="field-label">Code postal <span class="optional">(facultatif)</span></label>';
-    html += '<input type="text" class="text-input" value="' + profil.codepostal + '" oninput="profil.codepostal=this.value" placeholder="ex : 4140" maxlength="5" style="max-width:140px">';
-    html += '</div></div>';
-  }
-
-  // ── LIKERT ──
-  if (sec.type === "likert") {
-    html += '<div class="mt">';
-    for (var idx=0; idx<sec.items.length; idx++) {
-      var key = sec.id + "_" + idx;
-      var sel = answers[key] || 0;
-      var cur = idx === currentItemIdx;
-      var last = idx === sec.items.length - 1;
-      html += '<div class="likert-item ' + (cur?'current':'') + '" id="item_' + idx + '">';
-      html += '<div class="likert-top"><div class="likert-text">' + getItemText(sec.id, idx) + '</div>';
-      if (!last) html += '<button class="skip-btn" onclick="passer(' + idx + ')" title="Passer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>';
-      html += '</div>';
-      html += '<div class="likert-scale"><span class="scale-label">Non</span><div class="dots">';
-      for (var v=1; v<=5; v++) {
-        html += '<button class="dot ' + (sel===v?'active':'') + '" onclick="repondre(\'' + sec.id + '\',' + idx + ',' + v + ')">' + v + '</button>';
-      }
-      html += '</div><span class="scale-label scale-label-r">Oui</span></div></div>';
-    }
-    html += '</div>';
-  }
-
-  // ── ENGAGEMENT ──
-  if (sec.type === "engagement") {
-    html += '<div class="mt"><p style="font-size:13px;color:#6B7C72;margin-bottom:14px;line-height:1.5">Face aux enjeux identifiés, comment vous situez-vous ? <span class="optional">(plusieurs réponses possibles)</span></p>';
-    for (var i=0;i<ENG_OPTIONS.length;i++) {
-      var act = engagement.indexOf(ENG_OPTIONS[i]) >= 0;
-      html += '<div class="check-item ' + (act?'active':'') + '" onclick="toggleEng(' + i + ')">';
-      html += '<div class="checkbox">' + (act?'<svg width="12" height="9" viewBox="0 0 13 10" fill="none"><path d="M1 5L4.5 8.5L12 1" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>':'') + '</div>';
-      html += '<span style="font-size:13px">' + ENG_OPTIONS[i] + '</span></div>';
-    }
-    html += '</div>';
-  }
-
-  // ── QUESTIONS OUVERTES ──
-  if (sec.type === "ouvertes") {
-    var hasSR = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
-    var isLP = currentRecognition && currentRecognition._field === "preoccupation";
-    var isLI = currentRecognition && currentRecognition._field === "initiative";
-    html += '<div class="mt">';
-    html += '<div class="mb"><label class="field-label">Quelle est votre préoccupation principale pour les 10 à 20 prochaines années ? <span class="optional">(facultatif)</span></label>';
-    html += '<div class="voice-wrap"><textarea class="voice-area ' + (isLP?'listening':'') + '" oninput="openQ.preoccupation=this.value" placeholder="Écrivez ou cliquez sur le micro...">' + openQ.preoccupation + '</textarea>';
-    if (hasSR) html += '<button class="mic-btn ' + (isLP?'listening':'') + '" onclick="dicterChamp(\'preoccupation\')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="1" width="6" height="12" rx="3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></button>';
-    html += '</div>';
-    if (isLP) html += '<div class="listen-indicator"><div class="listen-dot"></div><span style="font-size:11px;color:#E74C3C;font-weight:500">Écoute en cours... Cliquez le micro pour arrêter</span></div>';
-    html += '</div>';
-
-    html += '<div><label class="field-label">Initiative locale que vous aimeriez voir naître ? <span class="optional">(facultatif)</span></label>';
-    html += '<div class="voice-wrap"><textarea class="voice-area ' + (isLI?'listening':'') + '" oninput="openQ.initiative=this.value" placeholder="Une idée, un projet...">' + openQ.initiative + '</textarea>';
-    if (hasSR) html += '<button class="mic-btn ' + (isLI?'listening':'') + '" onclick="dicterChamp(\'initiative\')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="1" width="6" height="12" rx="3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></button>';
-    html += '</div>';
-    if (isLI) html += '<div class="listen-indicator"><div class="listen-dot"></div><span style="font-size:11px;color:#E74C3C;font-weight:500">Écoute en cours...</span></div>';
-    html += '</div></div>';
-  }
-
-  html += '</div>';
-
-  // Mute button
-  html += '<div style="text-align:center;margin-bottom:10px">';
-  html += '<button onclick="toggleVoiceMode()" style="width:100%;padding:10px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;border:none;display:flex;align-items:center;justify-content:center;gap:6px;' + (voiceMode?'background:#2A614E;color:#fff':'background:#E8E4DC;color:#666') + '">';
-  html += '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>' + (voiceMode?'<path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>':'<line x1="23" y1="1" x2="1" y2="23"/>') + '</svg> ';
-  html += voiceMode ? '🔊 Couper le son' : '🔇 Remettre le son';
-  html += '</button></div>';
-
-  // Nav
-  html += '<div class="btn-row">';
-  html += '<button class="btn btn-secondary" onclick="allerA(-1)">← Retour</button>';
-  if (page < SECTIONS.length - 1) {
-    html += '<button class="btn btn-primary" onclick="allerA(1)">Suivant →</button>';
-  } else {
-    html += sending
-      ? '<button class="btn btn-primary" style="background:#6B9C8A;cursor:wait" disabled>Envoi...</button>'
-      : '<button class="btn btn-submit" onclick="envoyer()">Envoyer ✓</button>';
-  }
-  html += '</div>';
-  html += '<div class="error-box hidden" id="errorBox">Erreur d\'envoi. Vérifiez votre connexion.</div>';
-  app.innerHTML = html;
-}
-
-// ─── HELPERS ───
-function toggleEng(i) {
-  var o = ENG_OPTIONS[i];
-  var idx = engagement.indexOf(o);
-  if (idx >= 0) engagement.splice(idx, 1);
-  else engagement.push(o);
-  updateUI();
-}
-
-function resetAll() {
-  taire();
-  if (currentRecognition) { currentRecognition.stop(); currentRecognition = null; }
-  page = -1; answers = {}; profil = {age:"",situation:"",codepostal:""};
-  engagement = []; openQ = {preoccupation:"",initiative:""};
-  sending = false; voiceMode = true; currentItemIdx = 0;
-  updateUI();
-}
-
+function resetAll(){taire();page=-1;answers={};profil={age:"",situation:"",codepostal:""};engagement=[];openPreoccup=[];openInitiative=[];autrePreoccup="";autreInitiative="";sending=false;voiceMode=true;currentItemIdx=0;updateUI();}
 updateUI();
 </script>
 </body>
