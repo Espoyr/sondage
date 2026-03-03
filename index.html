@@ -13,7 +13,6 @@ body{min-height:100vh;background:#F0EDE6;font-family:'DM Sans',sans-serif;color:
 @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeOut{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-8px)}}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-@keyframes highlightFade{0%{background:#E8F5E9}100%{background:transparent}}
 
 .header{background:linear-gradient(135deg,#2A614E,#1B4332);padding:20px 16px 14px;color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,.15)}
 .header-inner{max-width:460px;margin:0 auto}
@@ -118,10 +117,13 @@ body{min-height:100vh;background:#F0EDE6;font-family:'DM Sans',sans-serif;color:
   <div id="app" class="fade-in"></div>
 </div>
 
-<script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyEk376L6wvSnIhnPYOvAv95XpZV30ENBpfckIKHu7tpZJmYCvpHXJZMh6fOL29gU7-/exec";
+<!-- iframe caché pour l'envoi -->
+<iframe name="hiddenFrame" style="display:none"></iframe>
 
-const SECTIONS = [
+<script>
+var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyEk376L6wvSnIhnPYOvAv95XpZV30ENBpfckIKHu7tpZJmYCvpHXJZMh6fOL29gU7-/exec";
+
+var SECTIONS = [
   {id:"profil",title:"Quelques informations",subtitle:"Facultatif",type:"profil"},
   {id:"b1",title:"1. Vie quotidienne et pouvoir d'achat",type:"likert",items:[
     "Je parviens à couvrir mes dépenses courantes sans difficulté",
@@ -167,261 +169,267 @@ const SECTIONS = [
   {id:"ouvertes",title:"Vos réflexions",subtitle:"Exprimez-vous librement",type:"ouvertes"}
 ];
 
-const ENG_OPTIONS = [
+var ENG_OPTIONS = [
   "Je préfère observer sans m'impliquer pour le moment",
   "Je serais curieux·se de découvrir des initiatives locales",
   "Je participe déjà à des actions collectives dans ma région",
   "Je souhaiterais m'engager davantage si on me montrait comment"
 ];
 
-const MODE_EMPLOI = "Mode d'emploi. Pour chaque affirmation, indiquez votre degré d'accord de 1 à 5, où 1 signifie non et 5 signifie oui. Il n'y a pas de bonne ou de mauvaise réponse. Vous n'êtes pas obligé de répondre à chaque question. Vous pouvez passer à la suivante avec la flèche. Durée estimée : environ 5 minutes.";
+var MODE_EMPLOI = "Mode d'emploi. Pour chaque affirmation, indiquez votre degré d'accord de 1 à 5, où 1 signifie non et 5 signifie oui. Vous n'êtes pas obligé de répondre. Utilisez la flèche pour passer.";
 
 // ─── STATE ───
-let page = -1;
-let answers = {};
-let profil = {age:"",situation:"",codepostal:""};
-let engagement = [];
-let openQ = {preoccupation:"",initiative:""};
-let sending = false;
-let currentRecognition = null;
-let speaking = false;
-let voiceMode = false;
-let currentItemIdx = 0; // tracks which likert item is "active"
+var page = -1, answers = {}, profil = {age:"",situation:"",codepostal:""};
+var engagement = [], openQ = {preoccupation:"",initiative:""};
+var sending = false, currentRecognition = null, speaking = false;
+var voiceMode = false, currentItemIdx = 0;
+var app = document.getElementById("app");
 
-const app = document.getElementById("app");
-
-// ─── TTS — prefer female voice ───
-let frVoices = [];
-let selectedVoiceIndex = 0;
+// ═══════════════════════════════════════
+//  TTS — TEXT TO SPEECH
+// ═══════════════════════════════════════
+var frVoices = [], selectedVoiceIndex = 0, voicesLoaded = false;
 
 function loadVoices() {
-  const all = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
-  frVoices = all.filter(v => v.lang.startsWith("fr"));
-  if (frVoices.length === 0) frVoices = all.filter(v => v.lang.includes("fr"));
-  if (frVoices.length === 0) return;
-  const femaleKw = ["denise","amelie","audrey","virginie","marie","clara","celine","lea","julie","alice","caroline","sara"];
-  let found = -1;
-  for (let i = 0; i < frVoices.length; i++) {
-    const n = frVoices[i].name.toLowerCase();
-    if (femaleKw.some(k => n.includes(k))) { found = i; break; }
-  }
-  if (found < 0) {
-    for (let i = 0; i < frVoices.length; i++) {
-      const n = frVoices[i].name.toLowerCase();
-      if (n.includes("natural") || n.includes("premium") || n.includes("enhanced")) { found = i; break; }
-    }
-  }
-  if (found < 0) {
-    const maleNames = ["henri","thomas","nicolas","paul","pierre","jacques","male","homme"];
-    for (let i = 0; i < frVoices.length; i++) {
-      const n = frVoices[i].name.toLowerCase();
-      if (!maleNames.some(m => n.includes(m))) { found = i; break; }
-    }
-  }
-  selectedVoiceIndex = found >= 0 ? found : 0;
+  if (!window.speechSynthesis) return;
+  var all = window.speechSynthesis.getVoices();
+  if (all.length === 0) return;
+  frVoices = all.filter(function(v){return v.lang.startsWith("fr");});
+  if (!frVoices.length) frVoices = all.filter(function(v){return v.lang.indexOf("fr")>=0;});
+  if (!frVoices.length) return;
+  voicesLoaded = true;
+  // Prefer female
+  var fem = ["denise","amelie","audrey","virginie","marie","clara","celine","lea","julie","alice","caroline","sara"];
+  var mal = ["henri","thomas","nicolas","paul","pierre","jacques"];
+  var f = -1;
+  for (var i=0;i<frVoices.length;i++){var n=frVoices[i].name.toLowerCase();for(var j=0;j<fem.length;j++){if(n.indexOf(fem[j])>=0){f=i;break;}}if(f>=0)break;}
+  if (f<0){for(var i=0;i<frVoices.length;i++){var n=frVoices[i].name.toLowerCase();var isMale=false;for(var j=0;j<mal.length;j++){if(n.indexOf(mal[j])>=0){isMale=true;break;}}if(!isMale){f=i;break;}}}
+  selectedVoiceIndex = f>=0?f:0;
 }
 
 if (window.speechSynthesis) {
   loadVoices();
-  window.speechSynthesis.onvoiceschanged = () => { loadVoices(); renderPage(); };
+  if (window.speechSynthesis.onvoiceschanged !== undefined) {
+    window.speechSynthesis.onvoiceschanged = function(){ loadVoices(); };
+  }
+  // Chrome needs a second attempt
+  setTimeout(loadVoices, 500);
 }
 
-function speak(text, callback) {
-  if (!window.speechSynthesis) return;
+function dire(texte, quandFini) {
+  if (!window.speechSynthesis) { if(quandFini)quandFini(); return; }
   window.speechSynthesis.cancel();
-  loadVoices();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = "fr-FR"; u.rate = 0.9;
-  if (frVoices.length > 0) u.voice = frVoices[selectedVoiceIndex] || frVoices[0];
-  u.onend = () => { speaking = false; renderPage(); if (callback) callback(); };
+  if (!voicesLoaded) loadVoices();
+
+  var u = new SpeechSynthesisUtterance(texte);
+  u.lang = "fr-FR";
+  u.rate = 0.85;
+  if (frVoices.length > 0) {
+    u.voice = frVoices[selectedVoiceIndex] || frVoices[0];
+  }
+  u.onend = function() { speaking = false; updateUI(); if (quandFini) quandFini(); };
+  u.onerror = function() { speaking = false; updateUI(); if (quandFini) quandFini(); };
   speaking = true;
   window.speechSynthesis.speak(u);
-  renderPage();
+  updateUI();
 }
 
-function stopSpeaking() {
+function taire() {
   if (window.speechSynthesis) window.speechSynthesis.cancel();
   speaking = false;
 }
 
-// Speak a single likert item
-function speakItem(sectionIdx, itemIdx) {
-  const sec = SECTIONS[sectionIdx];
-  if (!sec || sec.type !== "likert") return;
-  if (itemIdx >= sec.items.length) return;
-  speak(sec.items[itemIdx]);
-}
-
-// Speak section title then first item (for likert) or whole section (for others)
-function speakSectionStart(section) {
-  if (section.type === "likert") {
-    currentItemIdx = 0;
-    speak(section.title, () => {
-      setTimeout(() => { speakItem(page, 0); scrollToItem(0); }, 200);
-    });
-  } else if (section.type === "engagement") {
-    let text = section.title + ". Plusieurs réponses possibles. ";
-    ENG_OPTIONS.forEach((o,i) => { text += (i+1) + ". " + o + ". "; });
-    speak(text);
-  } else if (section.type === "ouvertes") {
-    speak(section.title + ". Première question : Quelle est votre préoccupation principale pour les 5 prochaines années ? Deuxième question : Y a-t-il une initiative locale que vous aimeriez voir naître ?");
-  } else if (section.type === "profil") {
-    speak(section.title + ". Indiquez votre tranche d'âge, votre situation et votre code postal.");
-  }
-}
-
-// Read all items at once (manual click on speaker)
-function speakAllItems(section) {
-  let text = section.title + ". ";
-  if (section.type === "likert") {
-    section.items.forEach((it, i) => { text += (i+1) + ". " + it + ". "; });
-  } else if (section.type === "engagement") {
-    text += "Plusieurs réponses possibles. ";
-    ENG_OPTIONS.forEach((o,i) => { text += (i+1) + ". " + o + ". "; });
-  } else if (section.type === "ouvertes") {
-    text += "Première question : Quelle est votre préoccupation principale ? Deuxième question : Y a-t-il une initiative locale que vous aimeriez voir naître ?";
-  } else if (section.type === "profil") {
-    text += "Indiquez votre tranche d'âge, votre situation et votre code postal.";
-  }
-  speak(text);
-}
-
-function scrollToItem(idx) {
-  const el = document.getElementById("likert_" + idx);
-  if (el) el.scrollIntoView({behavior:"smooth", block:"center"});
+// Lire UNE proposition (par index)
+function lireProposition(idx) {
+  var sec = SECTIONS[page];
+  if (!sec || sec.type !== "likert" || idx >= sec.items.length) return;
   currentItemIdx = idx;
-  renderPage();
+  updateUI();
+  // Petit délai pour que le DOM se mette à jour
+  setTimeout(function(){
+    var el = document.getElementById("item_" + idx);
+    if (el) el.scrollIntoView({behavior:"smooth", block:"center"});
+    dire(sec.items[idx]);
+  }, 150);
 }
 
-// Called when user answers a likert item
-function answerAndNext(sectionId, itemIdx, value) {
-  answers[sectionId + "_" + itemIdx] = value;
-  const sec = SECTIONS[page];
-  const nextIdx = itemIdx + 1;
-  if (sec && sec.type === "likert" && nextIdx < sec.items.length) {
-    currentItemIdx = nextIdx;
-    renderPage();
-    setTimeout(() => {
-      scrollToItem(nextIdx);
-      if (voiceMode) {
-        setTimeout(() => speakItem(page, nextIdx), 150);
-      }
-    }, 100);
-  } else {
-    currentItemIdx = itemIdx;
-    renderPage();
-  }
-}
-
-// Skip to next item (arrow button)
-function skipToNext(itemIdx) {
-  stopSpeaking();
-  const sec = SECTIONS[page];
-  const nextIdx = itemIdx + 1;
-  if (sec && sec.type === "likert" && nextIdx < sec.items.length) {
-    currentItemIdx = nextIdx;
-    renderPage();
-    setTimeout(() => {
-      scrollToItem(nextIdx);
-      if (voiceMode) {
-        setTimeout(() => speakItem(page, nextIdx), 150);
-      }
-    }, 100);
+// Commencer une section (titre puis première proposition)
+function commencerSection() {
+  var sec = SECTIONS[page];
+  if (!sec) return;
+  if (sec.type === "likert") {
+    currentItemIdx = 0;
+    dire(sec.title, function(){
+      setTimeout(function(){ lireProposition(0); }, 300);
+    });
+  } else if (sec.type === "engagement") {
+    var t = sec.title + ". Plusieurs réponses possibles. ";
+    for(var i=0;i<ENG_OPTIONS.length;i++) t += (i+1) + ". " + ENG_OPTIONS[i] + ". ";
+    dire(t);
+  } else if (sec.type === "ouvertes") {
+    dire(sec.title + ". Première question : Quelle est votre préoccupation principale pour les 5 prochaines années ? Deuxième question : Y a-t-il une initiative locale que vous aimeriez voir naître ?");
+  } else if (sec.type === "profil") {
+    dire(sec.title + ". Indiquez votre tranche d'âge, votre situation et votre code postal.");
   }
 }
 
 function toggleVoiceMode() {
   voiceMode = !voiceMode;
   if (voiceMode && page >= 0 && page < SECTIONS.length) {
-    speakSectionStart(SECTIONS[page]);
+    commencerSection();
   } else {
-    stopSpeaking();
+    taire();
   }
-  renderPage();
+  updateUI();
 }
 
-// ─── STT ───
-function startListeningField(fieldKey) {
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+// ═══════════════════════════════════════
+//  RÉPONDRE + PASSER
+// ═══════════════════════════════════════
+function repondre(secId, idx, val) {
+  taire();
+  answers[secId + "_" + idx] = val;
+  var sec = SECTIONS[page];
+  var next = idx + 1;
+  if (sec && sec.type === "likert" && next < sec.items.length) {
+    currentItemIdx = next;
+    updateUI();
+    if (voiceMode) {
+      setTimeout(function(){ lireProposition(next); }, 300);
+    } else {
+      setTimeout(function(){
+        var el = document.getElementById("item_" + next);
+        if (el) el.scrollIntoView({behavior:"smooth", block:"center"});
+      }, 100);
+    }
+  } else {
+    currentItemIdx = idx;
+    updateUI();
+  }
+}
+
+function passer(idx) {
+  taire();
+  var sec = SECTIONS[page];
+  var next = idx + 1;
+  if (sec && sec.type === "likert" && next < sec.items.length) {
+    currentItemIdx = next;
+    updateUI();
+    if (voiceMode) {
+      setTimeout(function(){ lireProposition(next); }, 300);
+    } else {
+      setTimeout(function(){
+        var el = document.getElementById("item_" + next);
+        if (el) el.scrollIntoView({behavior:"smooth", block:"center"});
+      }, 100);
+    }
+  }
+}
+
+// ═══════════════════════════════════════
+//  STT — DICTÉE VOCALE
+// ═══════════════════════════════════════
+function dicterChamp(fieldKey) {
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SR) return;
-  stopSpeaking();
-  if (currentRecognition) { currentRecognition.stop(); currentRecognition = null; renderPage(); return; }
-  const r = new SR();
+  taire(); // couper la lecture pour éviter l'écho
+  if (currentRecognition) { currentRecognition.stop(); currentRecognition = null; updateUI(); return; }
+  var r = new SR();
   r.lang = "fr-FR"; r.continuous = true; r.interimResults = true;
   r._field = fieldKey;
   currentRecognition = r;
-  let finalT = openQ[fieldKey] ? openQ[fieldKey] + " " : "";
-  r.onresult = (e) => {
-    let interim = "";
-    for (let i = e.resultIndex; i < e.results.length; i++) {
+  var finalT = openQ[fieldKey] ? openQ[fieldKey] + " " : "";
+  r.onresult = function(e) {
+    var interim = "";
+    for (var i = e.resultIndex; i < e.results.length; i++) {
       if (e.results[i].isFinal) finalT += e.results[i][0].transcript + " ";
       else interim += e.results[i][0].transcript;
     }
     openQ[fieldKey] = (finalT + interim).trim();
-    renderPage();
+    updateUI();
   };
-  r.onerror = () => { currentRecognition = null; renderPage(); };
-  r.onend = () => { currentRecognition = null; renderPage(); };
+  r.onerror = function() { currentRecognition = null; updateUI(); };
+  r.onend = function() { currentRecognition = null; updateUI(); };
   r.start();
-  renderPage();
+  updateUI();
 }
 
-// ─── NAVIGATION ───
-function navigate(dir) {
-  stopSpeaking();
+// ═══════════════════════════════════════
+//  NAVIGATION
+// ═══════════════════════════════════════
+function allerA(dir) {
+  taire();
   if (currentRecognition) { currentRecognition.stop(); currentRecognition = null; }
   app.className = "fade-out";
-  setTimeout(() => {
+  setTimeout(function(){
     page += dir;
     currentItemIdx = 0;
     app.className = "fade-in";
-    renderPage();
-    window.scrollTo({top:0,behavior:"smooth"});
+    updateUI();
+    window.scrollTo({top:0, behavior:"smooth"});
     if (voiceMode && page >= 0 && page < SECTIONS.length) {
-      setTimeout(() => speakSectionStart(SECTIONS[page]), 400);
+      setTimeout(commencerSection, 500);
     }
   }, 250);
 }
 
-function startSurvey() {
+function commencer() {
   if (voiceMode) {
-    speak(MODE_EMPLOI, () => { navigate(1); });
+    dire(MODE_EMPLOI, function(){ allerA(1); });
   } else {
-    navigate(1);
+    allerA(1);
   }
 }
 
-// ─── SUBMIT ───
-async function submitForm() {
-  stopSpeaking();
-  sending = true; renderPage();
-  try {
-    await fetch(SCRIPT_URL, {
-      method: "POST", mode: "no-cors",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({profil, answers, engagement, openQ})
-    });
+// ═══════════════════════════════════════
+//  ENVOI — form POST dans iframe caché
+// ═══════════════════════════════════════
+function envoyer() {
+  taire();
+  sending = true;
+  updateUI();
+
+  var payload = JSON.stringify({profil:profil, answers:answers, engagement:engagement, openQ:openQ});
+
+  // Créer un formulaire temporaire
+  var form = document.createElement("form");
+  form.method = "POST";
+  form.action = SCRIPT_URL;
+  form.target = "hiddenFrame";
+  var input = document.createElement("input");
+  input.type = "hidden";
+  input.name = "data";
+  input.value = payload;
+  form.appendChild(input);
+  document.body.appendChild(form);
+  form.submit();
+
+  // Après 3 secondes, afficher confirmation
+  setTimeout(function(){
+    document.body.removeChild(form);
     app.className = "fade-out";
-    setTimeout(() => { page = 99; sending = false; app.className = "fade-in"; renderPage(); }, 250);
-  } catch(e) {
-    sending = false;
-    const eb = document.getElementById("errorBox");
-    if (eb) eb.classList.remove("hidden");
-    renderPage();
-  }
+    setTimeout(function(){
+      page = 99;
+      sending = false;
+      app.className = "fade-in";
+      updateUI();
+    }, 250);
+  }, 3000);
 }
 
-// ─── RENDER ───
-function renderPage() {
-  const totalPages = SECTIONS.length;
-  const pb = document.getElementById("progressBar");
-  const pf = document.getElementById("progressFill");
-  const pl = document.getElementById("pageLabel");
-  const pp = document.getElementById("pctLabel");
+// ═══════════════════════════════════════
+//  AFFICHAGE
+// ═══════════════════════════════════════
+function updateUI() {
+  var totalPages = SECTIONS.length;
+  var pb = document.getElementById("progressBar");
+  var pf = document.getElementById("progressFill");
+  var pl = document.getElementById("pageLabel");
+  var pp = document.getElementById("pctLabel");
 
   if (page >= 0 && page < totalPages) {
     pb.classList.remove("hidden");
-    const pct = Math.round(((page+1)/totalPages)*100);
+    var pct = Math.round(((page+1)/totalPages)*100);
     pl.textContent = (page+1) + " / " + totalPages;
     pp.textContent = pct + "%";
     pf.style.width = pct + "%";
@@ -431,205 +439,167 @@ function renderPage() {
 
   // ── INTRO ──
   if (page === -1) {
-    app.innerHTML = `
-      <div class="card" style="padding:32px 22px">
-        <h1 style="font-family:'Fraunces',serif;font-size:24px;color:#1B4332;line-height:1.2;margin-bottom:8px">
-          Comment percevez-vous votre avenir et celui de votre région ?
-        </h1>
-        <p style="color:#6B7C72;font-size:13px;line-height:1.6;margin-top:14px">
-          Ce questionnaire anonyme explore vos perceptions sur la vie quotidienne, l'emploi, l'environnement, la solidarité et les perspectives d'avenir.
-        </p>
-        <div class="info-box">
-          <div class="title">Mode d'emploi</div>
-          <div class="desc">Pour chaque affirmation, indiquez votre degré d'accord de 1 (Non) à 5 (Oui). Il n'y a pas de bonne ou de mauvaise réponse. <strong>Vous n'êtes pas obligé de répondre à chaque question</strong> — utilisez la flèche ↓ pour passer. Durée : ~5 minutes.</div>
-        </div>
-        <div style="margin-top:16px;text-align:center">
-          <div class="voice-badge ${voiceMode?'on':'off'}" onclick="toggleVoiceMode()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-            ${voiceMode ? 'Lecture vocale activée ✓' : 'Activer la lecture vocale'}
-          </div>
-          ${frVoices.length > 1 && voiceMode ? `<div style="margin-top:6px">
-            <select onchange="selectedVoiceIndex=parseInt(this.value)" style="font-size:11px;padding:3px 6px;border-radius:6px;border:1px solid #CCC;background:#fff;color:#2A614E;font-family:'DM Sans',sans-serif;cursor:pointer">
-              ${frVoices.map((v,i) => {
-                let label = v.name.replace(/Microsoft |Google |Apple /g,'').replace(/ Online| Natural| \(.*\)/g,'');
-                if (label.length > 22) label = label.substring(0,22)+'…';
-                return '<option value="'+i+'" '+(i===selectedVoiceIndex?'selected':'')+'>'+label+'</option>';
-              }).join('')}
-            </select>
-          </div>` : ''}
-        </div>
-      </div>
-      <button class="btn btn-primary" style="width:100%" onclick="startSurvey()">Commencer</button>`;
+    app.innerHTML =
+      '<div class="card" style="padding:32px 22px">' +
+        '<h1 style="font-family:Fraunces,serif;font-size:24px;color:#1B4332;line-height:1.2;margin-bottom:8px">Comment percevez-vous votre avenir et celui de votre région ?</h1>' +
+        '<p style="color:#6B7C72;font-size:13px;line-height:1.6;margin-top:14px">Ce questionnaire anonyme explore vos perceptions sur la vie quotidienne, l\'emploi, l\'environnement, la solidarité et les perspectives d\'avenir.</p>' +
+        '<div class="info-box"><div class="title">Mode d\'emploi</div>' +
+        '<div class="desc">Pour chaque affirmation, indiquez votre degré d\'accord de 1 (Non) à 5 (Oui). <strong>Vous n\'êtes pas obligé de répondre à chaque question</strong> — utilisez la flèche ↓ pour passer. Durée : ~5 min.</div></div>' +
+        '<div style="margin-top:16px;text-align:center">' +
+          '<div class="voice-badge ' + (voiceMode?'on':'off') + '" onclick="toggleVoiceMode()">' +
+            '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg> ' +
+            (voiceMode ? 'Lecture vocale activée ✓' : 'Activer la lecture vocale') +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      '<button class="btn btn-primary" style="width:100%" onclick="commencer()">Commencer</button>';
     return;
   }
 
   // ── CONFIRMATION ──
   if (page === 99) {
-    stopSpeaking();
-    const count = Object.keys(answers).length;
-    const total = SECTIONS.filter(s=>s.type==="likert").reduce((a,s)=>a+s.items.length,0);
-    app.innerHTML = `
-      <div class="card confirm-center">
-        <div class="emoji">🌿</div>
-        <h2>Merci pour votre participation !</h2>
-        <p>Vos réponses contribueront à une réflexion collective sur l'avenir de notre région.</p>
-        <div class="confirm-badge">${count} réponses sur ${total} questions</div>
-        <div class="mt">
-          <button class="btn btn-primary" onclick="resetAll()">Nouveau questionnaire</button>
-        </div>
-      </div>`;
+    taire();
+    var count = Object.keys(answers).length;
+    var total = 0;
+    for (var i=0;i<SECTIONS.length;i++) if(SECTIONS[i].type==="likert") total += SECTIONS[i].items.length;
+    app.innerHTML =
+      '<div class="card confirm-center">' +
+        '<div class="emoji">🌿</div>' +
+        '<h2>Merci pour votre participation !</h2>' +
+        '<p>Vos réponses contribueront à une réflexion collective sur l\'avenir de notre région.</p>' +
+        '<div class="confirm-badge">' + count + ' réponses sur ' + total + ' questions</div>' +
+        '<div class="mt"><button class="btn btn-primary" onclick="resetAll()">Nouveau questionnaire</button></div>' +
+      '</div>';
     return;
   }
 
-  const sec = SECTIONS[page];
-  let html = `<div class="card">`;
+  var sec = SECTIONS[page];
+  var html = '<div class="card">';
 
-  // Section header
-  const speakerIcon = speaking
+  // Header
+  var ico = speaking
     ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>'
     : '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>';
 
-  html += `<div class="section-header">
-    <div style="flex:1">
-      <h2>${sec.title}</h2>
-      ${sec.subtitle ? '<p class="subtitle">'+sec.subtitle+'</p>' : ''}
-    </div>
-    <button class="speak-btn ${speaking?'speaking':voiceMode?'active':''}" onclick="${speaking?'stopSpeaking();renderPage()':'speakAllItems(SECTIONS['+page+'])'}" title="${speaking?'Arrêter':'Lire toutes les questions'}">
-      ${speakerIcon}
-    </button>
-  </div>`;
+  html += '<div class="section-header"><div style="flex:1"><h2>' + sec.title + '</h2>';
+  if (sec.subtitle) html += '<p class="subtitle">' + sec.subtitle + '</p>';
+  html += '</div>';
+  html += '<button class="speak-btn ' + (speaking?'speaking':voiceMode?'active':'') + '" onclick="' + (speaking?'taire();updateUI()':'commencerSection()') + '" title="' + (speaking?'Arrêter':'Lire') + '">' + ico + '</button>';
+  html += '</div>';
 
   // ── PROFIL ──
   if (sec.type === "profil") {
-    html += `<div class="mt">
-      <div class="mb"><label class="field-label">Tranche d'âge <span class="optional">(facultatif)</span></label><div class="chip-row">
-        ${["18-30","31-45","46-60","61+"].map(a=>`<button class="chip ${profil.age===a?'active':''}" onclick="profil.age='${a}';renderPage()">${a}</button>`).join("")}
-      </div></div>
-      <div class="mb"><label class="field-label">Situation <span class="optional">(facultatif)</span></label><div class="chip-row">
-        ${["Salarié·e","Indépendant·e","Sans emploi","Retraité·e","Étudiant·e","Autre"].map(s=>`<button class="chip chip-sm ${profil.situation===s?'active':''}" onclick="profil.situation='${s}';renderPage()">${s}</button>`).join("")}
-      </div></div>
-      <div><label class="field-label">Code postal <span class="optional">(facultatif)</span></label>
-        <input type="text" class="text-input" value="${profil.codepostal}" oninput="profil.codepostal=this.value" placeholder="ex : 4140" maxlength="5" style="max-width:140px">
-      </div>
-    </div>`;
+    html += '<div class="mt">';
+    html += '<div class="mb"><label class="field-label">Tranche d\'âge <span class="optional">(facultatif)</span></label><div class="chip-row">';
+    var ages = ["18-30","31-45","46-60","61+"];
+    for(var i=0;i<ages.length;i++) html += '<button class="chip ' + (profil.age===ages[i]?'active':'') + '" onclick="profil.age=\'' + ages[i] + '\';updateUI()">' + ages[i] + '</button>';
+    html += '</div></div>';
+    html += '<div class="mb"><label class="field-label">Situation <span class="optional">(facultatif)</span></label><div class="chip-row">';
+    var sits = ["Salarié·e","Indépendant·e","Sans emploi","Retraité·e","Étudiant·e","Autre"];
+    for(var i=0;i<sits.length;i++) html += '<button class="chip chip-sm ' + (profil.situation===sits[i]?'active':'') + '" onclick="profil.situation=\'' + sits[i] + '\';updateUI()">' + sits[i] + '</button>';
+    html += '</div></div>';
+    html += '<div><label class="field-label">Code postal <span class="optional">(facultatif)</span></label>';
+    html += '<input type="text" class="text-input" value="' + profil.codepostal + '" oninput="profil.codepostal=this.value" placeholder="ex : 4140" maxlength="5" style="max-width:140px">';
+    html += '</div></div>';
   }
 
   // ── LIKERT ──
   if (sec.type === "likert") {
     html += '<div class="mt">';
-    sec.items.forEach((item, idx) => {
-      const key = sec.id+"_"+idx;
-      const sel = answers[key] || 0;
-      const isCurrent = idx === currentItemIdx;
-      const isLast = idx === sec.items.length - 1;
-      html += `<div class="likert-item ${isCurrent?'current':''}" id="likert_${idx}">
-        <div class="likert-top">
-          <div class="likert-text">${item}</div>
-          ${!isLast ? `<button class="skip-btn" onclick="skipToNext(${idx})" title="Passer à la suivante">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>` : ''}
-        </div>
-        <div class="likert-scale">
-          <span class="scale-label">Non</span>
-          <div class="dots">
-            ${[1,2,3,4,5].map(v=>`<button class="dot ${sel===v?'active':''}" onclick="answerAndNext('${sec.id}',${idx},${v})">${v}</button>`).join("")}
-          </div>
-          <span class="scale-label scale-label-r">Oui</span>
-        </div>
-      </div>`;
-    });
+    for (var idx=0; idx<sec.items.length; idx++) {
+      var key = sec.id + "_" + idx;
+      var sel = answers[key] || 0;
+      var cur = idx === currentItemIdx;
+      var last = idx === sec.items.length - 1;
+      html += '<div class="likert-item ' + (cur?'current':'') + '" id="item_' + idx + '">';
+      html += '<div class="likert-top"><div class="likert-text">' + sec.items[idx] + '</div>';
+      if (!last) html += '<button class="skip-btn" onclick="passer(' + idx + ')" title="Passer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>';
+      html += '</div>';
+      html += '<div class="likert-scale"><span class="scale-label">Non</span><div class="dots">';
+      for (var v=1; v<=5; v++) {
+        html += '<button class="dot ' + (sel===v?'active':'') + '" onclick="repondre(\'' + sec.id + '\',' + idx + ',' + v + ')">' + v + '</button>';
+      }
+      html += '</div><span class="scale-label scale-label-r">Oui</span></div></div>';
+    }
     html += '</div>';
   }
 
   // ── ENGAGEMENT ──
   if (sec.type === "engagement") {
-    html += `<div class="mt"><p style="font-size:13px;color:#6B7C72;margin-bottom:14px;line-height:1.5">Face aux enjeux identifiés, comment vous situez-vous ? <span class="optional">(plusieurs réponses possibles, facultatif)</span></p>`;
-    ENG_OPTIONS.forEach((opt,i) => {
-      const active = engagement.includes(opt);
-      html += `<div class="check-item ${active?'active':''}" onclick="toggleEng(${i})">
-        <div class="checkbox">${active?'<svg width="12" height="9" viewBox="0 0 13 10" fill="none"><path d="M1 5L4.5 8.5L12 1" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>':''}</div>
-        <span style="font-size:13px">${opt}</span>
-      </div>`;
-    });
+    html += '<div class="mt"><p style="font-size:13px;color:#6B7C72;margin-bottom:14px;line-height:1.5">Face aux enjeux identifiés, comment vous situez-vous ? <span class="optional">(plusieurs réponses possibles)</span></p>';
+    for (var i=0;i<ENG_OPTIONS.length;i++) {
+      var act = engagement.indexOf(ENG_OPTIONS[i]) >= 0;
+      html += '<div class="check-item ' + (act?'active':'') + '" onclick="toggleEng(' + i + ')">';
+      html += '<div class="checkbox">' + (act?'<svg width="12" height="9" viewBox="0 0 13 10" fill="none"><path d="M1 5L4.5 8.5L12 1" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>':'') + '</div>';
+      html += '<span style="font-size:13px">' + ENG_OPTIONS[i] + '</span></div>';
+    }
     html += '</div>';
   }
 
-  // ── OPEN QUESTIONS ──
+  // ── QUESTIONS OUVERTES ──
   if (sec.type === "ouvertes") {
-    const hasSR = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
-    const isLP = currentRecognition && currentRecognition._field === "preoccupation";
-    const isLI = currentRecognition && currentRecognition._field === "initiative";
+    var hasSR = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+    var isLP = currentRecognition && currentRecognition._field === "preoccupation";
+    var isLI = currentRecognition && currentRecognition._field === "initiative";
+    html += '<div class="mt">';
+    html += '<div class="mb"><label class="field-label">Quelle est votre préoccupation principale pour les 5 prochaines années ? <span class="optional">(facultatif)</span></label>';
+    html += '<div class="voice-wrap"><textarea class="voice-area ' + (isLP?'listening':'') + '" oninput="openQ.preoccupation=this.value" placeholder="Écrivez ou cliquez sur le micro...">' + openQ.preoccupation + '</textarea>';
+    if (hasSR) html += '<button class="mic-btn ' + (isLP?'listening':'') + '" onclick="dicterChamp(\'preoccupation\')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="1" width="6" height="12" rx="3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></button>';
+    html += '</div>';
+    if (isLP) html += '<div class="listen-indicator"><div class="listen-dot"></div><span style="font-size:11px;color:#E74C3C;font-weight:500">Écoute en cours... Cliquez le micro pour arrêter</span></div>';
+    html += '</div>';
 
-    html += `<div class="mt">
-      <div class="mb">
-        <label class="field-label">Quelle est votre préoccupation principale pour les 5 prochaines années ? <span class="optional">(facultatif)</span></label>
-        <div class="voice-wrap">
-          <textarea class="voice-area ${isLP?'listening':''}" oninput="openQ.preoccupation=this.value" placeholder="Écrivez ou cliquez sur le micro...">${openQ.preoccupation}</textarea>
-          ${hasSR ? `<button class="mic-btn ${isLP?'listening':''}" onclick="startListeningField('preoccupation')" title="${isLP?'Arrêter':'Dicter'}">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="1" width="6" height="12" rx="3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-          </button>` : ''}
-        </div>
-        ${isLP ? '<div class="listen-indicator"><div class="listen-dot"></div><span style="font-size:11px;color:#E74C3C;font-weight:500">Écoute en cours... Cliquez sur le micro pour arrêter</span></div>' : ''}
-      </div>
-      <div>
-        <label class="field-label">Y a-t-il une initiative locale que vous aimeriez voir naître ? <span class="optional">(facultatif)</span></label>
-        <div class="voice-wrap">
-          <textarea class="voice-area ${isLI?'listening':''}" oninput="openQ.initiative=this.value" placeholder="Une idée, un projet... ou cliquez sur le micro...">${openQ.initiative}</textarea>
-          ${hasSR ? `<button class="mic-btn ${isLI?'listening':''}" onclick="startListeningField('initiative')" title="${isLI?'Arrêter':'Dicter'}">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="1" width="6" height="12" rx="3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-          </button>` : ''}
-        </div>
-        ${isLI ? '<div class="listen-indicator"><div class="listen-dot"></div><span style="font-size:11px;color:#E74C3C;font-weight:500">Écoute en cours...</span></div>' : ''}
-      </div>
-    </div>`;
+    html += '<div><label class="field-label">Initiative locale que vous aimeriez voir naître ? <span class="optional">(facultatif)</span></label>';
+    html += '<div class="voice-wrap"><textarea class="voice-area ' + (isLI?'listening':'') + '" oninput="openQ.initiative=this.value" placeholder="Une idée, un projet...">' + openQ.initiative + '</textarea>';
+    if (hasSR) html += '<button class="mic-btn ' + (isLI?'listening':'') + '" onclick="dicterChamp(\'initiative\')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="1" width="6" height="12" rx="3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></button>';
+    html += '</div>';
+    if (isLI) html += '<div class="listen-indicator"><div class="listen-dot"></div><span style="font-size:11px;color:#E74C3C;font-weight:500">Écoute en cours...</span></div>';
+    html += '</div></div>';
   }
 
-  html += `</div>`;
+  html += '</div>';
 
-  // Voice mode indicator
-  html += `<div style="text-align:center;margin-bottom:10px">
-    <div class="voice-badge ${voiceMode?'on':'off'}" onclick="toggleVoiceMode()">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-      ${voiceMode ? 'Lecture vocale ON' : 'Lecture vocale OFF'}
-    </div>
-  </div>`;
+  // Voice badge
+  html += '<div style="text-align:center;margin-bottom:10px">';
+  html += '<div class="voice-badge ' + (voiceMode?'on':'off') + '" onclick="toggleVoiceMode()">';
+  html += '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg> ';
+  html += voiceMode ? 'Lecture vocale ON' : 'Lecture vocale OFF';
+  html += '</div></div>';
 
-  // Nav buttons
-  html += `<div class="btn-row">
-    <button class="btn btn-secondary" onclick="navigate(-1)">← Retour</button>`;
+  // Nav
+  html += '<div class="btn-row">';
+  html += '<button class="btn btn-secondary" onclick="allerA(-1)">← Retour</button>';
   if (page < SECTIONS.length - 1) {
-    html += `<button class="btn btn-primary" onclick="navigate(1)">Suivant →</button>`;
+    html += '<button class="btn btn-primary" onclick="allerA(1)">Suivant →</button>';
   } else {
-    if (sending) {
-      html += `<button class="btn btn-primary" style="background:#6B9C8A;cursor:wait" disabled>Envoi...</button>`;
-    } else {
-      html += `<button class="btn btn-submit" onclick="submitForm()">Envoyer ✓</button>`;
-    }
+    html += sending
+      ? '<button class="btn btn-primary" style="background:#6B9C8A;cursor:wait" disabled>Envoi...</button>'
+      : '<button class="btn btn-submit" onclick="envoyer()">Envoyer ✓</button>';
   }
-  html += `</div>`;
-  html += `<div class="error-box hidden" id="errorBox">Erreur d'envoi. Vérifiez votre connexion.</div>`;
-
+  html += '</div>';
+  html += '<div class="error-box hidden" id="errorBox">Erreur d\'envoi. Vérifiez votre connexion.</div>';
   app.innerHTML = html;
 }
 
 // ─── HELPERS ───
 function toggleEng(i) {
-  const opt = ENG_OPTIONS[i];
-  if (engagement.includes(opt)) engagement = engagement.filter(o=>o!==opt);
-  else engagement.push(opt);
-  renderPage();
+  var o = ENG_OPTIONS[i];
+  var idx = engagement.indexOf(o);
+  if (idx >= 0) engagement.splice(idx, 1);
+  else engagement.push(o);
+  updateUI();
 }
 
 function resetAll() {
-  stopSpeaking();
+  taire();
   if (currentRecognition) { currentRecognition.stop(); currentRecognition = null; }
   page = -1; answers = {}; profil = {age:"",situation:"",codepostal:""};
   engagement = []; openQ = {preoccupation:"",initiative:""};
-  sending = false; voiceMode = false; currentItemIdx = 0; renderPage();
+  sending = false; voiceMode = false; currentItemIdx = 0;
+  updateUI();
 }
 
-// ─── INIT ───
-renderPage();
+updateUI();
 </script>
 </body>
 </html>
