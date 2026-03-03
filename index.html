@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Questionnaire citoyen - ASBL Espoyr</title>
+<title>Questionnaire citoyen \u2014 ASBL Espoyr</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -83,7 +83,7 @@ body{min-height:100vh;background:#F0EDE6;font-family:'DM Sans',sans-serif;color:
 <body>
 <div class="header"><div class="header-inner">
 <h1>Questionnaire citoyen</h1>
-<div class="sub">ASBL Espoyr - Sprimont</div>
+<div class="sub">ASBL Espoyr \u2014 Sprimont</div>
 <div class="progress-bar hidden" id="progressBar">
 <div class="progress-labels"><span id="pageLabel"></span><span id="pctLabel"></span></div>
 <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
@@ -278,7 +278,7 @@ var sec=SECTIONS[page],html='<div class="card">';
 var ico=speaking?'<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>':'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>';
 html+='<div class="section-header"><div style="flex:1"><h2>'+sec.title+'</h2>';
 if(sec.subtitle)html+='<p class="subtitle">'+sec.subtitle+'</p>';
-html+='</div><button class="speak-btn '+(speaking?'speaking':voiceMode?'active':'')+'" onclick="'+(speaking?'taire();updateUI()':'commencerSection()')+'" title="'+(speaking?'Arreter':'Lire')+'">'+ico+'</button></div>';
+html+='</div><button class="speak-btn '+(speaking?'speaking':voiceMode?'active':'')+'" onclick="'+(speaking?'taire();updateUI()':'commencerSection()')+'" title="'+(speaking?'Arr\u00eater':'Lire')+'">'+ico+'</button></div>';
 
 if(sec.type==="profil"){
 html+='<div class="mt"><div class="mb"><label class="field-label">Tranche d'âge <span class="optional">(facultatif)</span></label><div class="chip-row">';
