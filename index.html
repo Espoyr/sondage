@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Questionnaire citoyen \u2014 ASBL Espoyr</title>
+<title>Questionnaire citoyen — ASBL Espoyr</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -83,7 +83,7 @@ body{min-height:100vh;background:#F0EDE6;font-family:'DM Sans',sans-serif;color:
 <body>
 <div class="header"><div class="header-inner">
 <h1>Questionnaire citoyen</h1>
-<div class="sub">ASBL Espoyr \u2014 Sprimont</div>
+<div class="sub">ASBL Espoyr &#8212; Sprimont</div>
 <div class="progress-bar hidden" id="progressBar">
 <div class="progress-labels"><span id="pageLabel"></span><span id="pctLabel"></span></div>
 <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
@@ -96,68 +96,68 @@ var SCRIPT_URL="https://script.google.com/macros/s/AKfycbyEk376L6wvSnIhnPYOvAv95
 var SECTIONS=[
 {id:"profil",title:"Quelques informations",subtitle:"Facultatif",type:"profil"},
 {id:"b1",title:"1. Vie quotidienne",type:"likert",items:[
-"Je parviens à couvrir mes dépenses courantes sans difficulté",
-"Le coût du logement et de l'énergie pèse de plus en plus sur mon budget",
-"L'alimentation que je consomme actuellement est favorable à ma santé",
-"J'ai facilement accès aux services dont j'ai besoin au quotidien"
+"Je parviens \u00e0 couvrir mes d\u00e9penses courantes sans difficult\u00e9",
+"Le co\u00fbt du logement et de l\u2019\u00e9nergie p\u00e8se de plus en plus sur mon budget",
+"L\u2019alimentation que je consomme actuellement est favorable \u00e0 ma sant\u00e9",
+"J\u2019ai facilement acc\u00e8s aux services dont j\u2019ai besoin au quotidien"
 ]},
 {id:"b2",title:"2. Travail et avenir professionnel",type:"likert",items:[
-"Je considère mon emploi ou mon activité comme stable",
-"Le marché du travail local offre suffisamment d'opportunités",
-"Les nouvelles technologies menacent certains métiers autour de moi",
-"Je pense que les jeunes de ma région trouvent du travail facilement"
+"Je consid\u00e8re mon emploi ou mon activit\u00e9 comme stable",
+"Le march\u00e9 du travail local offre suffisamment d\u2019opportunit\u00e9s",
+"Les nouvelles technologies menacent certains m\u00e9tiers autour de moi",
+"Je pense que les jeunes de ma r\u00e9gion trouvent du travail facilement"
 ]},
 {id:"b3",title:"3. Avenir des enfants et des jeunes",type:"likert",items:[
-"Les enfants de ma région reçoivent une éducation de qualité",
-"Les jeunes auront plus de difficultés que ma génération à s'installer",
-"L'accès au logement est devenu un obstacle réel pour les jeunes ici",
-"Je suis confiant dans les perspectives d'avenir de la prochaine génération"
+"Les enfants de ma r\u00e9gion re\u00e7oivent une \u00e9ducation de qualit\u00e9",
+"Les jeunes auront plus de difficult\u00e9s que ma g\u00e9n\u00e9ration \u00e0 s\u2019installer",
+"L\u2019acc\u00e8s au logement est devenu un obstacle r\u00e9el pour les jeunes ici",
+"Je suis confiant dans les perspectives d\u2019avenir de la prochaine g\u00e9n\u00e9ration"
 ]},
 {id:"b4",title:"4. Retraite et protection sociale",type:"likert",items:[
-"Je fais confiance au système de pension pour assurer ma retraite",
-"La crise du COVID-19 m'a donné envie d'agir davantage au niveau local ou collectif",
-"Les personnes âgées de mon entourage sont correctement protégées",
-"Je doute de la viabilité à long terme de notre sécurité sociale"
+"Je fais confiance au syst\u00e8me de pension pour assurer ma retraite",
+"La crise du COVID-19 m\u2019a donn\u00e9 envie d\u2019agir davantage au niveau local ou collectif",
+"Les personnes \u00e2g\u00e9es de mon entourage sont correctement prot\u00e9g\u00e9es",
+"Je doute de la viabilit\u00e9 \u00e0 long terme de notre s\u00e9curit\u00e9 sociale"
 ]},
 {id:"b5",title:"5. Ressources et autonomie locale",type:"likert",items:[
-"L'accès à l'énergie me semble garanti pour les années à venir",
-"La disparition d'agriculteurs locaux me préoccupe",
-"Notre région est trop dépendante de ressources extérieures",
-"Les infrastructures locales répondent à mes besoins"
+"L\u2019acc\u00e8s \u00e0 l\u2019\u00e9nergie me semble garanti pour les ann\u00e9es \u00e0 venir",
+"La disparition d\u2019agriculteurs locaux me pr\u00e9occupe",
+"Notre r\u00e9gion est trop d\u00e9pendante de ressources ext\u00e9rieures",
+"Les infrastructures locales r\u00e9pondent \u00e0 mes besoins"
 ]},
 {id:"b6",title:"6. Environnement et cadre de vie",type:"likert",items:[
-"La qualité de vie dans ma commune est satisfaisante",
-"L'environnement naturel autour de chez moi se dégrade",
-"La qualité de l'eau ou de l'air dans ma région m'inquiète",
-"Je constate une perte de biodiversité dans mon environnement proche"
+"La qualit\u00e9 de vie dans ma commune est satisfaisante",
+"L\u2019environnement naturel autour de chez moi se d\u00e9grade",
+"La qualit\u00e9 de l\u2019eau ou de l\u2019air dans ma r\u00e9gion m\u2019inqui\u00e8te",
+"Je constate une perte de biodiversit\u00e9 dans mon environnement proche"
 ]},
-{id:"b7",title:"7. Solidarité et lien social",type:"likert",items:[
-"Je me sens en sécurité dans ma commune",
-"La solidarité entre habitants fonctionne bien là où je vis",
-"Le lien social dans mon quartier ou mon village s'affaiblit",
-"L'accompagnement des personnes vulnérables est suffisant"
+{id:"b7",title:"7. Solidarit\u00e9 et lien social",type:"likert",items:[
+"Je me sens en s\u00e9curit\u00e9 dans ma commune",
+"La solidarit\u00e9 entre habitants fonctionne bien l\u00e0 o\u00f9 je vis",
+"Le lien social dans mon quartier ou mon village s\u2019affaiblit",
+"L\u2019accompagnement des personnes vuln\u00e9rables est suffisant"
 ]},
-{id:"b8",title:"8. Vision generale",type:"likert",items:[
-"Globalement, je suis optimiste pour l'avenir de notre société",
-"Je fais confiance aux institutions pour faire face aux défis actuels",
-"Notre société a historiquement su s'adapter aux crises",
-"Je ressens le besoin d'agir mais je ne sais pas par où commencer"
+{id:"b8",title:"8. Vision g\u00e9n\u00e9rale",type:"likert",items:[
+"Globalement, je suis optimiste pour l\u2019avenir de notre soci\u00e9t\u00e9",
+"Je fais confiance aux institutions pour faire face aux d\u00e9fis actuels",
+"Notre soci\u00e9t\u00e9 a historiquement su s\u2019adapter aux crises",
+"Je ressens le besoin d\u2019agir mais je ne sais pas par o\u00f9 commencer"
 ]},
-{id:"engagement",title:"Et après ? Votre envie d'agir",type:"engagement"},
-{id:"ouvertes",title:"Vos réflexions",type:"ouvertes"}
+{id:"engagement",title:"Et apr\u00e8s ? Votre envie d\u2019agir",type:"engagement"},
+{id:"ouvertes",title:"Vos r\u00e9flexions",type:"ouvertes"}
 ];
 
 var ENG_OPTIONS=[
-"Je préfère observer sans m'impliquer pour le moment",
-"Je serais curieux·se de découvrir des initiatives locales",
-"Je participe déjà à des actions collectives dans ma région",
-"Je souhaiterais m'engager davantage si on me montrait comment"
+"Je pr\u00e9f\u00e8re observer sans m\u2019impliquer pour le moment",
+"Je serais curieux\u00b7se de d\u00e9couvrir des initiatives locales",
+"Je participe d\u00e9j\u00e0 \u00e0 des actions collectives dans ma r\u00e9gion",
+"Je souhaiterais m\u2019engager davantage si on me montrait comment"
 ];
 
-var PREOCCUP_OPTIONS=["Pouvoir d'achat","Emploi","Retraite / pensions","Logement","Santé / accès aux soins","Énergie / climat","Alimentation locale","Éducation des jeunes","Sécurité","Isolement / lien social"];
-var INITIATIVE_OPTIONS=["Marché de producteurs locaux","Coopérative d'énergie","Monnaie locale / entraide","Tiers-lieu / coworking","Potagers collectifs","Transport partagé","Aide aux aînés","Activités pour les jeunes"];
+var PREOCCUP_OPTIONS=["Pouvoir d\u2019achat","Emploi","Retraite / pensions","Logement","Sant\u00e9 / acc\u00e8s aux soins","\u00c9nergie / climat","Alimentation locale","\u00c9ducation des jeunes","S\u00e9curit\u00e9","Isolement / lien social"];
+var INITIATIVE_OPTIONS=["March\u00e9 de producteurs locaux","Coop\u00e9rative d\u2019\u00e9nergie","Monnaie locale / entraide","Tiers-lieu / coworking","Potagers collectifs","Transport partag\u00e9","Aide aux a\u00een\u00e9s","Activit\u00e9s pour les jeunes"];
 
-var MODE_EMPLOI="Mode d'emploi. Pour chaque affirmation, indiquez votre degré d'accord de 1 à 5, où 1 signifie non et 5 signifie oui. Vous n'êtes pas obligé de répondre. Utilisez la flèche pour passer.";
+var MODE_EMPLOI="Mode d\u2019emploi. Pour chaque affirmation, indiquez votre degr\u00e9 d\u2019accord de 1 \u00e0 5, o\u00f9 1 signifie non et 5 signifie oui. Vous n\u2019\u00eates pas oblig\u00e9 de r\u00e9pondre. Utilisez la fl\u00e8che pour passer.";
 
 var page=-1,answers={},profil={age:"",situation:"",codepostal:""};
 var engagement=[],openPreoccup=[],openInitiative=[],autrePreoccup="",autreInitiative="";
@@ -169,11 +169,11 @@ var sec=null;for(var i=0;i<SECTIONS.length;i++){if(SECTIONS[i].id===secId){sec=S
 if(!sec||sec.type!=="likert")return "";
 var txt=sec.items[idx],sit=profil.situation;
 if(secId==="b2"&&idx===0){
-if(sit==="Retraité·e")return "Ma pension me permet de vivre correctement";
-if(sit==="Sans emploi")return "Je suis confiant·e de retrouver un emploi";
-if(sit==="Étudiant·e")return "Je suis confiant·e de trouver un emploi après mes études";
+if(sit==="Retrait\u00e9\u00b7e")return "Ma pension me permet de vivre correctement";
+if(sit==="Sans emploi")return "Je suis confiant\u00b7e de retrouver un emploi";
+if(sit==="\u00c9tudiant\u00b7e")return "Je suis confiant\u00b7e de trouver un emploi apr\u00e8s mes \u00e9tudes";
 }
-if(secId==="b4"&&idx===0&&sit==="Retraité·e")return "Le montant de ma pension me semble correct";
+if(secId==="b4"&&idx===0&&sit==="Retrait\u00e9\u00b7e")return "Le montant de ma pension me semble correct";
 return txt;
 }
 
@@ -211,9 +211,9 @@ setTimeout(function(){var el=document.getElementById("item_"+idx);if(el)el.scrol
 function commencerSection(){
 var sec=SECTIONS[page];if(!sec)return;
 if(sec.type==="likert"){currentItemIdx=0;dire(sec.title,function(){setTimeout(function(){lireProposition(0);},300);});}
-else if(sec.type==="engagement"){var t=sec.title+". Plusieurs réponses possibles. ";for(var i=0;i<ENG_OPTIONS.length;i++)t+=(i+1)+". "+ENG_OPTIONS[i]+". ";dire(t);}
-else if(sec.type==="ouvertes"){dire(sec.title+". Cochez jusqu'à 3 préoccupations pour les 10 à 20 prochaines années, puis jusqu'à 3 initiatives locales souhaitées.");}
-else if(sec.type==="profil"){dire(sec.title+". Indiquez votre tranche d'âge, votre situation et votre code postal.");}
+else if(sec.type==="engagement"){var t=sec.title+". Plusieurs r\u00e9ponses possibles. ";for(var i=0;i<ENG_OPTIONS.length;i++)t+=(i+1)+". "+ENG_OPTIONS[i]+". ";dire(t);}
+else if(sec.type==="ouvertes"){dire(sec.title+". Cochez jusqu\u2019\u00e0 3 pr\u00e9occupations pour les 10 \u00e0 20 prochaines ann\u00e9es, puis jusqu\u2019\u00e0 3 initiatives locales souhait\u00e9es.");}
+else if(sec.type==="profil"){dire(sec.title+". Indiquez votre tranche d\u2019\u00e2ge, votre situation et votre code postal.");}
 }
 function toggleVoiceMode(){voiceMode=!voiceMode;if(voiceMode&&page>=0&&page<SECTIONS.length)commencerSection();else taire();updateUI();}
 
@@ -256,8 +256,8 @@ function muteBtn(full){
 var w=full?'width:100%;padding:14px':'width:100%;padding:10px';
 var fs=full?'font-size:14px':'font-size:13px';
 var sw=full?'18':'16';
-var label=voiceMode?(full?'Son activé — cliquez pour couper':'Couper le son'):(full?'Son coupé — cliquez pour remettre':'Remettre le son');
-var emoji=voiceMode?'&#128266; ':'&#128263; ';
+var label=voiceMode?(full?'Son activ\u00e9 \u2014 cliquez pour couper':'Couper le son'):(full?'Son coup\u00e9 \u2014 cliquez pour remettre':'Remettre le son');
+var emoji=voiceMode?'\ud83d\udd0a ':'\ud83d\udd07 ';
 return '<button onclick="toggleVoiceMode()" style="'+w+';border-radius:10px;'+fs+';font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;border:none;display:flex;align-items:center;justify-content:center;gap:8px;'+(voiceMode?'background:#2A614E;color:#fff':'background:#E8E4DC;color:#666')+'"><svg width="'+sw+'" height="'+sw+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>'+(voiceMode?'<path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>':'<line x1="23" y1="1" x2="1" y2="23"/>')+'</svg> '+emoji+label+'</button>';
 }
 
@@ -267,11 +267,11 @@ var pb=document.getElementById("progressBar"),pf=document.getElementById("progre
 if(page>=0&&page<totalPages){pb.classList.remove("hidden");var pct=Math.round(((page+1)/totalPages)*100);pl.textContent=(page+1)+" / "+totalPages;pp.textContent=pct+"%";pf.style.width=pct+"%";}else pb.classList.add("hidden");
 
 if(page===-1){
-app.innerHTML='<div class="card" style="padding:32px 22px"><h1 style="font-family:Fraunces,serif;font-size:24px;color:#1B4332;line-height:1.2;margin-bottom:8px">Comment percevez-vous votre avenir et celui de votre région ?</h1><p style="color:#6B7C72;font-size:13px;line-height:1.6;margin-top:14px">Ce questionnaire anonyme explore vos perceptions sur la vie quotidienne, l'emploi, l'environnement, la solidarité et les perspectives d'avenir.</p><div class="info-box"><div class="title">Mode d'emploi</div><div class="desc">Pour chaque affirmation, indiquez votre degré d'accord de 1 (Non) à 5 (Oui). <strong>Vous n'êtes pas obligé de répondre à chaque question</strong> — utilisez la flèche pour passer. Durée : ~5 min.</div></div><div style="margin-top:16px;text-align:center">'+muteBtn(true)+'</div></div><button class="btn btn-primary" style="width:100%" onclick="commencer()">Commencer</button>';
+app.innerHTML='<div class="card" style="padding:32px 22px"><h1 style="font-family:Fraunces,serif;font-size:24px;color:#1B4332;line-height:1.2;margin-bottom:8px">Comment percevez-vous votre avenir et celui de votre r\u00e9gion\u00a0?</h1><p style="color:#6B7C72;font-size:13px;line-height:1.6;margin-top:14px">Ce questionnaire anonyme explore vos perceptions sur la vie quotidienne, l\u2019emploi, l\u2019environnement, la solidarit\u00e9 et les perspectives d\u2019avenir.</p><div class="info-box"><div class="title">Mode d\u2019emploi</div><div class="desc">Pour chaque affirmation, indiquez votre degr\u00e9 d\u2019accord de 1 (Non) \u00e0 5 (Oui). <strong>Vous n\u2019\u00eates pas oblig\u00e9 de r\u00e9pondre \u00e0 chaque question</strong> \u2014 utilisez la fl\u00e8che \u2193 pour passer. Dur\u00e9e\u00a0: ~5 min.</div></div><div style="margin-top:16px;text-align:center">'+muteBtn(true)+'</div></div><button class="btn btn-primary" style="width:100%" onclick="commencer()">Commencer</button>';
 return;
 }
 if(page===99){taire();var count=Object.keys(answers).length;var total=0;for(var i=0;i<SECTIONS.length;i++)if(SECTIONS[i].type==="likert")total+=SECTIONS[i].items.length;
-app.innerHTML='<div class="card confirm-center"><div class="emoji">&#127807;</div><h2>Merci pour votre participation !</h2><p>Vos réponses contribueront à une réflexion collective sur l'avenir de notre région.</p><div class="confirm-badge">'+count+' réponses sur '+total+' questions</div><div class="mt"><button class="btn btn-primary" onclick="resetAll()">Nouveau questionnaire</button></div></div>';return;
+app.innerHTML='<div class="card confirm-center"><div class="emoji">\ud83c\udf3f</div><h2>Merci pour votre participation\u00a0!</h2><p>Vos r\u00e9ponses contribueront \u00e0 une r\u00e9flexion collective sur l\u2019avenir de notre r\u00e9gion.</p><div class="confirm-badge">'+count+' r\u00e9ponses sur '+total+' questions</div><div class="mt"><button class="btn btn-primary" onclick="resetAll()">Nouveau questionnaire</button></div></div>';return;
 }
 
 var sec=SECTIONS[page],html='<div class="card">';
@@ -281,11 +281,11 @@ if(sec.subtitle)html+='<p class="subtitle">'+sec.subtitle+'</p>';
 html+='</div><button class="speak-btn '+(speaking?'speaking':voiceMode?'active':'')+'" onclick="'+(speaking?'taire();updateUI()':'commencerSection()')+'" title="'+(speaking?'Arr\u00eater':'Lire')+'">'+ico+'</button></div>';
 
 if(sec.type==="profil"){
-html+='<div class="mt"><div class="mb"><label class="field-label">Tranche d'âge <span class="optional">(facultatif)</span></label><div class="chip-row">';
+html+='<div class="mt"><div class="mb"><label class="field-label">Tranche d\u2019\u00e2ge <span class="optional">(facultatif)</span></label><div class="chip-row">';
 var ages=["18-30","31-45","46-60","61+"];for(var i=0;i<ages.length;i++)html+='<button class="chip '+(profil.age===ages[i]?'active':'')+'" onclick="profil.age=\''+ages[i]+'\';updateUI()">'+ages[i]+'</button>';
 html+='</div></div><div class="mb"><label class="field-label">Situation <span class="optional">(facultatif)</span></label><div class="chip-row">';
-var sits=["Salarié·e","Indépendant·e","Sans emploi","Retraité·e","Étudiant·e","Autre"];for(var i=0;i<sits.length;i++)html+='<button class="chip chip-sm '+(profil.situation===sits[i]?'active':'')+'" onclick="profil.situation=\''+sits[i]+'\';updateUI()">'+sits[i]+'</button>';
-html+='</div></div><div><label class="field-label">Code postal <span class="optional">(facultatif)</span></label><input type="text" class="text-input" value="'+profil.codepostal+'" oninput="profil.codepostal=this.value" placeholder="ex : 4140" maxlength="5" style="max-width:140px"></div></div>';
+var sits=["Salari\u00e9\u00b7e","Ind\u00e9pendant\u00b7e","Sans emploi","Retrait\u00e9\u00b7e","\u00c9tudiant\u00b7e","Autre"];for(var i=0;i<sits.length;i++)html+='<button class="chip chip-sm '+(profil.situation===sits[i]?'active':'')+'" onclick="profil.situation=\''+sits[i]+'\';updateUI()">'+sits[i]+'</button>';
+html+='</div></div><div><label class="field-label">Code postal <span class="optional">(facultatif)</span></label><input type="text" class="text-input" value="'+profil.codepostal+'" oninput="profil.codepostal=this.value" placeholder="ex\u00a0: 4140" maxlength="5" style="max-width:140px"></div></div>';
 }
 
 if(sec.type==="likert"){
@@ -302,21 +302,21 @@ html+='</div>';
 }
 
 if(sec.type==="engagement"){
-html+='<div class="mt"><p style="font-size:13px;color:#6B7C72;margin-bottom:14px;line-height:1.5">Face aux enjeux identifiés, comment vous situez-vous ? <span class="optional">(plusieurs réponses possibles)</span></p>';
+html+='<div class="mt"><p style="font-size:13px;color:#6B7C72;margin-bottom:14px;line-height:1.5">Face aux enjeux identifi\u00e9s, comment vous situez-vous\u00a0? <span class="optional">(plusieurs r\u00e9ponses possibles)</span></p>';
 for(var i=0;i<ENG_OPTIONS.length;i++){var act=engagement.indexOf(ENG_OPTIONS[i])>=0;html+='<div class="check-item '+(act?'active':'')+'" onclick="toggleEng('+i+')"><div class="checkbox">'+chk(act)+'</div><span style="font-size:13px">'+ENG_OPTIONS[i]+'</span></div>';}
 html+='</div>';
 }
 
 if(sec.type==="ouvertes"){
 var cP=openPreoccup.length,cI=openInitiative.length;
-html+='<div class="mt"><div class="mb"><label class="field-label">Vos préoccupations principales pour les 10 à 20 prochaines années <span class="optional">(cochez jusqu'à 3)</span></label>';
-if(cP>0)html+='<div class="counter">'+cP+'/3 sélectionnée'+(cP>1?'s':'')+'</div>';
+html+='<div class="mt"><div class="mb"><label class="field-label">Vos pr\u00e9occupations principales pour les 10 \u00e0 20 prochaines ann\u00e9es <span class="optional">(cochez jusqu\u2019\u00e0 3)</span></label>';
+if(cP>0)html+='<div class="counter">'+cP+'/3 s\u00e9lectionn\u00e9e'+(cP>1?'s':'')+'</div>';
 for(var i=0;i<PREOCCUP_OPTIONS.length;i++){var act=openPreoccup.indexOf(PREOCCUP_OPTIONS[i])>=0;var dis=!act&&cP>=3;
 html+='<div class="check-item '+(act?'active':'')+(dis?' disabled':'')+'" onclick="'+(dis?'':'togglePreoccup('+i+')')+'"><div class="checkbox">'+chk(act)+'</div><span style="font-size:13px">'+PREOCCUP_OPTIONS[i]+'</span></div>';}
 html+='<div style="margin-top:8px"><input type="text" class="text-input" value="'+autrePreoccup+'" oninput="autrePreoccup=this.value" placeholder="Autre..." style="max-width:260px"></div></div>';
 
-html+='<div><label class="field-label">Initiatives locales que vous aimeriez voir naître <span class="optional">(cochez jusqu'à 3)</span></label>';
-if(cI>0)html+='<div class="counter">'+cI+'/3 sélectionnée'+(cI>1?'s':'')+'</div>';
+html+='<div><label class="field-label">Initiatives locales que vous aimeriez voir na\u00eetre <span class="optional">(cochez jusqu\u2019\u00e0 3)</span></label>';
+if(cI>0)html+='<div class="counter">'+cI+'/3 s\u00e9lectionn\u00e9e'+(cI>1?'s':'')+'</div>';
 for(var i=0;i<INITIATIVE_OPTIONS.length;i++){var act=openInitiative.indexOf(INITIATIVE_OPTIONS[i])>=0;var dis=!act&&cI>=3;
 html+='<div class="check-item '+(act?'active':'')+(dis?' disabled':'')+'" onclick="'+(dis?'':'toggleInitiative('+i+')')+'"><div class="checkbox">'+chk(act)+'</div><span style="font-size:13px">'+INITIATIVE_OPTIONS[i]+'</span></div>';}
 html+='<div style="margin-top:8px"><input type="text" class="text-input" value="'+autreInitiative+'" oninput="autreInitiative=this.value" placeholder="Autre..." style="max-width:260px"></div></div></div>';
@@ -324,10 +324,10 @@ html+='<div style="margin-top:8px"><input type="text" class="text-input" value="
 
 html+='</div>';
 html+='<div style="text-align:center;margin-bottom:10px">'+muteBtn(false)+'</div>';
-html+='<div class="btn-row"><button class="btn btn-secondary" onclick="allerA(-1)">Retour</button>';
-if(page<SECTIONS.length-1)html+='<button class="btn btn-primary" onclick="allerA(1)">Suivant</button>';
-else html+=sending?'<button class="btn btn-primary" style="background:#6B9C8A;cursor:wait" disabled>Envoi...</button>':'<button class="btn btn-submit" onclick="envoyer()">Envoyer</button>';
-html+='</div><div class="error-box hidden" id="errorBox">Erreur d'envoi.</div>';
+html+='<div class="btn-row"><button class="btn btn-secondary" onclick="allerA(-1)">\u2190 Retour</button>';
+if(page<SECTIONS.length-1)html+='<button class="btn btn-primary" onclick="allerA(1)">Suivant \u2192</button>';
+else html+=sending?'<button class="btn btn-primary" style="background:#6B9C8A;cursor:wait" disabled>Envoi...</button>':'<button class="btn btn-submit" onclick="envoyer()">Envoyer \u2713</button>';
+html+='</div><div class="error-box hidden" id="errorBox">Erreur d\u2019envoi.</div>';
 app.innerHTML=html;
 }
 
