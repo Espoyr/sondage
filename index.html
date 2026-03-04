@@ -36,26 +36,26 @@ body{min-height:100vh;background:#F0EDE6;font-family:'DM Sans',sans-serif;color:
 .speak-btn:hover{background:#2A614E;color:#fff}
 .speak-btn.active{background:#2A614E;color:#fff}
 .speak-btn.speaking{background:#E74C3C;border-color:#E74C3C;color:#fff;animation:pulse 1.5s infinite}
-.field-label{font-size:13px;font-weight:600;color:#2D4A3E;display:block;margin-bottom:6px}
+.field-label{font-size:16px;font-weight:600;color:#2D4A3E;display:block;margin-bottom:6px}
 .chip-row{display:flex;gap:6px;flex-wrap:wrap}
-.chip{padding:7px 14px;border-radius:8px;border:2px solid #DDD8CE;background:#fff;color:#555;font-weight:400;cursor:pointer;font-size:13px;font-family:'DM Sans',sans-serif;transition:all .15s}
+.chip{padding:7px 14px;border-radius:8px;border:2px solid #DDD8CE;background:#fff;color:#555;font-weight:400;cursor:pointer;font-size:15px;font-family:'DM Sans',sans-serif;transition:all .15s}
 .chip.active{border-color:#2A614E;background:#F0FAF4;color:#2A614E;font-weight:600}
 .chip-sm{font-size:12px;padding:6px 12px}
-.text-input{width:100%;padding:8px 12px;border-radius:8px;border:2px solid #DDD8CE;font-size:13px;font-family:'DM Sans',sans-serif;background:#FAFAF8}
+.text-input{width:100%;padding:8px 12px;border-radius:8px;border:2px solid #DDD8CE;font-size:15px;font-family:'DM Sans',sans-serif;background:#FAFAF8}
 .text-input:focus{outline:none;border-color:#2A614E;box-shadow:0 0 0 3px rgba(42,97,78,.1)}
 .likert-item{padding:12px 10px;border-radius:10px;margin-bottom:5px;transition:all .3s ease;scroll-margin-top:120px}
 .likert-item:nth-child(odd){background:#FAFAF8}
 .likert-item:hover{background:#F7F5F0}
 .likert-item.current{box-shadow:0 0 0 2px #2A614E;background:#F0FAF4}
 .likert-top{display:flex;align-items:flex-start;gap:6px}
-.likert-text{font-size:13px;color:#2D4A3E;margin-bottom:8px;line-height:1.45;font-weight:500;flex:1}
+.likert-text{font-size:18px;color:#2D4A3E;margin-bottom:8px;line-height:1.45;font-weight:500;flex:1}
 .skip-btn{width:28px;height:28px;border-radius:50%;border:1px solid #CCC;background:#fff;color:#999;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;margin-top:-2px}
 .skip-btn:hover{background:#2A614E;color:#fff;border-color:#2A614E}
 .likert-scale{display:flex;justify-content:space-between;align-items:center;gap:2px}
-.scale-label{font-size:11px;color:#888;flex-shrink:0;width:32px;font-weight:600}
+.scale-label{font-size:14px;color:#2D4A3E;flex-shrink:0;width:36px;font-weight:700}
 .scale-label-r{text-align:right}
 .dots{display:flex;gap:6px;flex:1;justify-content:center}
-.dot{width:34px;height:34px;border-radius:50%;border:2px solid #CCC8BE;background:#fff;color:#888;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;transition:all .2s}
+.dot{width:36px;height:36px;border-radius:50%;border:2px solid #CCC8BE;background:#fff;color:#888;font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;transition:all .2s}
 .dot:hover{transform:scale(1.15);box-shadow:0 0 0 4px rgba(42,97,78,.12)}
 .dot.active{border-color:#2A614E;background:#2A614E;color:#fff}
 .check-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;margin-bottom:5px;border:2px solid transparent;background:#FAFAF8;cursor:pointer;transition:all .15s}
@@ -71,13 +71,45 @@ body{min-height:100vh;background:#F0EDE6;font-family:'DM Sans',sans-serif;color:
 .confirm-center{text-align:center;padding:40px 24px}
 .confirm-center .emoji{font-size:48px;margin-bottom:14px}
 .confirm-center h2{font-family:'Fraunces',serif;font-size:22px;color:#1B4332;margin-bottom:10px}
-.confirm-center p{color:#6B7C72;font-size:13px;line-height:1.6;max-width:360px;margin:0 auto}
+.confirm-center p{color:#6B7C72;font-size:15px;line-height:1.6;max-width:360px;margin:0 auto}
 .confirm-badge{margin-top:24px;padding:10px 16px;background:#F0FAF4;border-radius:10px;display:inline-block;font-size:12px;color:#2A614E}
 .counter{font-size:11px;color:#2A614E;font-weight:600;margin-top:4px}
 .mb{margin-bottom:16px}
 .mt{margin-top:16px}
 .hidden{display:none}
 .optional{font-size:11px;color:#AAA;font-weight:400;font-style:italic}
+
+.soleil{background:#FFFFFF}
+.soleil .card{background:#FFFFFF;box-shadow:0 2px 12px rgba(0,0,0,.15);border:2px solid #333}
+.soleil .likert-text{color:#000;font-weight:600}
+.soleil .scale-label{color:#000;font-size:15px}
+.soleil .dot{border:3px solid #555;color:#333;background:#fff}
+.soleil .dot:hover{box-shadow:0 0 0 5px rgba(0,0,0,.2)}
+.soleil .dot.active{border-color:#1B4332;background:#1B4332;color:#fff}
+.soleil .likert-item:nth-child(odd){background:#F0F0F0}
+.soleil .likert-item:hover{background:#E8E8E8}
+.soleil .likert-item.current{box-shadow:0 0 0 3px #000;background:#DDEEDD}
+.soleil .chip{border:2px solid #666;color:#000}
+.soleil .chip.active{border-color:#000;background:#DDEEDD;color:#000;font-weight:700}
+.soleil .field-label{color:#000}
+.soleil .text-input{border:2px solid #666;background:#fff;color:#000}
+.soleil .check-item{background:#F0F0F0;border:2px solid transparent}
+.soleil .check-item:hover{background:#E8E8E8}
+.soleil .check-item.active{border-color:#000;background:#DDEEDD}
+.soleil .checkbox{border:2px solid #555}
+.soleil .check-item.active .checkbox{border-color:#000;background:#000}
+.soleil .skip-btn{border:2px solid #666;color:#555}
+.soleil .skip-btn:hover{background:#000;color:#fff;border-color:#000}
+.soleil .info-box{background:#EAEAEA;border-left:4px solid #000}
+.soleil .info-box .title{color:#000}
+.soleil .info-box .desc{color:#000}
+.soleil .card h2{color:#000}
+.soleil .card .subtitle{color:#333}
+.soleil .counter{color:#000}
+.soleil .optional{color:#555}
+.soleil .confirm-center h2{color:#000}
+.soleil .confirm-center p{color:#333}
+.soleil .confirm-badge{background:#EAEAEA;color:#000}
 </style>
 </head>
 <body>
@@ -161,7 +193,7 @@ var MODE_EMPLOI="Mode d\u2019emploi. Pour chaque affirmation, indiquez votre deg
 
 var page=-1,answers={},profil={age:"",situation:"",codepostal:""};
 var engagement=[],openPreoccup=[],openInitiative=[],autrePreoccup="",autreInitiative="";
-var sending=false,speaking=false,voiceMode=true,currentItemIdx=0;
+var sending=false,speaking=false,voiceMode=true,soleilMode=false,currentItemIdx=0;
 var app=document.getElementById("app");
 
 function getItemText(secId,idx){
@@ -237,6 +269,7 @@ else if(sec.type==="engagement"){var t=sec.title+". Plusieurs r\u00e9ponses poss
 else if(sec.type==="ouvertes"){dire(sec.title+". Cochez jusqu\u2019\u00e0 3 pr\u00e9occupations pour les 10 \u00e0 20 prochaines ann\u00e9es, puis jusqu\u2019\u00e0 3 initiatives locales souhait\u00e9es.");}
 else if(sec.type==="profil"){dire(sec.title+". Indiquez votre tranche d\u2019\u00e2ge, votre situation et votre code postal.");}
 }
+function toggleSoleil(){soleilMode=!soleilMode;document.body.className=soleilMode?'soleil':'';updateUI();}
 function toggleVoiceMode(){voiceMode=!voiceMode;if(voiceMode&&page>=0&&page<SECTIONS.length)commencerSection();else taire();updateUI();}
 
 function repondre(secId,idx,val){
@@ -276,11 +309,16 @@ function chk(act){return act?'<svg width="12" height="9" viewBox="0 0 13 10" fil
 
 function muteBtn(full){
 var w=full?'width:100%;padding:14px':'width:100%;padding:10px';
-var fs=full?'font-size:14px':'font-size:13px';
+var fs=full?'font-size:16px':'font-size:15px';
 var sw=full?'18':'16';
 var label=voiceMode?(full?'Son activ\u00e9 \u2014 cliquez pour couper':'Couper le son'):(full?'Son coup\u00e9 \u2014 cliquez pour remettre':'Remettre le son');
 var emoji=voiceMode?'\ud83d\udd0a ':'\ud83d\udd07 ';
 return '<button onclick="toggleVoiceMode()" style="'+w+';border-radius:10px;'+fs+';font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;border:none;display:flex;align-items:center;justify-content:center;gap:8px;'+(voiceMode?'background:#2A614E;color:#fff':'background:#E8E4DC;color:#666')+'"><svg width="'+sw+'" height="'+sw+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>'+(voiceMode?'<path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>':'<line x1="23" y1="1" x2="1" y2="23"/>')+'</svg> '+emoji+label+'</button>';
+}
+function soleilBtn(){
+var label=soleilMode?'Mode normal':'Mode soleil';
+var emoji=soleilMode?'\ud83c\udf19 ':'\u2600\ufe0f ';
+return '<button onclick="toggleSoleil()" style="width:100%;padding:10px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;border:none;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:8px;'+(soleilMode?'background:#000;color:#fff':'background:#E8E4DC;color:#666')+'">'+emoji+label+'</button>';
 }
 
 function updateUI(){
@@ -289,7 +327,7 @@ var pb=document.getElementById("progressBar"),pf=document.getElementById("progre
 if(page>=0&&page<totalPages){pb.classList.remove("hidden");var pct=Math.round(((page+1)/totalPages)*100);pl.textContent=(page+1)+" / "+totalPages;pp.textContent=pct+"%";pf.style.width=pct+"%";}else pb.classList.add("hidden");
 
 if(page===-1){
-app.innerHTML='<div class="card" style="padding:32px 22px"><h1 style="font-family:Fraunces,serif;font-size:24px;color:#1B4332;line-height:1.2;margin-bottom:8px">Comment percevez-vous votre avenir et celui de votre r\u00e9gion\u00a0?</h1><p style="color:#6B7C72;font-size:13px;line-height:1.6;margin-top:14px">Ce questionnaire anonyme explore vos perceptions sur la vie quotidienne, l\u2019emploi, l\u2019environnement, la solidarit\u00e9 et les perspectives d\u2019avenir.</p><div class="info-box"><div class="title">Mode d\u2019emploi</div><div class="desc">Pour chaque affirmation, indiquez votre degr\u00e9 d\u2019accord de 1 (Non) \u00e0 5 (Oui). <strong>Vous n\u2019\u00eates pas oblig\u00e9 de r\u00e9pondre \u00e0 chaque question</strong> \u2014 utilisez la fl\u00e8che \u2193 pour passer. Dur\u00e9e\u00a0: ~5 min.</div></div><div style="margin-top:16px;text-align:center">'+muteBtn(true)+'</div></div><button class="btn btn-primary" style="width:100%" onclick="commencer()">Commencer</button>';
+app.innerHTML='<div class="card" style="padding:32px 22px"><h1 style="font-family:Fraunces,serif;font-size:24px;color:#1B4332;line-height:1.2;margin-bottom:8px">Comment percevez-vous votre avenir et celui de votre r\u00e9gion\u00a0?</h1><p style="color:#6B7C72;font-size:15px;line-height:1.6;margin-top:14px">Ce questionnaire anonyme explore vos perceptions sur la vie quotidienne, l\u2019emploi, l\u2019environnement, la solidarit\u00e9 et les perspectives d\u2019avenir.</p><div class="info-box"><div class="title">Mode d\u2019emploi</div><div class="desc">Pour chaque affirmation, indiquez votre degr\u00e9 d\u2019accord de 1 (Non) \u00e0 5 (Oui). <strong>Vous n\u2019\u00eates pas oblig\u00e9 de r\u00e9pondre \u00e0 chaque question</strong> \u2014 utilisez la fl\u00e8che \u2193 pour passer. Dur\u00e9e\u00a0: ~5 min.</div></div><div style="margin-top:16px;text-align:center">'+muteBtn(true)+soleilBtn()+'</div></div><button class="btn btn-primary" style="width:100%" onclick="commencer()">Commencer</button>';
 return;
 }
 if(page===99){taire();var count=Object.keys(answers).length;var total=0;for(var i=0;i<SECTIONS.length;i++)if(SECTIONS[i].type==="likert")total+=SECTIONS[i].items.length;
@@ -324,8 +362,8 @@ html+='</div>';
 }
 
 if(sec.type==="engagement"){
-html+='<div class="mt"><p style="font-size:13px;color:#6B7C72;margin-bottom:14px;line-height:1.5">Face aux enjeux identifi\u00e9s, comment vous situez-vous\u00a0? <span class="optional">(plusieurs r\u00e9ponses possibles)</span></p>';
-for(var i=0;i<ENG_OPTIONS.length;i++){var act=engagement.indexOf(ENG_OPTIONS[i])>=0;html+='<div class="check-item '+(act?'active':'')+'" onclick="toggleEng('+i+')"><div class="checkbox">'+chk(act)+'</div><span style="font-size:13px">'+ENG_OPTIONS[i]+'</span></div>';}
+html+='<div class="mt"><p style="font-size:16px;color:#6B7C72;margin-bottom:14px;line-height:1.5">Face aux enjeux identifi\u00e9s, comment vous situez-vous\u00a0? <span class="optional">(plusieurs r\u00e9ponses possibles)</span></p>';
+for(var i=0;i<ENG_OPTIONS.length;i++){var act=engagement.indexOf(ENG_OPTIONS[i])>=0;html+='<div class="check-item '+(act?'active':'')+'" onclick="toggleEng('+i+')"><div class="checkbox">'+chk(act)+'</div><span style="font-size:18px">'+ENG_OPTIONS[i]+'</span></div>';}
 html+='</div>';
 }
 
@@ -334,18 +372,18 @@ var cP=openPreoccup.length,cI=openInitiative.length;
 html+='<div class="mt"><div class="mb"><label class="field-label">Vos pr\u00e9occupations principales pour les 10 \u00e0 20 prochaines ann\u00e9es <span class="optional">(cochez jusqu\u2019\u00e0 3)</span></label>';
 if(cP>0)html+='<div class="counter">'+cP+'/3 s\u00e9lectionn\u00e9e'+(cP>1?'s':'')+'</div>';
 for(var i=0;i<PREOCCUP_OPTIONS.length;i++){var act=openPreoccup.indexOf(PREOCCUP_OPTIONS[i])>=0;var dis=!act&&cP>=3;
-html+='<div class="check-item '+(act?'active':'')+(dis?' disabled':'')+'" onclick="'+(dis?'':'togglePreoccup('+i+')')+'"><div class="checkbox">'+chk(act)+'</div><span style="font-size:13px">'+PREOCCUP_OPTIONS[i]+'</span></div>';}
+html+='<div class="check-item '+(act?'active':'')+(dis?' disabled':'')+'" onclick="'+(dis?'':'togglePreoccup('+i+')')+'"><div class="checkbox">'+chk(act)+'</div><span style="font-size:18px">'+PREOCCUP_OPTIONS[i]+'</span></div>';}
 html+='<div style="margin-top:8px"><input type="text" class="text-input" value="'+autrePreoccup+'" oninput="autrePreoccup=this.value" placeholder="Autre..." style="max-width:260px"></div></div>';
 
 html+='<div><label class="field-label">Initiatives locales que vous aimeriez voir na\u00eetre <span class="optional">(cochez jusqu\u2019\u00e0 3)</span></label>';
 if(cI>0)html+='<div class="counter">'+cI+'/3 s\u00e9lectionn\u00e9e'+(cI>1?'s':'')+'</div>';
 for(var i=0;i<INITIATIVE_OPTIONS.length;i++){var act=openInitiative.indexOf(INITIATIVE_OPTIONS[i])>=0;var dis=!act&&cI>=3;
-html+='<div class="check-item '+(act?'active':'')+(dis?' disabled':'')+'" onclick="'+(dis?'':'toggleInitiative('+i+')')+'"><div class="checkbox">'+chk(act)+'</div><span style="font-size:13px">'+INITIATIVE_OPTIONS[i]+'</span></div>';}
+html+='<div class="check-item '+(act?'active':'')+(dis?' disabled':'')+'" onclick="'+(dis?'':'toggleInitiative('+i+')')+'"><div class="checkbox">'+chk(act)+'</div><span style="font-size:18px">'+INITIATIVE_OPTIONS[i]+'</span></div>';}
 html+='<div style="margin-top:8px"><input type="text" class="text-input" value="'+autreInitiative+'" oninput="autreInitiative=this.value" placeholder="Autre..." style="max-width:260px"></div></div></div>';
 }
 
 html+='</div>';
-html+='<div style="text-align:center;margin-bottom:10px">'+muteBtn(false)+'</div>';
+html+='<div style="text-align:center;margin-bottom:10px">'+muteBtn(false)+soleilBtn()+'</div>';
 html+='<div class="btn-row"><button class="btn btn-secondary" onclick="allerA(-1)">\u2190 Retour</button>';
 if(page<SECTIONS.length-1)html+='<button class="btn btn-primary" onclick="allerA(1)">Suivant \u2192</button>';
 else html+=sending?'<button class="btn btn-primary" style="background:#6B9C8A;cursor:wait" disabled>Envoi...</button>':'<button class="btn btn-submit" onclick="envoyer()">Envoyer \u2713</button>';
@@ -353,7 +391,7 @@ html+='</div><div class="error-box hidden" id="errorBox">Erreur d\u2019envoi.</d
 app.innerHTML=html;
 }
 
-function resetAll(){taire();page=-1;answers={};profil={age:"",situation:"",codepostal:""};engagement=[];openPreoccup=[];openInitiative=[];autrePreoccup="";autreInitiative="";sending=false;voiceMode=true;currentItemIdx=0;updateUI();}
+function resetAll(){taire();page=-1;answers={};profil={age:"",situation:"",codepostal:""};engagement=[];openPreoccup=[];openInitiative=[];autrePreoccup="";autreInitiative="";sending=false;voiceMode=true;currentItemIdx=0;document.body.className=soleilMode?'soleil':'';updateUI();}
 updateUI();
 </script>
 </body>
