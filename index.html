@@ -180,26 +180,36 @@ return txt;
 var frVoices=[],selectedVoiceIndex=0,voicesLoaded=false;
 function loadVoices(){
 if(!window.speechSynthesis)return;var all=window.speechSynthesis.getVoices();if(!all.length)return;
-// 1. Strictement fr-FR d'abord
 var strict=all.filter(function(v){return v.lang==="fr-FR";});
-// 2. Sinon fr-BE, fr-CA, fr-CH
 if(!strict.length)strict=all.filter(function(v){return v.lang.startsWith("fr-");});
-// 3. Dernier recours : tout ce qui contient "fr"
 if(!strict.length)strict=all.filter(function(v){return v.lang.indexOf("fr")>=0;});
 if(!strict.length)return;
 frVoices=strict;voicesLoaded=true;
-// Log pour debug
 console.log("Voix FR disponibles:");
 for(var i=0;i<frVoices.length;i++)console.log(i+": "+frVoices[i].name+" ("+frVoices[i].lang+")");
-// Noms feminins connus (Google, Apple, Microsoft, Samsung)
-var fem=["denise","amelie","audrey","virginie","marie","clara","celine","lea","julie","alice","caroline","sara","sylvie","aurelie","sophie","isabelle","nathalie","sandrine","google fr","female","femme","woman"];
-var mal=["henri","thomas","nicolas","paul","pierre","jacques","mathieu","male","homme","man"];
+// Detecter la plateforme
+var ua=navigator.userAgent.toLowerCase();
+var isApple=/iphone|ipad|macintosh|mac os/.test(ua);
+var isWindows=/windows/.test(ua);
+var isSamsung=/samsung/.test(ua);
+// Ordre de preference par plateforme (meilleures voix feminines naturelles)
+var priority;
+if(isApple) priority=["audrey","amelie","marie","virginie","celine","lea","sophie","annie","denise"];
+else if(isWindows) priority=["denise","julie","caroline","audrey","amelie","annie","lea","marie"];
+else if(isSamsung) priority=["lea","amelie","audrey","annie","denise","marie"];
+else priority=["annie","denise","audrey","amelie","lea","marie","virginie","sophie","celine","julie","caroline","sara","sylvie","aurelie","isabelle","nathalie","sandrine"];
+// Voix a eviter absolument (synthetiques basse qualite)
+var eviter=["male","female1","female2","female3","male1","male2","male3","male4","male5","male6","male7","anxious","robot"];
+// 1. Chercher par priorite plateforme
 var f=-1;
-// Chercher voix feminine par nom
-for(var i=0;i<frVoices.length;i++){var n=frVoices[i].name.toLowerCase();for(var j=0;j<fem.length;j++){if(n.indexOf(fem[j])>=0){f=i;break;}}if(f>=0)break;}
-// Si pas trouvee, exclure les masculines
-if(f<0){for(var i=0;i<frVoices.length;i++){var n=frVoices[i].name.toLowerCase();var estMal=false;for(var j=0;j<mal.length;j++){if(n.indexOf(mal[j])>=0){estMal=true;break;}}if(!estMal){f=i;break;}}}
+for(var p=0;p<priority.length&&f<0;p++){
+for(var i=0;i<frVoices.length;i++){if(frVoices[i].name.toLowerCase().indexOf(priority[p])>=0){f=i;break;}}
+}
+// 2. Fallback : premiere voix qui n'est pas dans la liste a eviter
+if(f<0){for(var i=0;i<frVoices.length;i++){var n=frVoices[i].name.toLowerCase();var bad=false;for(var j=0;j<eviter.length;j++){if(n.indexOf(eviter[j])>=0){bad=true;break;}}if(!bad){f=i;break;}}}
+// 3. Dernier recours
 selectedVoiceIndex=f>=0?f:0;
+console.log("Plateforme: "+(isApple?"Apple":isWindows?"Windows":isSamsung?"Samsung":"Chrome/Android"));
 console.log("Voix choisie: "+frVoices[selectedVoiceIndex].name);
 }
 if(window.speechSynthesis){loadVoices();window.speechSynthesis.onvoiceschanged=function(){loadVoices();};setTimeout(loadVoices,500);}
