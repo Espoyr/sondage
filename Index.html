@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Questionnaire citoyen — ASBL Espoyr</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{min-height:100vh;background:#F0EDE6;font-family:'DM Sans',sans-serif;color:#2D4A3E}
+.fade-in{animation:fadeIn .3s ease forwards}
+.fade-out{animation:fadeOut .25s ease forwards}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeOut{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-8px)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.header{background:linear-gradient(135deg,#2A614E,#1B4332);padding:20px 16px 14px;color:#fff;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,.15)}
+.header-inner{max-width:460px;margin:0 auto}
+.header h1{font-family:'Fraunces',serif;font-size:17px;font-weight:700}
+.header .sub{font-size:11px;opacity:.7;margin-top:2px}
+.progress-bar{margin-top:10px}
+.progress-labels{display:flex;justify-content:space-between;font-size:10px;opacity:.65;margin-bottom:3px}
+.progress-track{height:4px;background:rgba(255,255,255,.2);border-radius:2px}
+.progress-fill{height:100%;background:#A7D7C5;border-radius:2px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.content{max-width:460px;margin:0 auto;padding:20px 12px 70px}
+.card{background:#fff;border-radius:14px;padding:24px 20px;box-shadow:0 1px 8px rgba(0,0,0,.06);margin-bottom:16px}
+.card h2{font-family:'Fraunces',serif;font-size:18px;color:#1B4332;margin-bottom:4px}
+.card .subtitle{color:#8B9D93;font-size:12px;margin-top:4px}
+.btn{padding:12px 20px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;flex:1;transition:all .2s;border:none}
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(42,97,78,.25)}
+.btn-primary{background:#2A614E;color:#fff}
+.btn-secondary{background:#fff;color:#2A614E;border:2px solid #2A614E}
+.btn-submit{background:linear-gradient(135deg,#2A614E,#1B4332);color:#fff}
+.btn-row{display:flex;gap:10px}
+.section-header{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.speak-btn{width:34px;height:34px;border-radius:50%;border:2px solid #2A614E;background:#F0FAF4;color:#2A614E;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
+.speak-btn:hover{background:#2A614E;color:#fff}
+.speak-btn.active{background:#2A614E;color:#fff}
+.speak-btn.speaking{background:#E74C3C;border-color:#E74C3C;color:#fff;animation:pulse 1.5s infinite}
+.field-label{font-size:16px;font-weight:600;color:#2D4A3E;display:block;margin-bottom:6px}
+.chip-row{display:flex;gap:6px;flex-wrap:wrap}
+.chip{padding:7px 14px;border-radius:8px;border:2px solid #DDD8CE;background:#fff;color:#555;font-weight:400;cursor:pointer;font-size:15px;font-family:'DM Sans',sans-serif;transition:all .15s}
+.chip.active{border-color:#2A614E;background:#F0FAF4;color:#2A614E;font-weight:600}
+.chip-sm{font-size:12px;padding:6px 12px}
+.text-input{width:100%;padding:8px 12px;border-radius:8px;border:2px solid #DDD8CE;font-size:15px;font-family:'DM Sans',sans-serif;background:#FAFAF8}
+.text-input:focus{outline:none;border-color:#2A614E;box-shadow:0 0 0 3px rgba(42,97,78,.1)}
+.likert-item{padding:12px 10px;border-radius:10px;margin-bottom:5px;transition:all .3s ease;scroll-margin-top:120px}
+.likert-item:nth-child(odd){background:#FAFAF8}
+.likert-item:hover{background:#F7F5F0}
+.likert-item.current{box-shadow:0 0 0 2px #2A614E;background:#F0FAF4}
+.likert-top{display:flex;align-items:flex-start;gap:6px}
+.likert-text{font-size:18px;color:#2D4A3E;margin-bottom:8px;line-height:1.45;font-weight:500;flex:1}
+.skip-btn{width:28px;height:28px;border-radius:50%;border:1px solid #CCC;background:#fff;color:#999;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;margin-top:-2px}
+.skip-btn:hover{background:#2A614E;color:#fff;border-color:#2A614E}
+.likert-scale{display:flex;justify-content:space-between;align-items:center;gap:2px}
+.scale-label{font-size:14px;color:#2D4A3E;flex-shrink:0;width:36px;font-weight:700}
+.scale-label-r{text-align:right}
+.dots{display:flex;gap:6px;flex:1;justify-content:center}
+.dot{width:36px;height:36px;border-radius:50%;border:2px solid #CCC8BE;background:#fff;color:#888;font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;transition:all .2s}
+.dot:hover{transform:scale(1.15);box-shadow:0 0 0 4px rgba(42,97,78,.12)}
+.dot.active{border-color:#2A614E;background:#2A614E;color:#fff}
+.check-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;margin-bottom:5px;border:2px solid transparent;background:#FAFAF8;cursor:pointer;transition:all .15s}
+.check-item:hover{background:#F7F5F0}
+.check-item.active{border-color:#2A614E;background:#F0FAF4}
+.check-item.disabled{opacity:0.4;cursor:default}
+.checkbox{width:20px;height:20px;border-radius:5px;border:2px solid #CCC;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
+.check-item.active .checkbox{border-color:#2A614E;background:#2A614E}
+.info-box{background:#F0FAF4;border-radius:10px;padding:12px 16px;margin-top:20px;border-left:4px solid #2A614E}
+.info-box .title{font-size:12px;font-weight:600;color:#2A614E;margin-bottom:3px}
+.info-box .desc{font-size:12px;color:#3D5A4C;line-height:1.6}
+.error-box{margin-top:10px;padding:10px 14px;background:#FEF2F2;border:1px solid #FECACA;border-radius:10px;color:#991B1B;font-size:12px}
+.confirm-center{text-align:center;padding:40px 24px}
+.confirm-center .emoji{font-size:48px;margin-bottom:14px}
+.confirm-center h2{font-family:'Fraunces',serif;font-size:22px;color:#1B4332;margin-bottom:10px}
+.confirm-center p{color:#6B7C72;font-size:15px;line-height:1.6;max-width:360px;margin:0 auto}
+.confirm-badge{margin-top:24px;padding:10px 16px;background:#F0FAF4;border-radius:10px;display:inline-block;font-size:12px;color:#2A614E}
+.counter{font-size:11px;color:#2A614E;font-weight:600;margin-top:4px}
+.mb{margin-bottom:16px}
+.mt{margin-top:16px}
+.hidden{display:none}
+.optional{font-size:11px;color:#AAA;font-weight:400;font-style:italic}
+
+.soleil{background:#111}
+.soleil .card{background:#1A1A1A;box-shadow:0 2px 12px rgba(0,0,0,.5);border:2px solid #444}
+.soleil .likert-text{color:#fff;font-weight:600;font-size:20px}
+.soleil .scale-label{color:#fff;font-size:16px}
+.soleil .dot{border:3px solid #888;color:#ccc;background:#222}
+.soleil .dot:hover{box-shadow:0 0 0 5px rgba(255,255,255,.2)}
+.soleil .dot.active{border-color:#5BDB9E;background:#5BDB9E;color:#000}
+.soleil .likert-item:nth-child(odd){background:#222}
+.soleil .likert-item:hover{background:#2A2A2A}
+.soleil .likert-item.current{box-shadow:0 0 0 3px #5BDB9E;background:#1A2E1A}
+.soleil .chip{border:2px solid #666;color:#ddd;background:#222}
+.soleil .chip.active{border-color:#5BDB9E;background:#1A2E1A;color:#fff;font-weight:700}
+.soleil .chip-sm{font-size:14px}
+.soleil .field-label{color:#fff;font-size:18px}
+.soleil .text-input{border:2px solid #666;background:#222;color:#fff}
+.soleil .check-item{background:#222;border:2px solid transparent}
+.soleil .check-item:hover{background:#2A2A2A}
+.soleil .check-item.active{border-color:#5BDB9E;background:#1A2E1A}
+.soleil .check-item span{color:#fff}
+.soleil .checkbox{border:2px solid #888}
+.soleil .check-item.active .checkbox{border-color:#5BDB9E;background:#5BDB9E}
+.soleil .skip-btn{border:2px solid #666;color:#aaa;background:#222}
+.soleil .skip-btn:hover{background:#5BDB9E;color:#000;border-color:#5BDB9E}
+.soleil .info-box{background:#222;border-left:4px solid #5BDB9E}
+.soleil .info-box .title{color:#5BDB9E}
+.soleil .info-box .desc{color:#ddd}
+.soleil .card h2{color:#fff}
+.soleil .card .subtitle{color:#aaa}
+.soleil .counter{color:#5BDB9E}
+.soleil .optional{color:#888}
+.soleil .confirm-center h2{color:#fff}
+.soleil .confirm-center p{color:#ccc}
+.soleil .confirm-badge{background:#222;color:#5BDB9E}
+.soleil .btn-secondary{background:#222;color:#fff;border-color:#666}
+.soleil .btn-primary{background:#5BDB9E;color:#000}
+.soleil .btn-submit{background:#5BDB9E;color:#000}
+.soleil .error-box{background:#3A1A1A;border-color:#CC4444;color:#FF8888}
+.soleil .speak-btn{border-color:#5BDB9E;background:#222;color:#5BDB9E}
+.soleil .speak-btn.active{background:#5BDB9E;color:#000}
+.soleil .speak-btn.speaking{background:#E74C3C;border-color:#E74C3C;color:#fff}
+.soleil h1[style]{color:#fff !important}
+.soleil p[style*="color:#6B7C72"]{color:#ccc !important}
+.soleil .content{color:#fff}
+</style>
+</head>
+<body>
+<div class="header"><div class="header-inner">
+<h1>Questionnaire citoyen</h1>
+<div class="sub">ASBL Espoyr &#8212; Sprimont</div>
+<div class="progress-bar hidden" id="progressBar">
+<div class="progress-labels"><span id="pageLabel"></span><span id="pctLabel"></span></div>
+<div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div></div></div>
+<div class="content"><div id="app" class="fade-in"></div></div>
+<iframe name="hiddenFrame" style="display:none"></iframe>
+<script>
+var SCRIPT_URL="https://script.google.com/macros/s/AKfycbyEk376L6wvSnIhnPYOvAv95XpZV30ENBpfckIKHu7tpZJmYCvpHXJZMh6fOL29gU7-/exec";
+
+var SECTIONS=[
+{id:"profil",title:"Quelques informations",subtitle:"Facultatif",type:"profil"},
+{id:"b1",title:"1. Vie quotidienne",type:"likert",items:[
+"Je parviens \u00e0 couvrir mes d\u00e9penses courantes sans difficult\u00e9",
+"Le co\u00fbt du logement et de l\u2019\u00e9nergie p\u00e8se de plus en plus sur mon budget",
+"L\u2019alimentation que je consomme actuellement est favorable \u00e0 ma sant\u00e9",
+"J\u2019ai facilement acc\u00e8s aux services dont j\u2019ai besoin au quotidien"
+]},
+{id:"b2",title:"2. Travail et avenir professionnel",type:"likert",items:[
+"Je consid\u00e8re mon emploi ou mon activit\u00e9 comme stable",
+"Le march\u00e9 du travail local offre suffisamment d\u2019opportunit\u00e9s",
+"Les nouvelles technologies menacent certains m\u00e9tiers autour de moi",
+"Je pense que les jeunes de ma r\u00e9gion trouvent du travail facilement"
+]},
+{id:"b3",title:"3. Avenir des enfants et des jeunes",type:"likert",items:[
+"Les enfants de ma r\u00e9gion re\u00e7oivent une \u00e9ducation de qualit\u00e9",
+"Les jeunes auront plus de difficult\u00e9s que ma g\u00e9n\u00e9ration \u00e0 s\u2019installer",
+"L\u2019acc\u00e8s au logement est devenu un obstacle r\u00e9el pour les jeunes ici",
+"Je suis confiant dans les perspectives d\u2019avenir de la prochaine g\u00e9n\u00e9ration"
+]},
+{id:"b4",title:"4. Retraite et protection sociale",type:"likert",items:[
+"Je fais confiance au syst\u00e8me de pension pour assurer ma retraite",
+"La crise du COVID-19 m\u2019a donn\u00e9 envie d\u2019agir davantage au niveau local ou collectif",
+"Les personnes \u00e2g\u00e9es de mon entourage sont correctement prot\u00e9g\u00e9es",
+"Je doute de la viabilit\u00e9 \u00e0 long terme de notre s\u00e9curit\u00e9 sociale"
+]},
+{id:"b5",title:"5. Ressources et autonomie locale",type:"likert",items:[
+"L\u2019acc\u00e8s \u00e0 l\u2019\u00e9nergie me semble garanti pour les ann\u00e9es \u00e0 venir",
+"La disparition d\u2019agriculteurs locaux me pr\u00e9occupe",
+"Notre r\u00e9gion est trop d\u00e9pendante de ressources ext\u00e9rieures",
+"Sans voiture, il est d\u00e9j\u00e0 difficile de se d\u00e9placer pour les besoins essentiels dans ma r\u00e9gion"
+]},
+{id:"b6",title:"6. Environnement et cadre de vie",type:"likert",items:[
+"La qualit\u00e9 de vie dans ma commune est satisfaisante",
+"L\u2019environnement naturel autour de chez moi se d\u00e9grade",
+"La qualit\u00e9 de l\u2019eau ou de l\u2019air dans ma r\u00e9gion m\u2019inqui\u00e8te",
+"Je constate une perte de biodiversit\u00e9 dans mon environnement proche"
+]},
+{id:"b7",title:"7. Solidarit\u00e9 et lien social",type:"likert",items:[
+"Je me sens en s\u00e9curit\u00e9 dans ma commune",
+"La solidarit\u00e9 entre habitants fonctionne bien l\u00e0 o\u00f9 je vis",
+"Le lien social dans mon quartier ou mon village s\u2019affaiblit",
+"L\u2019accompagnement des personnes vuln\u00e9rables est suffisant"
+]},
+{id:"b8",title:"8. Vision g\u00e9n\u00e9rale",type:"likert",items:[
+"Globalement, je suis optimiste pour l\u2019avenir de notre soci\u00e9t\u00e9",
+"Je fais confiance aux institutions pour faire face aux d\u00e9fis actuels",
+"Notre soci\u00e9t\u00e9 a historiquement su s\u2019adapter aux crises",
+"Je ressens le besoin d\u2019agir mais je ne sais pas par o\u00f9 commencer"
+]},
+{id:"engagement",title:"Et apr\u00e8s ? Votre envie d\u2019agir",type:"engagement"},
+{id:"ouvertes",title:"Vos r\u00e9flexions",type:"ouvertes"}
+];
+
+var ENG_OPTIONS=[
+"Je pr\u00e9f\u00e8re observer sans m\u2019impliquer pour le moment",
+"Je serais curieux\u00b7se de d\u00e9couvrir des initiatives locales",
+"Je participe d\u00e9j\u00e0 \u00e0 des actions collectives dans ma r\u00e9gion",
+"Je souhaiterais m\u2019engager davantage si on me montrait comment"
+];
+
+var PREOCCUP_OPTIONS=["Pouvoir d\u2019achat","Emploi","Retraite / pensions","Logement","Sant\u00e9 / acc\u00e8s aux soins","\u00c9nergie / climat","Alimentation locale","\u00c9ducation des jeunes","S\u00e9curit\u00e9","Isolement / lien social"];
+var INITIATIVE_OPTIONS=["March\u00e9 de producteurs locaux","Coop\u00e9rative d\u2019\u00e9nergie","Monnaie locale / entraide","Tiers-lieu / coworking","Potagers collectifs","Transport partag\u00e9","Aide aux a\u00een\u00e9s","Activit\u00e9s pour les jeunes"];
+
+var MODE_EMPLOI="Mode d\u2019emploi. Pour chaque affirmation, indiquez votre degr\u00e9 d\u2019accord de 1 \u00e0 5, o\u00f9 1 signifie non et 5 signifie oui. Vous n\u2019\u00eates pas oblig\u00e9 de r\u00e9pondre. Utilisez la fl\u00e8che pour passer.";
+
+var page=-1,answers={},profil={age:"",situation:"",codepostal:""};
+var engagement=[],openPreoccup=[],openInitiative=[],autrePreoccup="",autreInitiative="";
+var sending=false,speaking=false,voiceMode=true,soleilMode=false,currentItemIdx=0;
+var app=document.getElementById("app");
+
+function getItemText(secId,idx){
+var sec=null;for(var i=0;i<SECTIONS.length;i++){if(SECTIONS[i].id===secId){sec=SECTIONS[i];break;}}
+if(!sec||sec.type!=="likert")return "";
+var txt=sec.items[idx],sit=profil.situation;
+if(secId==="b2"&&idx===0){
+if(sit==="Retrait\u00e9\u00b7e")return "Ma pension me permet de vivre correctement";
+if(sit==="Sans emploi")return "Je suis confiant\u00b7e de retrouver un emploi";
+if(sit==="\u00c9tudiant\u00b7e")return "Je suis confiant\u00b7e de trouver un emploi apr\u00e8s mes \u00e9tudes";
+}
+if(secId==="b4"&&idx===0&&sit==="Retrait\u00e9\u00b7e")return "Le montant de ma pension me semble correct";
+return txt;
+}
+
+var frVoices=[],selectedVoiceIndex=0,voicesLoaded=false;
+function loadVoices(){
+if(!window.speechSynthesis)return;var all=window.speechSynthesis.getVoices();if(!all.length)return;
+var strict=all.filter(function(v){return v.lang==="fr-FR";});
+if(!strict.length)strict=all.filter(function(v){return v.lang.startsWith("fr-");});
+if(!strict.length)strict=all.filter(function(v){return v.lang.indexOf("fr")>=0;});
+if(!strict.length)return;
+frVoices=strict;voicesLoaded=true;
+console.log("Voix FR disponibles:");
+for(var i=0;i<frVoices.length;i++)console.log(i+": "+frVoices[i].name+" ("+frVoices[i].lang+")");
+// Detecter la plateforme
+var ua=navigator.userAgent.toLowerCase();
+var isApple=/iphone|ipad|macintosh|mac os/.test(ua);
+var isWindows=/windows/.test(ua);
+var isSamsung=/samsung/.test(ua);
+// Ordre de preference par plateforme (meilleures voix feminines naturelles)
+var priority;
+if(isApple) priority=["audrey","amelie","marie","virginie","celine","lea","sophie","annie","denise"];
+else if(isWindows) priority=["denise","julie","caroline","audrey","amelie","annie","lea","marie"];
+else if(isSamsung) priority=["lea","amelie","audrey","annie","denise","marie"];
+else priority=["annie","denise","audrey","amelie","lea","marie","virginie","sophie","celine","julie","caroline","sara","sylvie","aurelie","isabelle","nathalie","sandrine"];
+// Voix a eviter absolument (synthetiques basse qualite)
+var eviter=["male","female1","female2","female3","male1","male2","male3","male4","male5","male6","male7","anxious","robot"];
+// 1. Chercher par priorite plateforme
+var f=-1;
+for(var p=0;p<priority.length&&f<0;p++){
+for(var i=0;i<frVoices.length;i++){if(frVoices[i].name.toLowerCase().indexOf(priority[p])>=0){f=i;break;}}
+}
+// 2. Fallback : premiere voix qui n'est pas dans la liste a eviter
+if(f<0){for(var i=0;i<frVoices.length;i++){var n=frVoices[i].name.toLowerCase();var bad=false;for(var j=0;j<eviter.length;j++){if(n.indexOf(eviter[j])>=0){bad=true;break;}}if(!bad){f=i;break;}}}
+// 3. Dernier recours
+selectedVoiceIndex=f>=0?f:0;
+console.log("Plateforme: "+(isApple?"Apple":isWindows?"Windows":isSamsung?"Samsung":"Chrome/Android"));
+console.log("Voix choisie: "+frVoices[selectedVoiceIndex].name);
+}
+if(window.speechSynthesis){loadVoices();window.speechSynthesis.onvoiceschanged=function(){loadVoices();};setTimeout(loadVoices,500);}
+
+function dire(texte,quandFini){
+if(!window.speechSynthesis){if(quandFini)quandFini();return;}
+window.speechSynthesis.cancel();if(!voicesLoaded)loadVoices();
+var u=new SpeechSynthesisUtterance(texte);u.lang="fr-FR";u.rate=0.85;
+if(frVoices.length>0)u.voice=frVoices[selectedVoiceIndex]||frVoices[0];
+u.onend=function(){speaking=false;updateUI();if(quandFini)quandFini();};
+u.onerror=function(){speaking=false;updateUI();if(quandFini)quandFini();};
+speaking=true;window.speechSynthesis.speak(u);updateUI();
+}
+function taire(){if(window.speechSynthesis)window.speechSynthesis.cancel();speaking=false;}
+
+function lireProposition(idx){
+var sec=SECTIONS[page];if(!sec||sec.type!=="likert"||idx>=sec.items.length)return;
+currentItemIdx=idx;updateUI();
+setTimeout(function(){var el=document.getElementById("item_"+idx);if(el)el.scrollIntoView({behavior:"smooth",block:"center"});dire(getItemText(sec.id,idx));},150);
+}
+function commencerSection(){
+var sec=SECTIONS[page];if(!sec)return;
+if(sec.type==="likert"){currentItemIdx=0;dire(sec.title,function(){setTimeout(function(){lireProposition(0);},300);});}
+else if(sec.type==="engagement"){var t=sec.title+". Plusieurs r\u00e9ponses possibles. ";for(var i=0;i<ENG_OPTIONS.length;i++)t+=(i+1)+". "+ENG_OPTIONS[i]+". ";dire(t);}
+else if(sec.type==="ouvertes"){dire(sec.title+". Cochez jusqu\u2019\u00e0 3 pr\u00e9occupations pour les 10 \u00e0 20 prochaines ann\u00e9es, puis jusqu\u2019\u00e0 3 initiatives locales souhait\u00e9es.");}
+else if(sec.type==="profil"){dire(sec.title+". Indiquez votre tranche d\u2019\u00e2ge, votre situation et votre code postal.");}
+}
+function toggleSoleil(){soleilMode=!soleilMode;document.body.className=soleilMode?'soleil':'';updateUI();}
+function toggleVoiceMode(){voiceMode=!voiceMode;if(voiceMode&&page>=0&&page<SECTIONS.length)commencerSection();else taire();updateUI();}
+
+function repondre(secId,idx,val){
+taire();answers[secId+"_"+idx]=val;var sec=SECTIONS[page],next=idx+1;
+if(sec&&sec.type==="likert"&&next<sec.items.length){currentItemIdx=next;updateUI();
+if(voiceMode)setTimeout(function(){lireProposition(next);},300);
+else setTimeout(function(){var el=document.getElementById("item_"+next);if(el)el.scrollIntoView({behavior:"smooth",block:"center"});},100);
+}else{currentItemIdx=idx;updateUI();}
+}
+function passer(idx){
+taire();var sec=SECTIONS[page],next=idx+1;
+if(sec&&sec.type==="likert"&&next<sec.items.length){currentItemIdx=next;updateUI();
+if(voiceMode)setTimeout(function(){lireProposition(next);},300);
+else setTimeout(function(){var el=document.getElementById("item_"+next);if(el)el.scrollIntoView({behavior:"smooth",block:"center"});},100);
+}
+}
+
+function toggleEng(i){var o=ENG_OPTIONS[i];var x=engagement.indexOf(o);if(x>=0)engagement.splice(x,1);else engagement.push(o);updateUI();}
+function togglePreoccup(i){var o=PREOCCUP_OPTIONS[i];var x=openPreoccup.indexOf(o);if(x>=0)openPreoccup.splice(x,1);else if(openPreoccup.length<3)openPreoccup.push(o);updateUI();}
+function toggleInitiative(i){var o=INITIATIVE_OPTIONS[i];var x=openInitiative.indexOf(o);if(x>=0)openInitiative.splice(x,1);else if(openInitiative.length<3)openInitiative.push(o);updateUI();}
+
+function allerA(dir){taire();app.className="fade-out";setTimeout(function(){page+=dir;currentItemIdx=0;app.className="fade-in";updateUI();window.scrollTo({top:0,behavior:"smooth"});if(voiceMode&&page>=0&&page<SECTIONS.length)setTimeout(commencerSection,500);},250);}
+function commencer(){if(voiceMode)dire(MODE_EMPLOI,function(){allerA(1);});else allerA(1);}
+
+function envoyer(){
+taire();sending=true;updateUI();
+var pList=openPreoccup.slice();if(autrePreoccup.trim())pList.push(autrePreoccup.trim());
+var iList=openInitiative.slice();if(autreInitiative.trim())iList.push(autreInitiative.trim());
+var payload=JSON.stringify({profil:profil,answers:answers,engagement:engagement,openQ:{preoccupation:pList.join("; "),initiative:iList.join("; ")}});
+var form=document.createElement("form");form.method="POST";form.action=SCRIPT_URL;form.target="hiddenFrame";
+var input=document.createElement("input");input.type="hidden";input.name="data";input.value=payload;
+form.appendChild(input);document.body.appendChild(form);form.submit();
+setTimeout(function(){document.body.removeChild(form);app.className="fade-out";setTimeout(function(){page=99;sending=false;app.className="fade-in";updateUI();},250);},3000);
+}
+
+function chk(act){return act?'<svg width="12" height="9" viewBox="0 0 13 10" fill="none"><path d="M1 5L4.5 8.5L12 1" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>':'';}
+
+function muteBtn(full){
+var w=full?'width:100%;padding:14px':'width:100%;padding:10px';
+var fs=full?'font-size:16px':'font-size:15px';
+var sw=full?'18':'16';
+var label=voiceMode?(full?'Son activ\u00e9 \u2014 cliquez pour couper':'Couper le son'):(full?'Son coup\u00e9 \u2014 cliquez pour remettre':'Remettre le son');
+var emoji=voiceMode?'\ud83d\udd0a ':'\ud83d\udd07 ';
+return '<button onclick="toggleVoiceMode()" style="'+w+';border-radius:10px;'+fs+';font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;border:none;display:flex;align-items:center;justify-content:center;gap:8px;'+(voiceMode?'background:#2A614E;color:#fff':'background:#E8E4DC;color:#666')+'"><svg width="'+sw+'" height="'+sw+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>'+(voiceMode?'<path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>':'<line x1="23" y1="1" x2="1" y2="23"/>')+'</svg> '+emoji+label+'</button>';
+}
+function soleilBtn(){
+var label=soleilMode?'Mode normal':'Mode soleil';
+var emoji=soleilMode?'\ud83c\udf19 ':'\u2600\ufe0f ';
+return '<button onclick="toggleSoleil()" style="width:100%;padding:10px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;border:none;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:8px;'+(soleilMode?'background:#5BDB9E;color:#000':'background:#E8E4DC;color:#666')+'">'+emoji+label+'</button>';
+}
+
+function updateUI(){
+var totalPages=SECTIONS.length;
+var pb=document.getElementById("progressBar"),pf=document.getElementById("progressFill"),pl=document.getElementById("pageLabel"),pp=document.getElementById("pctLabel");
+if(page>=0&&page<totalPages){pb.classList.remove("hidden");var pct=Math.round(((page+1)/totalPages)*100);pl.textContent=(page+1)+" / "+totalPages;pp.textContent=pct+"%";pf.style.width=pct+"%";}else pb.classList.add("hidden");
+
+if(page===-1){
+app.innerHTML='<div class="card" style="padding:32px 22px"><h1 style="font-family:Fraunces,serif;font-size:24px;color:#1B4332;line-height:1.2;margin-bottom:8px">Comment percevez-vous votre avenir et celui de votre r\u00e9gion\u00a0?</h1><p style="color:#6B7C72;font-size:15px;line-height:1.6;margin-top:14px">Ce questionnaire anonyme explore vos perceptions sur la vie quotidienne, l\u2019emploi, l\u2019environnement, la solidarit\u00e9 et les perspectives d\u2019avenir.</p><div class="info-box"><div class="title">Mode d\u2019emploi</div><div class="desc">Pour chaque affirmation, indiquez votre degr\u00e9 d\u2019accord de 1 (Non) \u00e0 5 (Oui). <strong>Vous n\u2019\u00eates pas oblig\u00e9 de r\u00e9pondre \u00e0 chaque question</strong> \u2014 utilisez la fl\u00e8che \u2193 pour passer. Dur\u00e9e\u00a0: ~5 min.</div></div><div style="margin-top:16px;text-align:center">'+muteBtn(true)+soleilBtn()+'</div></div><button class="btn btn-primary" style="width:100%" onclick="commencer()">Commencer</button>';
+return;
+}
+if(page===99){taire();var count=Object.keys(answers).length;var total=0;for(var i=0;i<SECTIONS.length;i++)if(SECTIONS[i].type==="likert")total+=SECTIONS[i].items.length;
+app.innerHTML='<div class="card confirm-center"><div class="emoji">\ud83c\udf3f</div><h2>Merci pour votre participation\u00a0!</h2><p>Vos r\u00e9ponses contribueront \u00e0 une r\u00e9flexion collective sur l\u2019avenir de notre r\u00e9gion.</p><div class="confirm-badge">'+count+' r\u00e9ponses sur '+total+' questions</div><div class="mt"><button class="btn btn-primary" onclick="resetAll()">Nouveau questionnaire</button></div></div>';return;
+}
+
+var sec=SECTIONS[page],html='<div class="card">';
+var ico=speaking?'<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>':'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>';
+html+='<div class="section-header"><div style="flex:1"><h2>'+sec.title+'</h2>';
+if(sec.subtitle)html+='<p class="subtitle">'+sec.subtitle+'</p>';
+html+='</div><button class="speak-btn '+(speaking?'speaking':voiceMode?'active':'')+'" onclick="'+(speaking?'taire();updateUI()':'commencerSection()')+'" title="'+(speaking?'Arr\u00eater':'Lire')+'">'+ico+'</button></div>';
+
+if(sec.type==="profil"){
+html+='<div class="mt"><div class="mb"><label class="field-label">Tranche d\u2019\u00e2ge <span class="optional">(facultatif)</span></label><div class="chip-row">';
+var ages=["18-30","31-45","46-60","61+"];for(var i=0;i<ages.length;i++)html+='<button class="chip '+(profil.age===ages[i]?'active':'')+'" onclick="profil.age=\''+ages[i]+'\';updateUI()">'+ages[i]+'</button>';
+html+='</div></div><div class="mb"><label class="field-label">Situation <span class="optional">(facultatif)</span></label><div class="chip-row">';
+var sits=["Salari\u00e9\u00b7e","Ind\u00e9pendant\u00b7e","Sans emploi","Retrait\u00e9\u00b7e","\u00c9tudiant\u00b7e","Autre"];for(var i=0;i<sits.length;i++)html+='<button class="chip chip-sm '+(profil.situation===sits[i]?'active':'')+'" onclick="profil.situation=\''+sits[i]+'\';updateUI()">'+sits[i]+'</button>';
+html+='</div></div><div><label class="field-label">Code postal <span class="optional">(facultatif)</span></label><input type="text" class="text-input" value="'+profil.codepostal+'" oninput="profil.codepostal=this.value" placeholder="ex\u00a0: 4140" maxlength="5" style="max-width:140px"></div></div>';
+}
+
+if(sec.type==="likert"){
+html+='<div class="mt">';
+for(var idx=0;idx<sec.items.length;idx++){
+var key=sec.id+"_"+idx,sel=answers[key]||0,cur=idx===currentItemIdx,last=idx===sec.items.length-1;
+html+='<div class="likert-item '+(cur?'current':'')+'" id="item_'+idx+'"><div class="likert-top"><div class="likert-text">'+getItemText(sec.id,idx)+'</div>';
+if(!last)html+='<button class="skip-btn" onclick="passer('+idx+')" title="Passer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>';
+html+='</div><div class="likert-scale"><span class="scale-label">Non</span><div class="dots">';
+for(var v=1;v<=5;v++)html+='<button class="dot '+(sel===v?'active':'')+'" onclick="repondre(\''+sec.id+'\','+idx+','+v+')">'+v+'</button>';
+html+='</div><span class="scale-label scale-label-r">Oui</span></div></div>';
+}
+html+='</div>';
+}
+
+if(sec.type==="engagement"){
+html+='<div class="mt"><p style="font-size:16px;color:#6B7C72;margin-bottom:14px;line-height:1.5">Face aux enjeux identifi\u00e9s, comment vous situez-vous\u00a0? <span class="optional">(plusieurs r\u00e9ponses possibles)</span></p>';
+for(var i=0;i<ENG_OPTIONS.length;i++){var act=engagement.indexOf(ENG_OPTIONS[i])>=0;html+='<div class="check-item '+(act?'active':'')+'" onclick="toggleEng('+i+')"><div class="checkbox">'+chk(act)+'</div><span style="font-size:18px">'+ENG_OPTIONS[i]+'</span></div>';}
+html+='</div>';
+}
+
+if(sec.type==="ouvertes"){
+var cP=openPreoccup.length,cI=openInitiative.length;
+html+='<div class="mt"><div class="mb"><label class="field-label">Vos pr\u00e9occupations principales pour les 10 \u00e0 20 prochaines ann\u00e9es <span class="optional">(cochez jusqu\u2019\u00e0 3)</span></label>';
+if(cP>0)html+='<div class="counter">'+cP+'/3 s\u00e9lectionn\u00e9e'+(cP>1?'s':'')+'</div>';
+for(var i=0;i<PREOCCUP_OPTIONS.length;i++){var act=openPreoccup.indexOf(PREOCCUP_OPTIONS[i])>=0;var dis=!act&&cP>=3;
+html+='<div class="check-item '+(act?'active':'')+(dis?' disabled':'')+'" onclick="'+(dis?'':'togglePreoccup('+i+')')+'"><div class="checkbox">'+chk(act)+'</div><span style="font-size:18px">'+PREOCCUP_OPTIONS[i]+'</span></div>';}
+html+='<div style="margin-top:8px"><input type="text" class="text-input" value="'+autrePreoccup+'" oninput="autrePreoccup=this.value" placeholder="Autre..." style="max-width:260px"></div></div>';
+
+html+='<div><label class="field-label">Initiatives locales que vous aimeriez voir na\u00eetre <span class="optional">(cochez jusqu\u2019\u00e0 3)</span></label>';
+if(cI>0)html+='<div class="counter">'+cI+'/3 s\u00e9lectionn\u00e9e'+(cI>1?'s':'')+'</div>';
+for(var i=0;i<INITIATIVE_OPTIONS.length;i++){var act=openInitiative.indexOf(INITIATIVE_OPTIONS[i])>=0;var dis=!act&&cI>=3;
+html+='<div class="check-item '+(act?'active':'')+(dis?' disabled':'')+'" onclick="'+(dis?'':'toggleInitiative('+i+')')+'"><div class="checkbox">'+chk(act)+'</div><span style="font-size:18px">'+INITIATIVE_OPTIONS[i]+'</span></div>';}
+html+='<div style="margin-top:8px"><input type="text" class="text-input" value="'+autreInitiative+'" oninput="autreInitiative=this.value" placeholder="Autre..." style="max-width:260px"></div></div></div>';
+}
+
+html+='</div>';
+html+='<div style="text-align:center;margin-bottom:10px">'+muteBtn(false)+soleilBtn()+'</div>';
+html+='<div class="btn-row"><button class="btn btn-secondary" onclick="allerA(-1)">\u2190 Retour</button>';
+if(page<SECTIONS.length-1)html+='<button class="btn btn-primary" onclick="allerA(1)">Suivant \u2192</button>';
+else html+=sending?'<button class="btn btn-primary" style="background:#6B9C8A;cursor:wait" disabled>Envoi...</button>':'<button class="btn btn-submit" onclick="envoyer()">Envoyer \u2713</button>';
+html+='</div><div class="error-box hidden" id="errorBox">Erreur d\u2019envoi.</div>';
+app.innerHTML=html;
+}
+
+function resetAll(){taire();page=-1;answers={};profil={age:"",situation:"",codepostal:""};engagement=[];openPreoccup=[];openInitiative=[];autrePreoccup="";autreInitiative="";sending=false;voiceMode=true;currentItemIdx=0;document.body.className=soleilMode?'soleil':'';updateUI();}
+updateUI();
+</script>
+</body>
+</html>
