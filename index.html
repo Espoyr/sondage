@@ -79,37 +79,49 @@ body{min-height:100vh;background:#F0EDE6;font-family:'DM Sans',sans-serif;color:
 .hidden{display:none}
 .optional{font-size:11px;color:#AAA;font-weight:400;font-style:italic}
 
-.soleil{background:#FFFFFF}
-.soleil .card{background:#FFFFFF;box-shadow:0 2px 12px rgba(0,0,0,.15);border:2px solid #333}
-.soleil .likert-text{color:#000;font-weight:600}
-.soleil .scale-label{color:#000;font-size:15px}
-.soleil .dot{border:3px solid #555;color:#333;background:#fff}
-.soleil .dot:hover{box-shadow:0 0 0 5px rgba(0,0,0,.2)}
-.soleil .dot.active{border-color:#1B4332;background:#1B4332;color:#fff}
-.soleil .likert-item:nth-child(odd){background:#F0F0F0}
-.soleil .likert-item:hover{background:#E8E8E8}
-.soleil .likert-item.current{box-shadow:0 0 0 3px #000;background:#DDEEDD}
-.soleil .chip{border:2px solid #666;color:#000}
-.soleil .chip.active{border-color:#000;background:#DDEEDD;color:#000;font-weight:700}
-.soleil .field-label{color:#000}
-.soleil .text-input{border:2px solid #666;background:#fff;color:#000}
-.soleil .check-item{background:#F0F0F0;border:2px solid transparent}
-.soleil .check-item:hover{background:#E8E8E8}
-.soleil .check-item.active{border-color:#000;background:#DDEEDD}
-.soleil .checkbox{border:2px solid #555}
-.soleil .check-item.active .checkbox{border-color:#000;background:#000}
-.soleil .skip-btn{border:2px solid #666;color:#555}
-.soleil .skip-btn:hover{background:#000;color:#fff;border-color:#000}
-.soleil .info-box{background:#EAEAEA;border-left:4px solid #000}
-.soleil .info-box .title{color:#000}
-.soleil .info-box .desc{color:#000}
-.soleil .card h2{color:#000}
-.soleil .card .subtitle{color:#333}
-.soleil .counter{color:#000}
-.soleil .optional{color:#555}
-.soleil .confirm-center h2{color:#000}
-.soleil .confirm-center p{color:#333}
-.soleil .confirm-badge{background:#EAEAEA;color:#000}
+.soleil{background:#111}
+.soleil .card{background:#1A1A1A;box-shadow:0 2px 12px rgba(0,0,0,.5);border:2px solid #444}
+.soleil .likert-text{color:#fff;font-weight:600;font-size:20px}
+.soleil .scale-label{color:#fff;font-size:16px}
+.soleil .dot{border:3px solid #888;color:#ccc;background:#222}
+.soleil .dot:hover{box-shadow:0 0 0 5px rgba(255,255,255,.2)}
+.soleil .dot.active{border-color:#5BDB9E;background:#5BDB9E;color:#000}
+.soleil .likert-item:nth-child(odd){background:#222}
+.soleil .likert-item:hover{background:#2A2A2A}
+.soleil .likert-item.current{box-shadow:0 0 0 3px #5BDB9E;background:#1A2E1A}
+.soleil .chip{border:2px solid #666;color:#ddd;background:#222}
+.soleil .chip.active{border-color:#5BDB9E;background:#1A2E1A;color:#fff;font-weight:700}
+.soleil .chip-sm{font-size:14px}
+.soleil .field-label{color:#fff;font-size:18px}
+.soleil .text-input{border:2px solid #666;background:#222;color:#fff}
+.soleil .check-item{background:#222;border:2px solid transparent}
+.soleil .check-item:hover{background:#2A2A2A}
+.soleil .check-item.active{border-color:#5BDB9E;background:#1A2E1A}
+.soleil .check-item span{color:#fff}
+.soleil .checkbox{border:2px solid #888}
+.soleil .check-item.active .checkbox{border-color:#5BDB9E;background:#5BDB9E}
+.soleil .skip-btn{border:2px solid #666;color:#aaa;background:#222}
+.soleil .skip-btn:hover{background:#5BDB9E;color:#000;border-color:#5BDB9E}
+.soleil .info-box{background:#222;border-left:4px solid #5BDB9E}
+.soleil .info-box .title{color:#5BDB9E}
+.soleil .info-box .desc{color:#ddd}
+.soleil .card h2{color:#fff}
+.soleil .card .subtitle{color:#aaa}
+.soleil .counter{color:#5BDB9E}
+.soleil .optional{color:#888}
+.soleil .confirm-center h2{color:#fff}
+.soleil .confirm-center p{color:#ccc}
+.soleil .confirm-badge{background:#222;color:#5BDB9E}
+.soleil .btn-secondary{background:#222;color:#fff;border-color:#666}
+.soleil .btn-primary{background:#5BDB9E;color:#000}
+.soleil .btn-submit{background:#5BDB9E;color:#000}
+.soleil .error-box{background:#3A1A1A;border-color:#CC4444;color:#FF8888}
+.soleil .speak-btn{border-color:#5BDB9E;background:#222;color:#5BDB9E}
+.soleil .speak-btn.active{background:#5BDB9E;color:#000}
+.soleil .speak-btn.speaking{background:#E74C3C;border-color:#E74C3C;color:#fff}
+.soleil h1[style]{color:#fff !important}
+.soleil p[style*="color:#6B7C72"]{color:#ccc !important}
+.soleil .content{color:#fff}
 </style>
 </head>
 <body>
@@ -318,7 +330,7 @@ return '<button onclick="toggleVoiceMode()" style="'+w+';border-radius:10px;'+fs
 function soleilBtn(){
 var label=soleilMode?'Mode normal':'Mode soleil';
 var emoji=soleilMode?'\ud83c\udf19 ':'\u2600\ufe0f ';
-return '<button onclick="toggleSoleil()" style="width:100%;padding:10px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;border:none;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:8px;'+(soleilMode?'background:#000;color:#fff':'background:#E8E4DC;color:#666')+'">'+emoji+label+'</button>';
+return '<button onclick="toggleSoleil()" style="width:100%;padding:10px;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif;border:none;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:8px;'+(soleilMode?'background:#5BDB9E;color:#000':'background:#E8E4DC;color:#666')+'">'+emoji+label+'</button>';
 }
 
 function updateUI(){
