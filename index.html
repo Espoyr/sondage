@@ -205,7 +205,7 @@ var MODE_EMPLOI="Mode d\u2019emploi. Pour chaque affirmation, indiquez votre deg
 
 var page=-1,answers={},profil={age:"",situation:"",codepostal:""};
 var engagement=[],openPreoccup=[],openInitiative=[],autrePreoccup="",autreInitiative="";
-var sending=false,speaking=false,voiceMode=true,soleilMode=false,currentItemIdx=0;
+var sending=false,speaking=false,voiceMode=true,soleilMode=false,currentItemIdx=0,navigating=false;
 var app=document.getElementById("app");
 
 function getItemText(secId,idx){
@@ -303,8 +303,8 @@ function toggleEng(i){var o=ENG_OPTIONS[i];var x=engagement.indexOf(o);if(x>=0)e
 function togglePreoccup(i){var o=PREOCCUP_OPTIONS[i];var x=openPreoccup.indexOf(o);if(x>=0)openPreoccup.splice(x,1);else if(openPreoccup.length<3)openPreoccup.push(o);updateUI();}
 function toggleInitiative(i){var o=INITIATIVE_OPTIONS[i];var x=openInitiative.indexOf(o);if(x>=0)openInitiative.splice(x,1);else if(openInitiative.length<3)openInitiative.push(o);updateUI();}
 
-function allerA(dir){taire();app.className="fade-out";setTimeout(function(){page+=dir;currentItemIdx=0;app.className="fade-in";updateUI();window.scrollTo({top:0,behavior:"smooth"});if(voiceMode&&page>=0&&page<SECTIONS.length)setTimeout(commencerSection,500);},250);}
-function commencer(){if(voiceMode)dire(MODE_EMPLOI,function(){allerA(1);});else allerA(1);}
+function allerA(dir){if(navigating)return;navigating=true;taire();app.className="fade-out";setTimeout(function(){page+=dir;currentItemIdx=0;app.className="fade-in";updateUI();window.scrollTo({top:0,behavior:"smooth"});navigating=false;if(voiceMode&&page>=0&&page<SECTIONS.length)setTimeout(commencerSection,500);},250);}
+function commencer(){if(navigating||page!==-1)return;navigating=true;if(voiceMode)dire(MODE_EMPLOI,function(){navigating=false;allerA(1);});else{navigating=false;allerA(1);}}
 
 function envoyer(){
 taire();sending=true;updateUI();
@@ -334,6 +334,7 @@ return '<button onclick="toggleSoleil()" style="width:100%;padding:10px;border-r
 }
 
 function updateUI(){
+console.log("PAGE="+page+(page>=0&&page<SECTIONS.length?" -> "+SECTIONS[page].id:""));
 var totalPages=SECTIONS.length;
 var pb=document.getElementById("progressBar"),pf=document.getElementById("progressFill"),pl=document.getElementById("pageLabel"),pp=document.getElementById("pctLabel");
 if(page>=0&&page<totalPages){pb.classList.remove("hidden");var pct=Math.round(((page+1)/totalPages)*100);pl.textContent=(page+1)+" / "+totalPages;pp.textContent=pct+"%";pf.style.width=pct+"%";}else pb.classList.add("hidden");
@@ -403,8 +404,9 @@ html+='</div><div class="error-box hidden" id="errorBox">Erreur d\u2019envoi.</d
 app.innerHTML=html;
 }
 
-function resetAll(){taire();page=-1;answers={};profil={age:"",situation:"",codepostal:""};engagement=[];openPreoccup=[];openInitiative=[];autrePreoccup="";autreInitiative="";sending=false;voiceMode=true;currentItemIdx=0;document.body.className=soleilMode?'soleil':'';updateUI();}
+function resetAll(){taire();page=-1;answers={};profil={age:"",situation:"",codepostal:""};engagement=[];openPreoccup=[];openInitiative=[];autrePreoccup="";autreInitiative="";sending=false;navigating=false;voiceMode=true;currentItemIdx=0;document.body.className=soleilMode?'soleil':'';updateUI();}
 updateUI();
 </script>
+<div style="text-align:center;padding:8px;font-size:10px;color:#BBB">v3.2</div>
 </body>
 </html>
